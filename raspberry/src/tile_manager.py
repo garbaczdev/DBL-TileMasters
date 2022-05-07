@@ -1,3 +1,0 @@
-
-class TileManager:
-    pass

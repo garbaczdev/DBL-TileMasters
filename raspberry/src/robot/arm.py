@@ -1,6 +1,4 @@
 
-from tkinter import N
-
 
 class Arm:
 

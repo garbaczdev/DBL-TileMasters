@@ -103,7 +103,7 @@ class BitmaskInstruction(Instruction):
 class TileOrderInstruction(Instruction):
     
     def __init__(self, tile_order: str) -> None:
-        # Error checking the bitmask
+        # Error checking the tile_order
         # This will throw a ValueError if the mitmask is not in the binary format
         int(tile_order, 2)
         
