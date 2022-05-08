@@ -1,5 +1,6 @@
 
 from .arm import Arm
+from .instruction_manager import InstructionManager
 from .events import TileEvent
 
 class TileManager:
@@ -8,7 +9,8 @@ class TileManager:
     This is the class that manages the tile distribution. It controls all of the events and the arm.
     """
     
-    def __init__(self) -> None:
+    def __init__(self, instruction_manager: InstructionManager = InstructionManager()) -> None:
+        self._instruction_manager = instruction_manager
         self._arm = Arm()
         self._tile_events: list[TileEvent] = list()
 
@@ -22,7 +24,13 @@ class TileManager:
 
 
     def execute_tile_event(self, tile_event: TileEvent) -> None:
-        pass
+
+        should_arm_extend = self._instruction_manager.execute_instruction(tile_event.tile)
+
+        if should_arm_extend:
+            self._arm.extend()
+        else:
+            self._arm.hide()
 
     def add_tile_event(self, tile_event: TileEvent) -> None:
         self._tile_events.append(tile_event)

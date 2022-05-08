@@ -5,6 +5,13 @@ from .exceptions import InstructionError
 
 class Instruction(ABC):
 
+    def process(self, tile: int) -> bool:
+        
+        should_take = self.should_take(tile)
+        self.inform(tile)
+
+        return should_take
+
     @abstractmethod
     def should_take(self, tile: int) -> bool:
 
@@ -20,14 +27,16 @@ class Instruction(ABC):
         return not (tile == config.UNDEFINED_TILE or tile == config.NO_TILE)
 
     @abstractmethod
-    def next_tile(self, tile: int) -> None:
+    def inform(self, tile: int) -> None:
         """
-        Goes to the next tile in the instruction.
+        Informs the instruction that the tile is being processed on the basis of this instruction.
+        This is here because some instructions do not care when the tile is skipped, for example requirements instruction,
+        but some do, like bitmask instruction.
 
         Below code throws an error if this method is called after the instruction has ended.
         """
         if self.has_ended():
-            raise InstructionError("next_tile() called after an instruction has ended")
+            raise InstructionError("inform() called after an instruction has ended")
 
     @abstractmethod
     def has_ended(self) -> bool:
@@ -62,8 +71,11 @@ class RequirementsInstruction(Instruction):
         else:
             return self.white_left > 0
 
-    def next_tile(self, tile: int) -> None:
-        super().next_tile(tile)
+    def inform(self, tile: int) -> None:
+        super().inform(tile)
+
+        if not self.should_take(tile):
+            return
 
         if tile == config.BLACK_TILE:
             self._black -= 1
@@ -92,8 +104,8 @@ class BitmaskInstruction(Instruction):
 
         return bool(self.bitmask[self.position])
 
-    def next_tile(self, tile: int) -> None:
-        super().next_tile(tile)
+    def inform(self, tile: int) -> None:
+        super().inform(tile)
         self.position += 1
 
     def has_ended(self) -> bool:
@@ -117,8 +129,12 @@ class TileOrderInstruction(Instruction):
         return self.tile_order[self.position] == "0" and tile == config.BLACK_TILE \
             or self.tile_order[self.position] == "1" and tile == config.WHITE_TILE
 
-    def next_tile(self, tile: int) -> None:
-        super().next_tile(tile)
+    def inform(self, tile: int) -> None:
+        super().inform(tile)
+
+        if not self.should_take(tile):
+            return
+
         self.position += 1
 
     def has_ended(self) -> bool:
