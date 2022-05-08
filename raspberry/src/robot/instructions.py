@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Union
+from copy import deepcopy
 
 from .config import Config as config
 from .exceptions import InstructionError
@@ -29,6 +30,14 @@ class Instruction(ABC):
 
         # Return whether the tile should be taken
         return should_take
+
+    def copy(self):
+        """
+        Returns a copy of itself.
+
+        WARNING: Be careful when copying mutuable objects. There might be some issues with that!
+        """
+        return deepcopy(self)
 
     @abstractmethod
     def should_take(self, tile: int) -> bool:
