@@ -1,14 +1,19 @@
 
 from .instructions import Instruction
 
+from .logs import Logs, LogComponent
 
-class InstructionManager:
+class InstructionManager(LogComponent):
     """
     This class is responsible for managing the instructions.
     """
 
-    def __init__(self, instructions: list[Instruction] = list()) -> None:
+    def __init__(self, instructions: list[Instruction] = list(), logs: Logs = Logs()) -> None:
+        super().__init__(logs)
         self._instructions = instructions
+
+    def _log(self) -> None:
+        pass
 
     def execute_instruction(self, tile: int) -> bool:
 

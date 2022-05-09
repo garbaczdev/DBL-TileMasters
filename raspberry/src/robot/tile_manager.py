@@ -3,16 +3,28 @@ from .arm import Arm
 from .instruction_manager import InstructionManager
 from .events import TileEvent
 
-class TileManager:
+from .logs import Logs, LogComponent
+
+class TileManager(LogComponent):
     
     """
     This is the class that manages the tile distribution. It controls all of the events and the arm.
     """
     
-    def __init__(self, instruction_manager: InstructionManager = InstructionManager()) -> None:
+    def __init__(self, instruction_manager: InstructionManager = None, logs: Logs = Logs()) -> None:
+        super().__init__(logs)
+
+        if instruction_manager is None:
+            instruction_manager = InstructionManager(logs=self.logs)
+        
         self.instruction_manager = instruction_manager
-        self._arm = Arm()
+
+        self._arm = Arm(logs=self.logs)
+        
         self._tile_events: list[TileEvent] = list()
+
+    def _log(self) -> None:
+        pass
 
     def execute_ready_tile_events(self) -> None:
         if self._tile_events:

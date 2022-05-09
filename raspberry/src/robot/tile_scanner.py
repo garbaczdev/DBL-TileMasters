@@ -3,10 +3,12 @@ from datetime import datetime, timedelta
 from .events import TimeoutEvent, TileEvent
 from .tile_manager import TileManager
 
+from .logs import LogComponent, Logs
+
 from .config import Config as config
 from .utils import Utils as utils
 
-class TileScanner:
+class TileScanner(LogComponent):
 
     """
     Class representing the scanner that scans the tiles. 
@@ -15,11 +17,15 @@ class TileScanner:
     saying that "the tile of color x will be at your place at time x".
     """
 
-    def __init__(self, tile_manager: TileManager) -> None:
+    def __init__(self, tile_manager: TileManager, logs: Logs = Logs()) -> None:
+        super().__init__(logs)
 
         self.tile_manager = tile_manager
         # This is used for timing out the scanner.
         self.timeout_end_event = TimeoutEvent()
+
+    def _log(self, tile: int) -> None:
+        pass
 
     def scan(self) -> None:
         """
@@ -33,7 +39,7 @@ class TileScanner:
             # Get the current tile.
             tile = self.current_tile()
 
-            print(f"Scanner: {tile} detected")
+            self._log(tile)
             
             # Check whether there is a tile.
             if tile != config.NO_TILE:

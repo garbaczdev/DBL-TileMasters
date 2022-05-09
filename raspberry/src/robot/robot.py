@@ -4,14 +4,23 @@ from .tile_manager import TileManager
 from .tile_scanner import TileScanner
 from .instructions import RequirementsInstruction
 
-class Robot:
+from .logs import Logs, LogComponent
+
+class Robot(LogComponent):
     """
     This is the main class for operating the robot.
     """
     
     def __init__(self) -> None:
-        self.tile_manager = TileManager()
-        self.tile_scanner = TileScanner(self.tile_manager)
+        
+        logs = Logs()
+        super().__init__(logs)
+
+        self.tile_manager = TileManager(logs=self.logs)
+        self.tile_scanner = TileScanner(self.tile_manager, logs=self.logs)
+
+    def _log(self) -> None:
+        pass
 
     def run(self) -> None:
         """
