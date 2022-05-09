@@ -9,15 +9,22 @@ class Event:
         self.time = time
 
     def is_ready(self) -> bool:
+        """
+        This method returns whether the event is ready.
+        Example: event.time = 8:32; current_time = 9:02; event.time.is_ready() == True 
+        """
         return datetime.now() > self.time
 
     def update_time(self, new_time: datetime) -> None:
+        """
+        Updates the time of the event to the given time.
+        """
         self.time = new_time
 
 
 class TimeoutEvent(Event):
     """
-    Class describing the timeout event. It is used as the sleep instruction.
+    Class describing the timeout event. It can be used as the sleep instruction end time.
     """
     pass
 

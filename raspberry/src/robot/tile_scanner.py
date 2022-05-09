@@ -16,9 +16,10 @@ class TileScanner:
     """
 
     def __init__(self, tile_manager: TileManager) -> None:
+
         self.tile_manager = tile_manager
         # This is used for timing out the scanner.
-        self.timeout_end = TimeoutEvent()
+        self.timeout_end_event = TimeoutEvent()
 
     def scan(self) -> None:
         """
@@ -27,10 +28,12 @@ class TileScanner:
         """
         
         # Check whether the timeout is over
-        if self.timeout_end.is_ready():
+        if self.timeout_end_event.is_ready():
 
             # Get the current tile.
             tile = self.current_tile()
+
+            print(f"Scanner: {tile} detected")
             
             # Check whether there is a tile.
             if tile != config.NO_TILE:
@@ -58,7 +61,7 @@ class TileScanner:
         timeout_end_time = utils.get_time_after_ms(config.SCANNER_TIMEOUT)
 
         # Set the new timeout end
-        self.timeout_end.update_time(timeout_end_time)
+        self.timeout_end_event.update_time(timeout_end_time)
 
     def _register_tile_event(self, tile: int) -> None:
         """

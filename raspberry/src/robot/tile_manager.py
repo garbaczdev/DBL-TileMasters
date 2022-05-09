@@ -10,7 +10,7 @@ class TileManager:
     """
     
     def __init__(self, instruction_manager: InstructionManager = InstructionManager()) -> None:
-        self._instruction_manager = instruction_manager
+        self.instruction_manager = instruction_manager
         self._arm = Arm()
         self._tile_events: list[TileEvent] = list()
 
@@ -25,7 +25,7 @@ class TileManager:
 
     def execute_tile_event(self, tile_event: TileEvent) -> None:
 
-        should_arm_extend = self._instruction_manager.execute_instruction(tile_event.tile)
+        should_arm_extend = self.instruction_manager.execute_instruction(tile_event.tile)
 
         if should_arm_extend:
             self._arm.extend()
