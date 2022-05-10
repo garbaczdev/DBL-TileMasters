@@ -57,7 +57,7 @@ class TileScanner(LogComponent):
 
         # This is only temporary and should be replaced by the code that gets
         # the currently scanned tile.
-        return config.BLACK_TILE
+        return config.NO_TILE
     
 
     def set_timeout(self) -> None:
@@ -81,7 +81,7 @@ class TileScanner(LogComponent):
         color = config.TILE_COLOR_DICT.get(tile)
 
         # If such color exists, log the action.        
-        if tile is not None:
+        if color is not None:
             self._log_action(f"{color} tile detected")
 
 
@@ -102,3 +102,15 @@ class TileScanner(LogComponent):
         # Add the TileEvent to the TileManager.
         self.tile_manager.add_tile_event(tile_event)
 
+
+class TestTileScanner(TileScanner):
+
+    def __init__(self, test_file_path: str, tile_manager: TileManager, logs: Logs = Logs()) -> None:
+        super().__init__(tile_manager, logs)
+        self.test_file_path = test_file_path
+
+    def current_tile(self) -> int:
+        """
+        This should return the tile that is currently detected by the scanner.
+        """
+        return None
