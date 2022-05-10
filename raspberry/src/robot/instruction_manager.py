@@ -12,8 +12,9 @@ class InstructionManager(LogComponent):
         super().__init__(logs)
         self._instructions = instructions
 
-    def _log(self) -> None:
-        pass
+    @property
+    def COMPONENT_NAME(self) -> str:
+        return "InstructionManager"
 
     def execute_instruction(self, tile: int) -> bool:
 

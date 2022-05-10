@@ -23,8 +23,9 @@ class TileManager(LogComponent):
         
         self._tile_events: list[TileEvent] = list()
 
-    def _log(self) -> None:
-        pass
+    @property
+    def COMPONENT_NAME(self) -> str:
+        return "TileManager"
 
     def execute_ready_tile_events(self) -> None:
         if self._tile_events:

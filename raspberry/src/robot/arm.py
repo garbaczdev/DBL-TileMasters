@@ -10,21 +10,22 @@ class Arm(LogComponent):
     def __init__(self, logs: Logs = Logs()) -> None:
         super().__init__(logs)
 
-    def _log(self) -> None:
-        pass
+    @property
+    def COMPONENT_NAME(self) -> str:
+        return "Arm"
 
     def hide(self) -> None:
         """
         This method hides the arm if it is not hidden.
         """
-        self._log()
+        self._log_action("Hide called")
         pass
 
     def extend(self) -> None:
         """
         This method extends the arm if it is not extended.
         """
-        self._log()
+        self._log_action("Extend called")
         pass
 
     def _rotate(self, degrees: int) -> None:

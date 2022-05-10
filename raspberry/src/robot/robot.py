@@ -19,8 +19,9 @@ class Robot(LogComponent):
         self.tile_manager = TileManager(logs=self.logs)
         self.tile_scanner = TileScanner(self.tile_manager, logs=self.logs)
 
-    def _log(self) -> None:
-        pass
+    @property
+    def COMPONENT_NAME(self) -> str:
+        return "Robot"
 
     def run(self) -> None:
         """
@@ -37,8 +38,7 @@ class Robot(LogComponent):
         """
         second = 0
         while True:
-            print(f"----LOOP {second} START----")
             self.tile_scanner.scan()
             self.tile_manager.execute_ready_tile_events()
-            sleep(1)
+            sleep(0.01)
             second += 1

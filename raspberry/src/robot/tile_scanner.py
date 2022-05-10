@@ -24,8 +24,9 @@ class TileScanner(LogComponent):
         # This is used for timing out the scanner.
         self.timeout_end_event = TimeoutEvent()
 
-    def _log(self, tile: int) -> None:
-        pass
+    @property
+    def COMPONENT_NAME(self) -> str:
+        return "TileScanner"
 
     def scan(self) -> None:
         """
@@ -39,7 +40,7 @@ class TileScanner(LogComponent):
             # Get the current tile.
             tile = self.current_tile()
 
-            self._log(tile)
+            self._log_tile(tile)
             
             # Check whether there is a tile.
             if tile != config.NO_TILE:
@@ -68,6 +69,21 @@ class TileScanner(LogComponent):
 
         # Set the new timeout end
         self.timeout_end_event.update_time(timeout_end_time)
+
+    def _log_tile(self, tile: int) -> None:
+        """
+        Notes the detected tile to the logs.
+
+        If there is no tile, it will not inform the logs.
+        """
+
+        # Get the color name
+        color = config.TILE_COLOR_DICT.get(tile)
+
+        # If such color exists, log the action.        
+        if tile is not None:
+            self._log_action(f"{color} tile detected")
+
 
     def _register_tile_event(self, tile: int) -> None:
         """
