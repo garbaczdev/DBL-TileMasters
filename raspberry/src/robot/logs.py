@@ -4,16 +4,28 @@ from abc import ABC, abstractmethod
 
 from .config import Config as config
 
+
+# This is used for a log id. It is incremented every time the Log class is made.
 LOG_COUNTER = 0
 
 
 class Log:
-    def __init__(self, component_name: str, _type: str, description: str, time: datetime) -> None:
+    """
+    A class representing a log object.
+    """
+    def __init__(self, component_name: str, _type: str, description: str, time: datetime, additional_data: dict = dict()) -> None:
+        # Id of the log
         self.id = self.get_id()
+        # Name of the component that created that log
         self.component_name = component_name
+        # Type of the log: for now it can be either "error" or "action"
         self.type = _type
+        # Description of the log
         self.description = description
+        # Time of the log
         self.time = time
+        # Additional data
+        self.additional_data = additional_data
 
     def __str__(self) -> str:
         return f'[{self.id}]: ({self.get_date_as_str()}) [{self.component_name}]: {self.description}'
