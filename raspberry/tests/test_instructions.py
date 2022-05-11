@@ -1,7 +1,10 @@
 from unittest import TestCase
 
+from src.robot.instructions import *
+
 class TestInstruction(TestCase):
-    pass
+    def test(self):
+        pass
 
 
 class TestRequirementsInstruction(TestCase):
