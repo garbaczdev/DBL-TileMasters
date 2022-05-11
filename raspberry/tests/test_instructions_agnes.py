@@ -4,7 +4,7 @@ from src.robot.instructions import *
 
 class TestInstruction(TestCase):
     def test(self):
-        return True
+        pass
 
 
 class TestRequirementsInstruction(TestCase):
