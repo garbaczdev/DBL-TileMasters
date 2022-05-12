@@ -27,7 +27,7 @@ class Event:
         self.time = new_time
 
     def get_time_as_str(self) -> str:
-        return datetime.strftime(self.time, config.EVENT_TIME_STR)[:-3]
+        return datetime.strftime(self.time, config.EVENT_TIME_STR)[:config.EVENT_TIME_STR_SPACE]
 
 
 class TimeoutEvent(Event):

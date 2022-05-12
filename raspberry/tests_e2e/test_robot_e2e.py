@@ -1,3 +1,5 @@
+from time import sleep
+
 from unittest import TestCase
 
 from src.robot import Robot
@@ -17,7 +19,7 @@ class EnvironmentTesting(TestCase):
         tile_events = utils.create_tile_events(tile_events)
         robot = Robot(tile_events)
         robot.instruction_manager.add_instruction(RequirementsInstruction(1, 1))
-        robot.run()
+        robot.run_for(10)
 
     def test2(self) -> None:
         tile_events = []

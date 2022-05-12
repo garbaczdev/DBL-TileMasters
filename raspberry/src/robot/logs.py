@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod
 
 
 from .config import Config as config
+from .utils import Utils as utils
 
 
 # This is used for a log id. It is increased by 1 every time the Log class is made.
@@ -28,13 +29,17 @@ class Log:
         self.additional_data = additional_data
 
     def __str__(self) -> str:
-        return f'[{self.id}]: ({self.get_date_as_str()}) [{self.component_name}]: {self.description}'
-    
+        """
+        This returns the string representation of an object.
+        """
+        # Its in the utils.py!
+        return utils.get_log_format_str(self.id, self.get_date_as_str(), self.component_name, self.description)
+
     def get_date_as_str(self) -> str:
         """
         Returns the log date as a string.
         """
-        return datetime.strftime(self.time, config.LOG_DATETIME_STR)
+        return datetime.strftime(self.time, config.LOG_DATETIME_STR)[:config.LOG_TIME_SPACE]
 
     @classmethod
     def _get_id(cls) -> None:
@@ -57,14 +62,24 @@ class Logs:
     def __init__(self) -> None:
         # List of logs.
         self._logs: list[Log] = list()
+        # This is used so that the header is printed the first time a log is printed.
+        self.header_printed = False
 
     def print(self, amount: int = 0) -> None:
         """
         Prints the logs. If given the amount, it will print last amount of logs.
         If amount is 0, it will print all of the logs.
         """
+        self.print_header()
         for log in self._logs[-amount:]:
             print(log)
+
+    def print_header(self) -> None:
+        """
+        Prints the log header.
+        """
+        header = utils.get_log_format_str("ID", "HH:MM:SS:mmm", "COMPONENT_NAME", "DESCRIPTION")
+        print(header)
 
     def add(self, log: Log) -> None:
         """
@@ -78,6 +93,9 @@ class Logs:
 
             # If the logs should be printed
             if config.PRINT_LOGS:
+                if not self.header_printed:
+                    self.print_header()
+                    self.header_printed = True
                 # Print the logs.
                 print(log)
 

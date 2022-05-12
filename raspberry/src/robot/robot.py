@@ -1,5 +1,7 @@
 from time import sleep
+from datetime import datetime
 from typing import Union
+
 
 from .tile_manager import TileManager
 from .tile_scanner import TileScanner, TestingTileScanner
@@ -9,6 +11,7 @@ from .arm import Arm, TestingArm
 from .events import TileEvent
 
 from .config import Config as config
+from .utils import Utils as utils
 from .logs import Logs, LogComponent
 
 class Robot(LogComponent):
@@ -61,14 +64,40 @@ class Robot(LogComponent):
         """
         Runs the main loop of the robot.
         """
+        self._log_action("Starting to run")
+        self.should_stop = False
+
         while not self.should_stop:
             self._run_actions()
             sleep(config.MAIN_LOOP_TIMEOUT)
+
+        self.stop()
+
+    def run_until(self, time: datetime) -> None:
+        """
+        Runs the robot until certain given datetime passes.
+        """
+        self._log_action(f"Starting to run until: {time}")
+        self.should_stop = False
+        
+        while not self.should_stop and datetime.now() < time:
+            self._run_actions()
+            sleep(config.MAIN_LOOP_TIMEOUT)
+
+        self.stop()
+
+    def run_for(self, seconds: int) -> None:
+        """
+        Runs the robot for a certain amount of seconds.
+        """
+        time = utils.get_time_after_ms(seconds*1000)
+        self.run_until(time)
 
     def stop(self) -> None:
         """
         If this method is called, it will stop the robot as soon as it ends its loop actions.
         """
+        self._log_action("Stopped")
         self.should_stop = True
 
     def _run_actions(self) -> None:

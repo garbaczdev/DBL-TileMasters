@@ -13,6 +13,10 @@ class Config:
     USE_LOGS = True
     PRINT_LOGS = True
     LOG_DATETIME_STR = "%H:%M:%S.%f"
+    # Logs printing options
+    LOG_ID_SPACE = 10
+    LOG_TIME_SPACE = 12
+    LOG_COMPONENT_NAME_SPACE = 25
 
     # Utils config
     # Miliseconds added to the given times.
@@ -34,7 +38,9 @@ class Config:
         UNDEFINED_TILE: "Undefined"
     }
 
+    # Event config
     EVENT_TIME_STR = "%H:%M:%S.%f"
+    EVENT_TIME_STR_SPACE = LOG_TIME_SPACE
 
     # Scanner timeout in ms.
     # This indicates for how long should the scanner sleep after scanning the tile

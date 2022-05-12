@@ -1,8 +1,9 @@
-
+from typing import Union
 from datetime import datetime, timedelta
 
 from .events import TileEvent
 
+from .config import Config as config
 
 class Utils:
     
@@ -28,6 +29,14 @@ class Utils:
 
         # Return the tile events of when the tile will be at the arm.
         return [TileEvent(cls.get_time_after_ms(miliseconds, now), tile) for miliseconds, tile in cascaded_tiles]
+
+    @staticmethod
+    def get_log_format_str(_id: Union[int, str], date_str: str, component_name: str, description: str) -> str:
+        """
+        Returns the string in the Log format, given all of the variables.
+        """
+        return f"{f'%-{config.LOG_ID_SPACE}s' % f'[{_id}]:'} ({date_str[:config.LOG_TIME_SPACE]}) {f'%-{config.LOG_COMPONENT_NAME_SPACE}s' % f'[{component_name}]:'}({description})"
+    
 
     @staticmethod
     def get_time_after_ms(milliseconds: int, time: datetime = None) -> datetime:
