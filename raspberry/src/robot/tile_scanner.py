@@ -103,14 +103,18 @@ class TileScanner(LogComponent):
         self.tile_manager.add_tile_event(tile_event)
 
 
-class TestTileScanner(TileScanner):
+class TestingTileScanner(TileScanner):
+    """
+    This is the class that implements the functionality of TileScanner but does not implement any physical behavior.
+    It can be used for ARTIFICIAL_ENVIRONMENT_TESTING mode.
+    """
 
-    def __init__(self, test_file_path: str, tile_manager: TileManager, logs: Logs = Logs()) -> None:
+    def __init__(self, tile_events: list[TileEvent], tile_manager: TileManager, logs: Logs = Logs()) -> None:
+        """
+        The constructor takes the tile_events, which is the list of TileEvents, indicating when the tile will appear at the scanner.
+        """
         super().__init__(tile_manager, logs)
-        self.test_file_path = test_file_path
+        self.tile_events = tile_events
 
     def current_tile(self) -> int:
-        """
-        This should return the tile that is currently detected by the scanner.
-        """
         return None

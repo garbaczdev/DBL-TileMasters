@@ -121,12 +121,12 @@ class LogComponent(ABC):
         """
         Saves the log of given type, description and current time.
         """
-        # Create a log object
+        # Create a log object.
         log = Log(
             self.COMPONENT_NAME,
             _type,
             description,
             datetime.now()
         )
-        # Save the log object
+        # Save the log object.
         self.logs.add(log)

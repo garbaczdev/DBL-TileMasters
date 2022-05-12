@@ -1,9 +1,13 @@
 from time import sleep
+from typing import Union
 
 from .tile_manager import TileManager
-from .tile_scanner import TileScanner
+from .tile_scanner import TileScanner, TestingTileScanner
+from .instruction_manager import InstructionManager
 from .instructions import RequirementsInstruction
+from .events import TileEvent
 
+from .config import Config as config
 from .logs import Logs, LogComponent
 
 class Robot(LogComponent):
@@ -11,13 +15,33 @@ class Robot(LogComponent):
     This is the main class for operating the robot.
     """
     
-    def __init__(self) -> None:
+    def __init__(self, test_tile_events: Union[None, list[TileEvent]] = None) -> None:
+        """
+        This constructor takes the optional argument test_tile_events, which is the list of TileEvents.
+        If test_tile_events is passed, robot will enter the ARTIFICIAL_ENVIRONMENT_TESTING mode, which will
+        simulate how the robot would work if the (given) tiles were present at the TileScanner.
+        """
         
+        # Enter testing mode basing on test_tile_events
+        self.update_testing_variables(test_tile_events)
+
+        # Create main logs.
         logs = Logs()
         super().__init__(logs)
 
-        self.tile_manager = TileManager(logs=self.logs)
-        self.tile_scanner = TileScanner(self.tile_manager, logs=self.logs)
+        # Create the instruction manager.
+        self.instruction_manager = InstructionManager(logs=self.logs)
+        # Create the tile manager.
+        self.tile_manager = TileManager(self.instruction_manager, logs=self.logs)
+
+        # If robot is in the testing mode
+        if config.ARTIFICIAL_ENVIRONMENT_TESTING:
+            # Create a testing tile scanner.
+            self.tile_scanner = TestingTileScanner(test_tile_events, self.tile_manager, logs=self.logs)
+    
+        else:
+            # Create a normal tile scanner.
+            self.tile_scanner = TileScanner(self.tile_manager, logs=self.logs)
 
     @property
     def COMPONENT_NAME(self) -> str:
@@ -28,17 +52,24 @@ class Robot(LogComponent):
         Runs the robot.
         """
 
-        self.tile_manager.instruction_manager.add_instruction(RequirementsInstruction(5, 0))
+        self.instruction_manager.add_instruction(RequirementsInstruction(5, 0))
 
         self._main_loop()
+
+    def run_loop(self) -> None:
+        self.tile_scanner.scan()
+        self.tile_manager.execute_ready_tile_events()
+
+    def update_testing_variables(self, test_tile_events: Union[None, list[TileEvent]]) -> None:
+        if test_tile_events is None:
+            config.ARTIFICIAL_ENVIRONMENT_TESTING = False
+        else:
+            config.ARTIFICIAL_ENVIRONMENT_TESTING = True
 
     def _main_loop(self) -> None:
         """
         Run the main loop.
         """
-        second = 0
         while True:
-            self.tile_scanner.scan()
-            self.tile_manager.execute_ready_tile_events()
-            sleep(0.01)
-            second += 1
+            self.run_loop()
+            sleep(config.MAIN_LOOP_TIMEOUT)
