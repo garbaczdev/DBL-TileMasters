@@ -72,7 +72,7 @@ class Robot(LogComponent):
             config.ARTIFICIAL_ENVIRONMENT_TESTING = True
 
     def _prepare(self) -> None:
-        self.instruction_manager.add_instruction(RequirementsInstruction(5, 0))
+        pass
 
     def _main_loop(self) -> None:
         """

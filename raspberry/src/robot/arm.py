@@ -7,13 +7,6 @@ class Arm(LogComponent):
     A class representing a physical arm controlled by a servo motor.
     """
 
-    def __init__(self, logs: Logs = Logs()) -> None:
-        super().__init__(logs)
-
-        # Variable indicating whether the arm is extended or not.
-        self.extended = True
-        # Hide the arm.
-        self.hide(log=False)
 
     @property
     def COMPONENT_NAME(self) -> str:
@@ -24,10 +17,6 @@ class Arm(LogComponent):
         This method hides the arm if it is not hidden.
         """
 
-        # If it is already extended
-        if not self.extended:
-            return
-
         # If should log
         if log:
             self._log_action("Hide called")
@@ -35,28 +24,18 @@ class Arm(LogComponent):
         # Physically hide the arm
         self._hide_motor()
 
-        # Set variable indicating that the arm is hidden
-        self.exteded = False
-
 
     def extend(self, log: bool = True) -> None:
         """
         This method extends the arm if it is not extended.
         """
 
-        # If it is already extended
-        if self.extended:
-            return
-        
         # If should log
         if log:
             self._log_action("Extend called")
 
         # Physically extend the arm
         self._extend_motor()
-
-        # Set variable indicating that the arm is extended
-        self.exteded = True
 
     
     def _hide_motor(self) -> None:

@@ -13,7 +13,11 @@ class Config:
     USE_LOGS = True
     PRINT_LOGS = True
     LOG_DATETIME_STR = "%H:%M:%S.%f"
-    
+
+    # Utils config
+    # Miliseconds added to the given times.
+    CREATE_TILE_EVENTS_PADDING = 500
+
     # Timeout for each main loop execution in seconds
     MAIN_LOOP_TIMEOUT = 0.1
 
@@ -29,6 +33,8 @@ class Config:
         WHITE_TILE: "White",
         UNDEFINED_TILE: "Undefined"
     }
+
+    EVENT_TIME_STR = "%H:%M:%S.%f"
 
     # Scanner timeout in ms.
     # This indicates for how long should the scanner sleep after scanning the tile

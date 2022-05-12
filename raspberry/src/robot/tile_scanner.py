@@ -39,12 +39,12 @@ class TileScanner(LogComponent):
 
             # Get the current tile.
             tile = self.current_tile()
-
-            self._log_tile(tile)
             
             # Check whether there is a tile.
             if tile != config.NO_TILE:
                 # Add the event to the tile_manager
+                self._log_tile(tile)
+
                 self._register_tile_event(tile)
 
                 # Set timeout to the scanner so it doesnt scan the same tile several times.
@@ -124,6 +124,7 @@ class TestingTileScanner(TileScanner):
 
     def current_tile(self) -> int:
         if self.tile_events:
+
             tile_event = self.tile_events[0]
             if tile_event.is_ready():
                 self.tile_events.pop(0)
@@ -133,4 +134,4 @@ class TestingTileScanner(TileScanner):
                 self._log_action("Tile events have been finished")
                 self.tile_events_logged_finish = True
 
-            return config.NO_TILE
+        return config.NO_TILE

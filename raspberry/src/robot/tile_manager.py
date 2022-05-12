@@ -32,6 +32,7 @@ class TileManager(LogComponent):
             tile_event = self._tile_events[0]
 
             if tile_event.is_ready():
+                self._log_action(f"{tile_event} at the arm")
                 self._tile_events.pop(0)
                 self.execute_tile_event(tile_event)
 

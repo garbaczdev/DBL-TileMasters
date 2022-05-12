@@ -1,5 +1,7 @@
 from datetime import datetime
 
+from .config import Config as config
+
 
 class Event:
     """
@@ -7,6 +9,9 @@ class Event:
     """
     def __init__(self, time: datetime = datetime.now()) -> None:
         self.time = time
+
+    def __repr__(self) -> str:
+        return f"Event({self.get_time_as_str()})"
 
     def is_ready(self) -> bool:
         """
@@ -21,12 +26,18 @@ class Event:
         """
         self.time = new_time
 
+    def get_time_as_str(self) -> str:
+        return datetime.strftime(self.time, config.EVENT_TIME_STR)[:-3]
+
 
 class TimeoutEvent(Event):
     """
     Class describing the timeout event. It can be used as the sleep instruction end time.
     """
-    pass
+    def __repr__(self) -> str:
+        return f"TimeoutEvent({self.get_time_as_str()})"
+
+    
 
 
 class TileEvent(Event):
@@ -36,4 +47,7 @@ class TileEvent(Event):
     def __init__(self, time: datetime, tile: int) -> None:
         super().__init__(time)
         self.tile = tile
+
+    def __repr__(self) -> str:
+        return f"TileEvent({self.get_time_as_str()}, {config.TILE_COLOR_DICT[self.tile]})"
 
