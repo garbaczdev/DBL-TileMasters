@@ -115,6 +115,22 @@ class TestingTileScanner(TileScanner):
         """
         super().__init__(tile_manager, logs)
         self.tile_events = tile_events
+        # If finishing the tile_events has been logged.
+        self.tile_events_logged_finish = False
+
+    @property
+    def COMPONENT_NAME(self) -> str:
+        return "TestingTileScanner"
 
     def current_tile(self) -> int:
-        return None
+        if self.tile_events:
+            tile_event = self.tile_events[0]
+            if tile_event.is_ready():
+                self.tile_events.pop(0)
+                return tile_event.tile
+        else:
+            if not self.tile_events_logged_finish:
+                self._log_action("Tile events have been finished")
+                self.tile_events_logged_finish = True
+
+            return config.NO_TILE

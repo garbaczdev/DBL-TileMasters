@@ -11,7 +11,7 @@ class TileManager(LogComponent):
     This is the class that manages the tile distribution. It controls all of the events and the arm.
     """
     
-    def __init__(self, instruction_manager: InstructionManager = None, logs: Logs = Logs()) -> None:
+    def __init__(self, arm: Arm, instruction_manager: InstructionManager = None, logs: Logs = Logs()) -> None:
         super().__init__(logs)
 
         if instruction_manager is None:
@@ -19,7 +19,7 @@ class TileManager(LogComponent):
         
         self.instruction_manager = instruction_manager
 
-        self._arm = Arm(logs=self.logs)
+        self._arm = arm
         
         self._tile_events: list[TileEvent] = list()
 

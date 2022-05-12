@@ -5,6 +5,7 @@ from .tile_manager import TileManager
 from .tile_scanner import TileScanner, TestingTileScanner
 from .instruction_manager import InstructionManager
 from .instructions import RequirementsInstruction
+from .arm import Arm, TestingArm
 from .events import TileEvent
 
 from .config import Config as config
@@ -31,17 +32,23 @@ class Robot(LogComponent):
 
         # Create the instruction manager.
         self.instruction_manager = InstructionManager(logs=self.logs)
-        # Create the tile manager.
-        self.tile_manager = TileManager(self.instruction_manager, logs=self.logs)
 
-        # If robot is in the testing mode
+        # If in ARTIFICIAL_ENVIRONMENT_TESTING mode
         if config.ARTIFICIAL_ENVIRONMENT_TESTING:
+            # Create a testing arm
+            self.arm = TestingArm(logs=self.logs)
+            # Create a normal tile manager.
+            self.tile_manager = TileManager(self.arm, self.instruction_manager, logs=self.logs)
             # Create a testing tile scanner.
             self.tile_scanner = TestingTileScanner(test_tile_events, self.tile_manager, logs=self.logs)
-    
         else:
+            # Create a normal arm
+            self.arm = Arm(logs=self.logs)
+            # Create a normal tile manager.
+            self.tile_manager = TileManager(self.arm, self.instruction_manager, logs=self.logs)
             # Create a normal tile scanner.
             self.tile_scanner = TileScanner(self.tile_manager, logs=self.logs)
+
 
     @property
     def COMPONENT_NAME(self) -> str:
@@ -51,9 +58,7 @@ class Robot(LogComponent):
         """
         Runs the robot.
         """
-
-        self.instruction_manager.add_instruction(RequirementsInstruction(5, 0))
-
+        self._prepare()
         self._main_loop()
 
     def run_loop(self) -> None:
@@ -65,6 +70,9 @@ class Robot(LogComponent):
             config.ARTIFICIAL_ENVIRONMENT_TESTING = False
         else:
             config.ARTIFICIAL_ENVIRONMENT_TESTING = True
+
+    def _prepare(self) -> None:
+        self.instruction_manager.add_instruction(RequirementsInstruction(5, 0))
 
     def _main_loop(self) -> None:
         """

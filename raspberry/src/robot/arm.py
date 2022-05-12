@@ -83,6 +83,10 @@ class TestingArm(Arm):
     This class has the functionality of Arm but does not implement actual physical behavior.
     It can be used for the ARTIFICIAL_ENVIRONMENT_TESTING mode.
     """
+    @property
+    def COMPONENT_NAME(self) -> str:
+        return "TestingArm"
+
     def _hide_motor(self) -> None:
         pass
 
