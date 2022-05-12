@@ -39,12 +39,11 @@ class TileManager(LogComponent):
 
     def execute_tile_event(self, tile_event: TileEvent) -> None:
 
-        should_arm_extend = self.instruction_manager.execute_instruction(tile_event.tile)
+        should_arm_push = self.instruction_manager.execute_instruction(tile_event.tile)
 
-        if should_arm_extend:
-            self._arm.extend()
-        else:
-            self._arm.hide()
+        if should_arm_push:
+            self._arm.push()
+
 
     def add_tile_event(self, tile_event: TileEvent) -> None:
         self._tile_events.append(tile_event)

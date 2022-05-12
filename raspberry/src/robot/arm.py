@@ -12,31 +12,18 @@ class Arm(LogComponent):
     def COMPONENT_NAME(self) -> str:
         return "Arm"
 
-    def hide(self, log: bool = True) -> None:
+    def push(self, log: bool = True) -> None:
         """
         This method hides the arm if it is not hidden.
         """
 
         # If should log
         if log:
-            self._log_action("Hide called")
+            self._log_action("Push called")
 
         # Physically hide the arm
-        self._hide_motor()
-
-
-    def extend(self, log: bool = True) -> None:
-        """
-        This method extends the arm if it is not extended.
-        """
-
-        # If should log
-        if log:
-            self._log_action("Extend called")
-
-        # Physically extend the arm
         self._extend_motor()
-
+        self._hide_motor()
     
     def _hide_motor(self) -> None:
         """
