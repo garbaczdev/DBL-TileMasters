@@ -117,21 +117,39 @@ class TestingTileScanner(TileScanner):
         self.tile_events = tile_events
         # If finishing the tile_events has been logged.
         self.tile_events_logged_finish = False
+        # This indicates the color of the last tile detected by this scanner.
+        self.last_tile_detected = config.NO_TILE
 
     @property
     def COMPONENT_NAME(self) -> str:
         return "TestingTileScanner"
 
     def current_tile(self) -> int:
+        """
+        This returns the current tile based on the tile events.
+        """
+
+        # If there are any tile events.
         if self.tile_events:
 
+            # Get the first tile event.
             tile_event = self.tile_events[0]
+
+            # If tile event is ready.
             if tile_event.is_ready():
+                # Remove the tile event.
                 self.tile_events.pop(0)
+                # Save the returned tile.
+                self.last_tile_detected = tile_event.tile
+                # Return the tile color.
                 return tile_event.tile
         else:
+            # There are no tile events
+
+            # If the end of tile events has not been logged yet.
             if not self.tile_events_logged_finish:
                 self._log_action("Tile events have been finished")
                 self.tile_events_logged_finish = True
 
+        # Return no tile.
         return config.NO_TILE

@@ -49,6 +49,9 @@ class Robot(LogComponent):
             # Create a normal tile scanner.
             self.tile_scanner = TileScanner(self.tile_manager, logs=self.logs)
 
+        # Indicates whether the robot should stop.
+        self.should_stop = False
+
 
     @property
     def COMPONENT_NAME(self) -> str:
@@ -56,28 +59,24 @@ class Robot(LogComponent):
 
     def run(self) -> None:
         """
-        Runs the robot.
+        Runs the main loop of the robot.
         """
-        self._prepare()
-        self._main_loop()
+        while not self.should_stop:
+            self._run_actions()
+            sleep(config.MAIN_LOOP_TIMEOUT)
 
-    def run_loop(self) -> None:
+    def stop(self) -> None:
+        """
+        If this method is called, it will stop the robot as soon as it ends its loop actions.
+        """
+        self.should_stop = True
+
+    def _run_actions(self) -> None:
         self.tile_scanner.scan()
-        self.tile_manager.execute_ready_tile_events()
+        self.tile_manager.execute_ready_tile_event()
 
     def update_testing_variables(self, test_tile_events: Union[None, list[TileEvent]]) -> None:
         if test_tile_events is None:
             config.ARTIFICIAL_ENVIRONMENT_TESTING = False
         else:
             config.ARTIFICIAL_ENVIRONMENT_TESTING = True
-
-    def _prepare(self) -> None:
-        pass
-
-    def _main_loop(self) -> None:
-        """
-        Run the main loop.
-        """
-        while True:
-            self.run_loop()
-            sleep(config.MAIN_LOOP_TIMEOUT)

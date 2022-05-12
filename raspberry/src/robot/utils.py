@@ -15,14 +15,18 @@ class Utils:
         On top of that, some time (configurable in config.py) will be added to the given time.
         """
 
+        # Change seconds to miliseconds
         tile_tuples = [(seconds*1000, tile) for seconds, tile in tile_tuples]
 
+        # Make every miliseconds of the tuple be the sum of the previous ones.
         cascaded_tiles = [tile_tuples[0]]
         for miliseconds, tile in tile_tuples[1:]:
             cascaded_tiles.append((miliseconds + cascaded_tiles[-1][0], tile))
         
+        # Get the current time.
         now = datetime.now()
 
+        # Return the tile events of when the tile will be at the arm.
         return [TileEvent(cls.get_time_after_ms(miliseconds, now), tile) for miliseconds, tile in cascaded_tiles]
 
     @staticmethod
