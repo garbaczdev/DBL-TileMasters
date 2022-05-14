@@ -11,6 +11,8 @@ class InstructionManager(LogComponent):
     def __init__(self, instructions: list[Instruction] = list(), logs: Logs = Logs()) -> None:
         super().__init__(logs)
         self._instructions = instructions
+        # This determines whether the log about instruction finished has been registered.
+        self._instrucions_ended_finish_logged = False
 
     @property
     def COMPONENT_NAME(self) -> str:
@@ -25,7 +27,15 @@ class InstructionManager(LogComponent):
         
         # This checks whether there are instructions to execute and rejects the finished instructions.
         if self.had_instructions_ended():
+
+            # This does not work??
+            if not self._instrucions_ended_finish_logged:
+                self._log_action("Instructions Finished")
+                self._instrucions_ended_finish_logged = True
+
             return False
+        
+        self._instrucions_ended_finish_logged = False
 
         # Get the current instruction
         instruction = self._instructions[0]

@@ -1,15 +1,23 @@
 from abc import ABC, abstractmethod
 from typing import Union
-from copy import deepcopy
 
 from .config import Config as config
-from .exceptions import InstructionError
+from .exceptions import InstructionError, InvalidInstructionError
 
 
 class Instruction(ABC):
     """
     An abstract class representing an instruction.
     """
+
+    def __init__(self, repetitions: int) -> None:
+        super().__init__()
+        # Determines how many times the instruction should be repeated.
+        # If the repetitions is -1, it means forever.
+        self.repetitions = repetitions
+        # Raise error if the instruction is finished before even starting.
+        if self._has_repetition_ended() or self.has_ended():
+            raise InvalidInstructionError("Instruction is finished before even starting.")
 
     def process(self, tile: int) -> bool:
         """
@@ -28,16 +36,31 @@ class Instruction(ABC):
         # Note that the tile is being processed
         self.inform(tile)
 
+        # If the repetition has ended, reset the instruction. 
+        if self._has_repetition_ended():
+            
+            # Reset the instruction.
+            self.reset()
+            
+            # If repetitions are positive, decrease it by 1.
+            if self.repetitions > 0:
+                self.repetitions -= 1
+
         # Return whether the tile should be taken
         return should_take
 
-    def copy(self):
+    def has_ended(self) -> bool:
         """
-        Returns a copy of itself.
+        Returns a boolean value indicating whether the whole instruction has_ended.
+        """
+        return self.repetitions == 0
 
-        WARNING: Be careful when copying mutuable objects. There might be some issues with that!
+    @abstractmethod
+    def reset(self) -> None:
         """
-        return deepcopy(self)
+        Resets the instruction to the initial state.
+        """
+        pass
 
     @abstractmethod
     def should_take(self, tile: int) -> bool:
@@ -70,11 +93,11 @@ class Instruction(ABC):
             raise InstructionError("inform() called after an instruction has ended")
 
     @abstractmethod
-    def has_ended(self) -> bool:
+    def _has_repetition_ended(self) -> bool:
         """
-        Returns a boolean value indicating whether the instruction has_ended.
+        Returns a boolean value indicating whether the instruction repetition has ended.
         """
-        return True
+        pass
 
 
 class RequirementsInstruction(Instruction):
@@ -87,9 +110,19 @@ class RequirementsInstruction(Instruction):
     3 black tiles and 2 white tiles to be pushed, in whatever order.
     """
 
-    def __init__(self, black: int, white: int) -> None:
+    def __init__(self, black: int, white: int, repetitions: int = 1) -> None:
+        
         self._black = black
         self._white = white
+
+        self._initial_black = black
+        self._initial_white = white
+
+        super().__init__(repetitions)
+
+    def reset(self) -> None:
+        self._black = self._initial_black
+        self._white = self._initial_white
 
     @property
     def black_left(self):
@@ -135,7 +168,7 @@ class RequirementsInstruction(Instruction):
         elif tile == config.WHITE_TILE:
             self._white -= 1
 
-    def has_ended(self) -> bool:
+    def _has_repetition_ended(self) -> bool:
         # If we do not need any more black or white tiles, the instruction has ended 
         return self.black_left == 0 and self.white_left == 0
 
@@ -148,7 +181,7 @@ class BitmaskInstruction(Instruction):
     then skip 1 tile, then take 2 tiles and then skip 2 tiles.
     """
 
-    def __init__(self, bitmask: str) -> None:
+    def __init__(self, bitmask: str, repetitions: int = 1) -> None:
         # Error checking the bitmask
         # This will throw a ValueError if the mitmask is not in the binary format
         int(bitmask, 2)
@@ -157,6 +190,10 @@ class BitmaskInstruction(Instruction):
         # The position in the bitmask (index in a string).
         self.position = 0
 
+        super().__init__(repetitions)
+
+    def reset(self) -> None:
+        self.position = 0
 
     def should_take(self, tile: int) -> bool:
         # Error checking
@@ -177,7 +214,7 @@ class BitmaskInstruction(Instruction):
         # Increase the position in the bitmask
         self.position += 1
 
-    def has_ended(self) -> bool:
+    def _has_repetition_ended(self) -> bool:
         # Return whether the index is bigger than the max index of the bitmask string.
         return self.position == len(self.bitmask)
 
@@ -193,7 +230,7 @@ class TileOrderInstruction(Instruction):
     This could be extended to using more than only black and white tiles.
     """
     
-    def __init__(self, tile_order: Union[str, list]) -> None:
+    def __init__(self, tile_order: Union[str, list], repetitions: int = 1) -> None:
         
         # If the tile_order is string, make it a list
         if isinstance(tile_order, str):
@@ -204,6 +241,13 @@ class TileOrderInstruction(Instruction):
             # This allows for having more arbitrary tile types.
             # Example: ["green", "blue", "purple"]
             self.tile_order = tile_order
+
+        self.initial_tile_order = self.tile_order[:]
+        
+        super().__init__(repetitions)
+        
+    def reset(self) -> None:
+        self.tile_order = self.initial_tile_order[:]
     
     def should_take(self, tile: int) -> bool:
         
@@ -225,7 +269,7 @@ class TileOrderInstruction(Instruction):
         # Remove the first tile in the order.
         self.tile_order.pop(0)
 
-    def has_ended(self) -> bool:
+    def _has_repetition_ended(self) -> bool:
         # Return whether the tile_order is empty
         return len(self.tile_order) == 0
 

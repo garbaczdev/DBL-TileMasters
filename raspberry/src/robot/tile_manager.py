@@ -3,6 +3,7 @@ from .arm import Arm
 from .instruction_manager import InstructionManager
 from .events import TileEvent
 
+from .config import Config as config
 from .logs import Logs, LogComponent
 
 class TileManager(LogComponent):
@@ -47,7 +48,7 @@ class TileManager(LogComponent):
             # If the tile event is ready.
             if tile_event.is_ready():
                 # Log out the action.
-                self._log_action(f"{tile_event} at the arm")
+                self._log_action(f"{config.TILE_COLOR_DICT[tile_event.tile]} tile at the arm")
                 # Delete the tile event.
                 self._tile_events.pop(0)
                 # Execute the tile event.
