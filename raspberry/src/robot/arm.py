@@ -67,12 +67,14 @@ class TestingArm(Arm):
         """
         Returns whether the arm has pushed the tile since the last time checked.
         """
-        # Save the has_pushed info
-        has_pushed = self._has_pushed
-        # Set has_pushed info to false
-        self._has_pushed = False
-        # Return the initial has_pushed info
-        return has_pushed
+        # If has_pushed is True, reset it to False.
+        if self._has_pushed:
+            # Set has_pushed info to false
+            self._has_pushed = False
+            return True
+
+        return False
+
 
     def _hide_motor(self) -> None:
         # Do nothing

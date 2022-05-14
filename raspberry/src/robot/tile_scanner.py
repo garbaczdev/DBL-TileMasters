@@ -65,7 +65,7 @@ class TileScanner(LogComponent):
         This sets the timeout to the scanner. It is like sleeping.
         """
         # Get the time after config.SCANNER_TIMEOUT has passed
-        timeout_end_time = utils.get_time_after_ms(config.SCANNER_TIMEOUT)
+        timeout_end_time = utils.get_time_after_s(config.SCANNER_TIMEOUT)
 
         # Set the new timeout end
         self.timeout_end_event.update_time(timeout_end_time)
@@ -94,7 +94,7 @@ class TileScanner(LogComponent):
         """
 
         # Get the time after config.SCANNER_TILE_EVENT_TIMEOUT has passed.
-        time = utils.get_time_after_ms(config.SCANNER_TILE_EVENT_TIMEOUT)
+        time = utils.get_time_after_s(config.SCANNER_TILE_EVENT_TIMEOUT)
 
         # Create the TileEvent.
         tile_event = TileEvent(time, tile)

@@ -18,10 +18,6 @@ class Config:
     LOG_TIME_SPACE = 12
     LOG_COMPONENT_NAME_SPACE = 25
 
-    # Utils config
-    # Miliseconds added to the given times.
-    CREATE_TILE_EVENTS_PADDING = 500
-
     # Timeout for each main loop execution in seconds
     MAIN_LOOP_TIMEOUT = 0.1
 
@@ -44,9 +40,12 @@ class Config:
 
     # Scanner timeout in ms.
     # This indicates for how long should the scanner sleep after scanning the tile
-    SCANNER_TIMEOUT = 500
+    SCANNER_TIMEOUT = 0.5
 
     # This indicates in what time the tile will appear
     # in front of the arm after scanning it.
-    SCANNER_TILE_EVENT_TIMEOUT = 2000
+    SCANNER_TILE_EVENT_TIMEOUT = 2
+
+    # Time that e2e test should wait before starting in s.
+    E2E_TESTING_START_TIMEOUT = 0.5
     
