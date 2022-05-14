@@ -93,11 +93,12 @@ class Robot(LogComponent):
         time = utils.get_time_after_ms(seconds*1000)
         self.run_until(time)
 
-    def stop(self) -> None:
+    def stop(self, log=True) -> None:
         """
         If this method is called, it will stop the robot as soon as it ends its loop actions.
         """
-        self._log_action("Stopped")
+        if log:
+            self._log_action("Stop called")
         self.should_stop = True
 
     def _run_actions(self) -> None:
