@@ -19,8 +19,12 @@ def run_e2e_test(testing_class: TestCase, tile_events: list[tuple[int, int, bool
     
     arm = robot.tile_manager._arm
 
+    error = None
+
     def testing_func():
         
+        nonlocal error
+
         sleep(config.E2E_TESTING_START_TIMEOUT)
         sleep(config.SCANNER_TILE_EVENT_TIMEOUT)
         
@@ -31,7 +35,9 @@ def run_e2e_test(testing_class: TestCase, tile_events: list[tuple[int, int, bool
             except AssertionError as e:
                 robot.stop()
                 robot.logs.print()
-                raise e
+
+                error = e
+                return
 
         robot.stop()
 
@@ -44,13 +50,16 @@ def run_e2e_test(testing_class: TestCase, tile_events: list[tuple[int, int, bool
     testing_thread.join()
     testing_thread.join()
 
+    if error is not None:
+        raise error
+
 
 class EnvironmentTesting(TestCase):
     
     def test1(self) -> None:
         tile_events = [
             (1, config.BLACK_TILE, True),
-            (1, config.WHITE_TILE, False),
+            (1, config.WHITE_TILE, True),
             (2, config.WHITE_TILE, True),
             (1, config.BLACK_TILE, True),
             (1, config.BLACK_TILE, False)
