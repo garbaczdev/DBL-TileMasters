@@ -1,0 +1,1 @@
+python -m unittest discover tests_e2e

@@ -1,9 +1,17 @@
 from time import sleep
+from datetime import datetime
+from typing import Union
+
 
 from .tile_manager import TileManager
-from .tile_scanner import TileScanner
+from .tile_scanner import TileScanner, TestingTileScanner
+from .instruction_manager import InstructionManager
 from .instructions import RequirementsInstruction
+from .arm import Arm, TestingArm
+from .events import TileEvent
 
+from .config import Config as config
+from .utils import Utils as utils
 from .logs import Logs, LogComponent
 
 class Robot(LogComponent):
@@ -11,13 +19,42 @@ class Robot(LogComponent):
     This is the main class for operating the robot.
     """
     
-    def __init__(self) -> None:
+    def __init__(self, test_tile_events: Union[None, list[TileEvent]] = None) -> None:
+        """
+        This constructor takes the optional argument test_tile_events, which is the list of TileEvents.
+        If test_tile_events is passed, robot will enter the ARTIFICIAL_ENVIRONMENT_TESTING mode, which will
+        simulate how the robot would work if the (given) tiles were present at the TileScanner.
+        """
         
+        # Enter testing mode basing on test_tile_events
+        self.update_testing_variables(test_tile_events)
+
+        # Create main logs.
         logs = Logs()
         super().__init__(logs)
 
-        self.tile_manager = TileManager(logs=self.logs)
-        self.tile_scanner = TileScanner(self.tile_manager, logs=self.logs)
+        # Create the instruction manager.
+        self.instruction_manager = InstructionManager(logs=self.logs)
+
+        # If in ARTIFICIAL_ENVIRONMENT_TESTING mode
+        if config.ARTIFICIAL_ENVIRONMENT_TESTING:
+            # Create a testing arm
+            self.arm = TestingArm(logs=self.logs)
+            # Create a normal tile manager.
+            self.tile_manager = TileManager(self.arm, self.instruction_manager, logs=self.logs)
+            # Create a testing tile scanner.
+            self.tile_scanner = TestingTileScanner(test_tile_events, self.tile_manager, logs=self.logs)
+        else:
+            # Create a normal arm
+            self.arm = Arm(logs=self.logs)
+            # Create a normal tile manager.
+            self.tile_manager = TileManager(self.arm, self.instruction_manager, logs=self.logs)
+            # Create a normal tile scanner.
+            self.tile_scanner = TileScanner(self.tile_manager, logs=self.logs)
+
+        # Indicates whether the robot should stop.
+        self.should_stop = False
+
 
     @property
     def COMPONENT_NAME(self) -> str:
@@ -25,20 +62,51 @@ class Robot(LogComponent):
 
     def run(self) -> None:
         """
-        Runs the robot.
+        Runs the main loop of the robot.
         """
+        self._log_action("Starting to run")
+        self.should_stop = False
 
-        self.tile_manager.instruction_manager.add_instruction(RequirementsInstruction(5, 0))
+        while not self.should_stop:
+            self._run_actions()
+            sleep(config.MAIN_LOOP_TIMEOUT)
 
-        self._main_loop()
+        self.stop()
 
-    def _main_loop(self) -> None:
+    def run_until(self, time: datetime) -> None:
         """
-        Run the main loop.
+        Runs the robot until certain given datetime passes.
         """
-        second = 0
-        while True:
-            self.tile_scanner.scan()
-            self.tile_manager.execute_ready_tile_events()
-            sleep(0.01)
-            second += 1
+        self._log_action(f"Starting to run until: {time}")
+        self.should_stop = False
+        
+        while not self.should_stop and datetime.now() < time:
+            self._run_actions()
+            sleep(config.MAIN_LOOP_TIMEOUT)
+
+        self.stop()
+
+    def run_for(self, seconds: int) -> None:
+        """
+        Runs the robot for a certain amount of seconds.
+        """
+        time = utils.get_time_after_ms(seconds*1000)
+        self.run_until(time)
+
+    def stop(self, log=True) -> None:
+        """
+        If this method is called, it will stop the robot as soon as it ends its loop actions.
+        """
+        if log:
+            self._log_action("Stop called")
+        self.should_stop = True
+
+    def _run_actions(self) -> None:
+        self.tile_scanner.scan()
+        self.tile_manager.execute_ready_tile_event()
+
+    def update_testing_variables(self, test_tile_events: Union[None, list[TileEvent]]) -> None:
+        if test_tile_events is None:
+            config.ARTIFICIAL_ENVIRONMENT_TESTING = False
+        else:
+            config.ARTIFICIAL_ENVIRONMENT_TESTING = True

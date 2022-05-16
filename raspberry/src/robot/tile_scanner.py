@@ -39,12 +39,12 @@ class TileScanner(LogComponent):
 
             # Get the current tile.
             tile = self.current_tile()
-
-            self._log_tile(tile)
             
             # Check whether there is a tile.
             if tile != config.NO_TILE:
                 # Add the event to the tile_manager
+                self._log_tile(tile)
+
                 self._register_tile_event(tile)
 
                 # Set timeout to the scanner so it doesnt scan the same tile several times.
@@ -65,7 +65,7 @@ class TileScanner(LogComponent):
         This sets the timeout to the scanner. It is like sleeping.
         """
         # Get the time after config.SCANNER_TIMEOUT has passed
-        timeout_end_time = utils.get_time_after_ms(config.SCANNER_TIMEOUT)
+        timeout_end_time = utils.get_time_after_s(config.SCANNER_TIMEOUT)
 
         # Set the new timeout end
         self.timeout_end_event.update_time(timeout_end_time)
@@ -94,7 +94,7 @@ class TileScanner(LogComponent):
         """
 
         # Get the time after config.SCANNER_TILE_EVENT_TIMEOUT has passed.
-        time = utils.get_time_after_ms(config.SCANNER_TILE_EVENT_TIMEOUT)
+        time = utils.get_time_after_s(config.SCANNER_TILE_EVENT_TIMEOUT)
 
         # Create the TileEvent.
         tile_event = TileEvent(time, tile)
@@ -103,14 +103,53 @@ class TileScanner(LogComponent):
         self.tile_manager.add_tile_event(tile_event)
 
 
-class TestTileScanner(TileScanner):
+class TestingTileScanner(TileScanner):
+    """
+    This is the class that implements the functionality of TileScanner but does not implement any physical behavior.
+    It can be used for ARTIFICIAL_ENVIRONMENT_TESTING mode.
+    """
 
-    def __init__(self, test_file_path: str, tile_manager: TileManager, logs: Logs = Logs()) -> None:
+    def __init__(self, tile_events: list[TileEvent], tile_manager: TileManager, logs: Logs = Logs()) -> None:
+        """
+        The constructor takes the tile_events, which is the list of TileEvents, indicating when the tile will appear at the scanner.
+        """
         super().__init__(tile_manager, logs)
-        self.test_file_path = test_file_path
+        self.tile_events = tile_events
+        # If finishing the tile_events has been logged.
+        self.tile_events_logged_finish = False
+        # This indicates the color of the last tile detected by this scanner.
+        self.last_tile_detected = config.NO_TILE
+
+    @property
+    def COMPONENT_NAME(self) -> str:
+        return "TestingTileScanner"
 
     def current_tile(self) -> int:
         """
-        This should return the tile that is currently detected by the scanner.
+        This returns the current tile based on the tile events.
         """
-        return None
+
+        # If there are any tile events.
+        if self.tile_events:
+
+            # Get the first tile event.
+            tile_event = self.tile_events[0]
+
+            # If tile event is ready.
+            if tile_event.is_ready():
+                # Remove the tile event.
+                self.tile_events.pop(0)
+                # Save the returned tile.
+                self.last_tile_detected = tile_event.tile
+                # Return the tile color.
+                return tile_event.tile
+        else:
+            # There are no tile events
+
+            # If the end of tile events has not been logged yet.
+            if not self.tile_events_logged_finish:
+                self._log_action("Tile events have been finished")
+                self.tile_events_logged_finish = True
+
+        # Return no tile.
+        return config.NO_TILE
