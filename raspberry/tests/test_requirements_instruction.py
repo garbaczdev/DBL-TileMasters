@@ -4,9 +4,7 @@ from src.robot.instructions import *
 from src.robot.config import Config as config
 from src.robot.exceptions import *
 
-
 class TestRequirementsInstruction(TestCase):
-
 #Loops Once
     def test_take_1_white(self):
         instruction = RequirementsInstruction(0, 1, 1)
@@ -342,4 +340,3 @@ class TestRequirementsInstruction(TestCase):
 
         # Checks if instruction has ended
         self.assertFalse(instruction.has_ended())
-    
