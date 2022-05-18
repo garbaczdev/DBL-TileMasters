@@ -54,7 +54,7 @@ def run_e2e_test(testing_class: TestCase, tile_events: list[tuple[int, int, bool
         raise error
 
 
-class RequirementsE2ETests(TestCase):
+class RequirementsInstructionE2ETests(TestCase):
 
     def test_sorting_white(self) -> None:
         tile_events = [
