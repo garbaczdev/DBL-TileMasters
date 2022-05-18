@@ -3,14 +3,6 @@ from unittest import TestCase
 from src.robot.instructions import *
 from src.robot.config import Config as config
 
-class TestInstruction(TestCase):
-    def test(self):
-        return True
-
-
-class TestRequirementsInstruction(TestCase):
-    pass
-
 
 class TestBitmaskInstruction(TestCase):
     def test_take_1_leave1_take1(self):
