@@ -11,7 +11,7 @@ from src.robot.config import Config as config
 
 def run_e2e_test(testing_class: TestCase, tile_events: list[tuple[int, int, bool]], instructions: list[Instruction]) -> None:
 
-    # config.PRINT_LOGS = False
+    config.PRINT_LOGS = False
 
     robot_tile_events = utils.create_robot_tile_events(tile_events)
     robot = Robot(robot_tile_events)
