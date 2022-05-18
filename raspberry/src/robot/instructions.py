@@ -201,7 +201,7 @@ class BitmaskInstruction(Instruction):
             return False
 
         # Return False if "0" at the current position and True if "1" at the current position.
-        return bool(self.bitmask[self.position])
+        return self.bitmask[self.position] == "1"
 
     def inform(self, tile: int) -> None:
         # IMPORTANT!
