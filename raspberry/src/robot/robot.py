@@ -69,7 +69,7 @@ class Robot(LogComponent):
         self.mode = mode
 
     def update_instructions(self, instructions: list[Instruction]) -> None:
-        self.new_instructions = list()
+        self.new_instructions = instructions
         self.new_instructions_set = True
     
     def run(self) -> None:
@@ -124,9 +124,12 @@ class Robot(LogComponent):
             self._update_instructions()
             self.tile_scanner.scan()
             self.tile_manager.execute_ready_tile_event()
+            print(self.instruction_manager._instructions)
     
     def _update_instructions(self) -> None:
         if self.new_instructions_set:
+
+            print("NEW: ", self.new_instructions)
             
             self.instruction_manager.update_instructions(self.new_instructions)
 

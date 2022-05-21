@@ -48,18 +48,16 @@ class API:
                 "ok": True
             })
 
-        @self.app.route('/api/instructions/reset', methods=["POST"])
-        def reset_instructions():
-            self.robot.update_instructions([])
-            
-            return jsonify({
-                "ok": True
-            })
-
-        @self.app.route('/api/instructions/update', methods=["POST"])
+        @self.app.route('/api/instructions', methods=["PUT"])
         def update_instructions():
-            instructions = request.json["instructions"]
-            self.robot.update_instructions(InstructionJSONParser.parse_instructions(instructions))
+            try:
+                instructions = request.json["instructions"]
+                self.robot.update_instructions(InstructionJSONParser.parse_instructions(instructions))
+            except ValueError:
+                return jsonify({
+                    "ok": False,
+                    "error": "Incorrect instructions format."
+                })
             
             return jsonify({
                 "ok": True
