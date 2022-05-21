@@ -29,6 +29,8 @@ class Robot(LogComponent):
         # Enter testing mode basing on test_tile_events
         self.update_testing_variables(test_tile_events)
 
+        self.mode = mode
+
         # Create main logs.
         logs = Logs()
         super().__init__(logs)

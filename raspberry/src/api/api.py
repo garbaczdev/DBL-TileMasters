@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 
 from ..robot import Robot
 
@@ -31,7 +31,25 @@ class API:
                 "pushed": True,
                 "description": "Push Called"
             })
-    
+
+        @self.app.route('/api/instructions/reset', methods=["POST"])
+        def reset_instructions():
+            pass
+
+        @self.app.route('/api/instructions/update', methods=["POST"])
+        def update_instructions():
+            pass
+
+        @self.app.route('/api/instructions/add', methods=["POST"])
+        def add_instructions():
+            pass
 
     def run(self) -> None:
         self.app.run(host="0.0.0.0")
+
+    def stop(self) -> None:
+        func = request.environ.get('werkzeug.server.shutdown')
+        if func is None:
+            raise RuntimeError('Not running with the Werkzeug Server')
+        func()
+

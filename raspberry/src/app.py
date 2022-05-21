@@ -1,3 +1,6 @@
+from threading import Thread
+from time import sleep
+
 from .robot import Robot
 from .api import API
 
@@ -8,7 +11,19 @@ class App:
         self.api = API(self.robot)
 
     def run(self) -> None:
-        # It should run in two threads!
-        # self.robot.run()
-        self.api.run()
-        
+
+        robot_thread = Thread(target = self.robot.run)
+        api_thread = Thread(target = self.api.run)
+
+        robot_thread.setDaemon(True)
+        api_thread.setDaemon(True)
+
+        robot_thread.start()
+        api_thread.start()
+
+        try:
+            while True:
+                sleep(0.1)
+        except KeyboardInterrupt:
+            print("----Shutting Down----")
+            exit(0)
