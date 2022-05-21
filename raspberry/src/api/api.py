@@ -27,7 +27,10 @@ class API:
         @self.app.route('/api/push', methods=["POST"])
         def push():
             self.arm.push()
-            return "PUSHED"
+            return jsonify({
+                "pushed": True,
+                "description": "Push Called"
+            })
     
 
     def run(self) -> None:
