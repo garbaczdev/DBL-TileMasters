@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, make_response
+from flask import Flask, jsonify, request, make_response, send_from_directory
 
 from ..robot import Robot
 from ..robot import InstructionJSONParser
@@ -13,19 +13,17 @@ class API:
 
 
         # Flask app
-        self.app = Flask(__name__)
+        self.app = Flask(__name__, static_url_path="/", static_folder="/static")
         self._register_routes()
 
     def run(self) -> None:
         self.app.run(host="0.0.0.0")
 
     def _register_routes(self) -> None:
-        @self.app.route('/')
+
+        @self.app.route("/")
         def index():
-            return '''
-            <button onclick="fetch('./api/push', {method: 'POST'})">Push</button>
-            <button onclick="fetch('./api/instructions/reset', {method: 'POST'})">Reset Instructions</button>
-            '''
+            return send_from_directory('static', "index.html")
 
         @self.app.route('/logs', methods=["GET"])
         def get_logs():
@@ -47,7 +45,7 @@ class API:
             try:
                 instructions = request.json["instructions"]
                 self.robot.update_instructions(InstructionJSONParser.parse_instructions(instructions))
-            except KeyError:
+            except:
                 return make_response(
                     jsonify({
                         "ok": False,
