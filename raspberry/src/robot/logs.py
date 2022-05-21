@@ -28,6 +28,15 @@ class Log:
         # Additional data
         self.additional_data = additional_data
 
+    def to_dict(self) -> dict:
+        return {
+            "id": self.id,
+            "componentName": self.component_name,
+            "type": self.type,
+            "description": self.description,
+            "additionalData": self.additional_data
+        }
+
     def __str__(self) -> str:
         """
         This returns the string representation of an object.
@@ -67,6 +76,9 @@ class Logs:
 
     def __str__(self) -> str:
         return self._get_header() + "\n" + "\n".join([str(log) for log in self._logs])
+
+    def to_jsonify_format(self) -> list:
+        return [log.to_dict() for log in self._logs]
 
     def print(self, amount: int = 0) -> None:
         """

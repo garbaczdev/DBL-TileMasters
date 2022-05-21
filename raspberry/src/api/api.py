@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, jsonify
 
 from ..robot import Robot
 
@@ -14,11 +14,17 @@ class API:
         # Flask app
         self.app = Flask(__name__)
 
+        @self.app.route('/')
+        def index():
+            return '''
+            <button onclick="fetch('./api/push', {method: 'POST'})">Push</button>
+            '''
+
         @self.app.route('/api/logs', methods=["GET"])
         def get_logs():
-            return str(self.logs)
+            return jsonify(self.logs.to_jsonify_format())
         
-        @self.app.route('/api/push', methods=["GET"])
+        @self.app.route('/api/push', methods=["POST"])
         def push():
             self.arm.push()
             return "PUSHED"
