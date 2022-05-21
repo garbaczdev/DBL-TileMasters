@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, make_response
 
 from ..robot import Robot
 from ..robot import InstructionJSONParser
@@ -18,12 +18,6 @@ class API:
 
     def run(self) -> None:
         self.app.run(host="0.0.0.0")
-
-    def stop(self) -> None:
-        func = request.environ.get('werkzeug.server.shutdown')
-        if func is None:
-            raise RuntimeError('Not running with the Werkzeug Server')
-        func()
 
     def _register_routes(self) -> None:
         @self.app.route('/')
@@ -53,11 +47,14 @@ class API:
             try:
                 instructions = request.json["instructions"]
                 self.robot.update_instructions(InstructionJSONParser.parse_instructions(instructions))
-            except ValueError:
-                return jsonify({
-                    "ok": False,
-                    "error": "Incorrect instructions format."
-                })
+            except KeyError:
+                return make_response(
+                    jsonify({
+                        "ok": False,
+                        "error": "Incorrect instructions format."
+                    }),
+                    400
+                )
             
             return jsonify({
                 "ok": True

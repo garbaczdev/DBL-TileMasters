@@ -124,16 +124,13 @@ class Robot(LogComponent):
             self._update_instructions()
             self.tile_scanner.scan()
             self.tile_manager.execute_ready_tile_event()
-            print(self.instruction_manager._instructions)
     
     def _update_instructions(self) -> None:
         if self.new_instructions_set:
-
-            print("NEW: ", self.new_instructions)
             
             self.instruction_manager.update_instructions(self.new_instructions)
+            self._log_action(f"Instructions updated to {[repr(instruction) for instruction in self.new_instructions]}")
 
             self.new_instructions_set = False
             self.new_instructions = list()
             
-            self._log_action("Instructions updated")

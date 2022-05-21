@@ -120,6 +120,12 @@ class RequirementsInstruction(Instruction):
 
         super().__init__(repetitions)
 
+    def __str__(self) -> str:
+        return f"RequirementsInstruction(i_b:{self._initial_black}, i_w:{self._initial_white}, b:{self.black_left}, w:{self.white_left} r:{self.repetitions})"
+
+    def __repr__(self) -> str:
+        return f"RequirementsInstruction(i_b:{self._initial_black}, i_w:{self._initial_white}, r:{self.repetitions})"
+
     def reset(self) -> None:
         self._black = self._initial_black
         self._white = self._initial_white
@@ -192,6 +198,12 @@ class BitmaskInstruction(Instruction):
 
         super().__init__(repetitions)
 
+    def __str__(self) -> str:
+        return f"BitmaskInstruction(bitmask:{self.bitmask}, pos:{self.position}, r:{self.repetitions})"
+
+    def __repr__(self) -> str:
+        return f"BitmaskInstruction(bitmask:{self.bitmask}, r:{self.repetitions})"
+
     def reset(self) -> None:
         self.position = 0
 
@@ -245,6 +257,12 @@ class PatternInstruction(Instruction):
         self.initial_pattern = self.pattern[:]
         
         super().__init__(repetitions)
+
+    def __str__(self) -> str:
+        return f"PatternInstruction(pattern:{self.pattern}, pos:{self.position}, r:{self.repetitions})"
+
+    def __repr__(self) -> str:
+        return f"PatternInstruction(pattern:{self.pattern}, r:{self.repetitions})"
         
     def reset(self) -> None:
         self.pattern = self.initial_pattern[:]
