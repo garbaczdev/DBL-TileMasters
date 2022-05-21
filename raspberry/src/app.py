@@ -4,7 +4,7 @@ from .api import API
 
 class App:
     def __init__(self) -> None:
-        self.robot = Robot()
+        self.robot = Robot([])
         self.api = API(self.robot)
 
     def run(self) -> None:

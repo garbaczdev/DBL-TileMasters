@@ -19,7 +19,7 @@ class Robot(LogComponent):
     This is the main class for operating the robot.
     """
     
-    def __init__(self, test_tile_events: Union[None, list[TileEvent]] = None) -> None:
+    def __init__(self, test_tile_events: Union[None, list[TileEvent]] = None, mode: str = config.INSTRUCTION_MODE) -> None:
         """
         This constructor takes the optional argument test_tile_events, which is the list of TileEvents.
         If test_tile_events is passed, robot will enter the ARTIFICIAL_ENVIRONMENT_TESTING mode, which will
@@ -59,6 +59,9 @@ class Robot(LogComponent):
     @property
     def COMPONENT_NAME(self) -> str:
         return "Robot"
+
+    def change_mode(self, mode: str) -> None:
+        self.mode = mode
 
     def run(self) -> None:
         """
@@ -102,8 +105,9 @@ class Robot(LogComponent):
         self.should_stop = True
 
     def _run_actions(self) -> None:
-        self.tile_scanner.scan()
-        self.tile_manager.execute_ready_tile_event()
+        if self.mode == config.INSTRUCTION_MODE:
+            self.tile_scanner.scan()
+            self.tile_manager.execute_ready_tile_event()
 
     def update_testing_variables(self, test_tile_events: Union[None, list[TileEvent]]) -> None:
         if test_tile_events is None:
