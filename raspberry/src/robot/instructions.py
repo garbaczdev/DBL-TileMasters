@@ -273,3 +273,11 @@ class TileOrderInstruction(Instruction):
         # Return whether the tile_order is empty
         return len(self.tile_order) == 0
 
+
+class InstructionJSONParser:
+    """
+    Parses the instructions from the JSON request format to actual objects.
+    """
+    @classmethod
+    def parse_instructions(cls, instruction_list: list[dict]) -> list[Instruction]:
+        return []

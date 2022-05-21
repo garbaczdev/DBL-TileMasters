@@ -6,7 +6,7 @@ from typing import Union
 from .tile_manager import TileManager
 from .tile_scanner import TileScanner, TestingTileScanner
 from .instruction_manager import InstructionManager
-from .instructions import RequirementsInstruction
+from .instructions import Instruction
 from .arm import Arm, TestingArm
 from .events import TileEvent
 
@@ -58,6 +58,7 @@ class Robot(LogComponent):
         self.should_stop = False
 
         self.new_instructions = list()
+        self.new_instructions_set = False
 
 
     @property
@@ -67,6 +68,10 @@ class Robot(LogComponent):
     def change_mode(self, mode: str) -> None:
         self.mode = mode
 
+    def update_instructions(self, instructions: list[Instruction]) -> None:
+        self.new_instructions = list()
+        self.new_instructions_set = True
+    
     def run(self) -> None:
         """
         Runs the main loop of the robot.
@@ -121,6 +126,11 @@ class Robot(LogComponent):
             self.tile_manager.execute_ready_tile_event()
     
     def _update_instructions(self) -> None:
-        if self.new_instructions:
+        if self.new_instructions_set:
+            
             self.instruction_manager.update_instructions(self.new_instructions)
+
+            self.new_instructions_set = False
             self.new_instructions = list()
+            
+            self._log_action("Instructions updated")
