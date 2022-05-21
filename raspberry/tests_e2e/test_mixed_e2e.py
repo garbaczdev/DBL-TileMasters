@@ -23,4 +23,4 @@ class MixedInstructionE2ETests(TestCase):
             RequirementsInstruction(0, 1, -1)
         ]
 
-        run_e2e_test(self, tile_events, instructions)
+        run_e2e_test(self, tile_events, instructions, "MixedInstructionE2ETests.test_bitmask_and_sorting")

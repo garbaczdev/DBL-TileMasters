@@ -4,24 +4,14 @@ from threading import Thread
 from unittest import TestCase
 
 from src.robot import Robot
-from src.robot.instructions import Instruction
+from src.robot.instructions import Instruction, RequirementsInstruction
 from src.robot.utils import Utils as utils
 from src.robot.config import Config as config
 
 
-TEST_COUNT = 1
-
-
-def run_e2e_test(testing_class: TestCase, tile_events: list[tuple[int, int, bool]], instructions: list[Instruction], test_name: str = "") -> None:
-
-    global TEST_COUNT
+def run_e2e_test(testing_class: TestCase, tile_events: list[tuple[int, int, bool]], instructions: list[Instruction]) -> None:
 
     # config.PRINT_LOGS = False
-
-    if config.PRINT_LOGS:
-        print()
-        print(f"|--- TEST {'%-5s' % f'[{TEST_COUNT}]:'} {test_name}:")
-        TEST_COUNT += 1
 
     robot_tile_events = utils.create_robot_tile_events(tile_events)
     robot = Robot(robot_tile_events)
