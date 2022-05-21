@@ -12,7 +12,7 @@ from src.robot.config import Config as config
 TEST_COUNT = 1
 
 
-def run_e2e_test(testing_class: TestCase, tile_events: list[tuple[int, int, bool]], instructions: list[Instruction], test_name: str = "") -> None:
+def run_e2e_test(testing_class: TestCase, tile_events: list[tuple[int, int, bool]], instructions: list[Instruction], test_name: str = "NOT GIVEN") -> None:
 
     global TEST_COUNT
 
