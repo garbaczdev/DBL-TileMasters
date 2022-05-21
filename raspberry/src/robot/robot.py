@@ -27,7 +27,7 @@ class Robot(LogComponent):
         """
         
         # Enter testing mode basing on test_tile_events
-        self.update_testing_variables(test_tile_events)
+        self._update_testing_variables(test_tile_events)
 
         self.mode = mode
 
@@ -56,6 +56,8 @@ class Robot(LogComponent):
 
         # Indicates whether the robot should stop.
         self.should_stop = False
+
+        self.new_instructions = list()
 
 
     @property
@@ -106,13 +108,19 @@ class Robot(LogComponent):
             self._log_action("Stop called")
         self.should_stop = True
 
-    def _run_actions(self) -> None:
-        if self.mode == config.INSTRUCTION_MODE:
-            self.tile_scanner.scan()
-            self.tile_manager.execute_ready_tile_event()
-
-    def update_testing_variables(self, test_tile_events: Union[None, list[TileEvent]]) -> None:
+    def _update_testing_variables(self, test_tile_events: Union[None, list[TileEvent]]) -> None:
         if test_tile_events is None:
             config.ARTIFICIAL_ENVIRONMENT_TESTING = False
         else:
             config.ARTIFICIAL_ENVIRONMENT_TESTING = True
+
+    def _run_actions(self) -> None:
+        if self.mode == config.INSTRUCTION_MODE:
+            self._update_instructions()
+            self.tile_scanner.scan()
+            self.tile_manager.execute_ready_tile_event()
+    
+    def _update_instructions(self) -> None:
+        if self.new_instructions:
+            self.instruction_manager.update_instructions(self.new_instructions)
+            self.new_instructions = list()
