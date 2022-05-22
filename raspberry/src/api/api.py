@@ -7,7 +7,7 @@ from ..robot import InstructionJSONParser
 
 
 class API:
-    def __init__(self, robot: Robot, main_dir) -> None:
+    def __init__(self, robot: Robot, main_dir, debug: bool = True) -> None:
         self.robot = robot
         self.logs = robot.logs
         self.instruction_manager = robot.instruction_manager
@@ -15,6 +15,7 @@ class API:
 
 
         # Flask app
+        self.debug = debug
         self.app = Flask(main_dir)
         self._register_routes()
 
@@ -51,11 +52,11 @@ class API:
             try:
                 instructions = request.json["instructions"]
                 self.robot.update_instructions(InstructionJSONParser.parse_instructions(instructions))
-            except:
+            except Exception as e:
                 return make_response(
                     jsonify({
                         "ok": False,
-                        "error": "Incorrect instructions format."
+                        "error": str(e) if self.debug else "Incorrect instructions format.",
                     }),
                     400
                 )
