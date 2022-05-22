@@ -1,3 +1,52 @@
-.push-button{
-    
+
+html{
+    padding: 0;
+    margin: 0;
+}
+
+body{
+    padding: 0;
+    margin: 0;
+}
+
+
+.fullscreen-btn-div{
+
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+    height: 90vh;
+    margin: 0;
+    padding: 0;
+
+    background: lightgrey;
+    text-align: center;
+
+    justify-content: center;
+    align-items: center;
+
+    .big-btn{
+
+        display: block;
+        width: 80%;
+        height: 30%;
+        margin: 20px;
+
+        font-size: 40px;
+        // clear: both;
+
+        // background-color: #722F37;
+        // border: none;
+        // color: white;
+        // padding: 15px 32px;
+        // text-align: center;
+        // text-decoration: none;
+        // display: inline-block;
+        // font-size: 24px;
+        // margin: 4px 2px;
+        // cursor: pointer;
+        // vertical-align: middle;
+      
+    }
 }
