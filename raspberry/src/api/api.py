@@ -1,3 +1,5 @@
+from os import getcwd
+
 from flask import Flask, jsonify, request, make_response, send_from_directory
 
 from ..robot import Robot
@@ -5,7 +7,7 @@ from ..robot import InstructionJSONParser
 
 
 class API:
-    def __init__(self, robot: Robot) -> None:
+    def __init__(self, robot: Robot, main_dir) -> None:
         self.robot = robot
         self.logs = robot.logs
         self.instruction_manager = robot.instruction_manager
@@ -13,7 +15,7 @@ class API:
 
 
         # Flask app
-        self.app = Flask(__name__, static_url_path="/", static_folder="/static")
+        self.app = Flask(main_dir)
         self._register_routes()
 
     def run(self) -> None:
@@ -21,9 +23,13 @@ class API:
 
     def _register_routes(self) -> None:
 
+        @self.app.route('/<path:path>')
+        def send_static_file(path):
+            return send_from_directory("static", path)
+
         @self.app.route("/")
         def index():
-            return send_from_directory('static', "index.html")
+            return send_from_directory('static', 'index.html')
 
         @self.app.route('/logs', methods=["GET"])
         def get_logs():
