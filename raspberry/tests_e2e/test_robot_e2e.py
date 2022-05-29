@@ -1,11 +1,11 @@
+from concurrent.futures.thread import _threads_queues
 from time import sleep
 from threading import Thread
 
 from unittest import TestCase
 
 from src.robot import Robot
-from src.robot.instructions import Instruction, RequirementsInstruction
-from src.robot.instructions import Instruction, RequirementsInstruction, BitmaskInstruction
+from src.robot.instructions import Instruction, RequirementsInstruction, BitmaskInstruction, TileOrderInstruction
 from src.robot.utils import Utils as utils
 from src.robot.config import Config as config
 
@@ -54,7 +54,7 @@ def run_e2e_test(testing_class: TestCase, tile_events: list[tuple[int, int, bool
     if error is not None:
         raise error
 
-
+# Requirements
 class RequirementsE2ETests(TestCase):
 
     def test_sorting_white(self) -> None:
@@ -152,7 +152,7 @@ class RequirementsE2ETests(TestCase):
             (1, config.BLACK_TILE, True),
             (1, config.BLACK_TILE, True),
             (1, config.WHITE_TILE, True),
-            (2, config.WHITE_TILE, True),
+            (2, config.WHITE_TILE, True)
         ]
         instructions = [
             RequirementsInstruction(2, 2, 2)
@@ -170,7 +170,7 @@ class RequirementsE2ETests(TestCase):
             (2, config.WHITE_TILE, True),
             (1, config.BLACK_TILE, True),
             (1, config.WHITE_TILE, True),
-            (2, config.WHITE_TILE, True),
+            (2, config.WHITE_TILE, True)
         ]
         instructions = [
             RequirementsInstruction(1, 2, 3)
@@ -178,7 +178,7 @@ class RequirementsE2ETests(TestCase):
 
         run_e2e_test(self, tile_events, instructions)
     
-    def test_requirements_without_repetition_4(self) -> None:
+    def test_requirements_without_repetition_5(self) -> None:
         tile_events = [
             (1, config.BLACK_TILE, True),
             (1, config.WHITE_TILE, False),
@@ -188,7 +188,7 @@ class RequirementsE2ETests(TestCase):
             (2, config.WHITE_TILE, False),
             (1, config.BLACK_TILE, True),
             (1, config.WHITE_TILE, False),
-            (2, config.WHITE_TILE, False),
+            (2, config.WHITE_TILE, False)
         ]
         instructions = [
             RequirementsInstruction(1, 0, 3)
@@ -196,10 +196,68 @@ class RequirementsE2ETests(TestCase):
 
         run_e2e_test(self, tile_events, instructions)
 
+    def test_requirements_without_repetition_6(self) -> None:
+        tile_events = [
+            (1, config.BLACK_TILE, True),
+            (1, config.WHITE_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.WHITE_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.WHITE_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.WHITE_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.WHITE_TILE, True)
+          
+        ]
+        instructions = [
+            RequirementsInstruction(1, 1, 5)
+        ]
 
+        run_e2e_test(self, tile_events, instructions)
+
+# Bitmask
 class BitmaskE2ETests(TestCase):
 
-    def test_take_5_leave_5(self) -> None:
+    def test_leave_all(self) -> None:
+        tile_events = [
+            (1, config.WHITE_TILE, False),
+            (1, config.WHITE_TILE, False),
+            (2, config.WHITE_TILE, False),
+            (2, config.WHITE_TILE, False),
+            (2, config.WHITE_TILE, False),
+            (1, config.BLACK_TILE, False),
+            (1, config.BLACK_TILE, False),
+            (1, config.BLACK_TILE, False),
+            (1, config.BLACK_TILE, False),
+            (1, config.BLACK_TILE, False)
+        ]
+        instructions = [
+            BitmaskInstruction("0000000000")
+        ]
+
+        run_e2e_test(self, tile_events, instructions)
+    
+    def test_take_all(self) -> None:
+        tile_events = [
+            (1, config.WHITE_TILE, True),
+            (1, config.WHITE_TILE, True),
+            (2, config.WHITE_TILE, True),
+            (2, config.WHITE_TILE, True),
+            (2, config.WHITE_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True)
+        ]
+        instructions = [
+            BitmaskInstruction("1111111111")
+        ]
+
+        run_e2e_test(self, tile_events, instructions)
+
+    def test_take_half_leave_half(self) -> None:
         tile_events = [
             (1, config.WHITE_TILE, True),
             (1, config.WHITE_TILE, True),
@@ -248,3 +306,266 @@ class BitmaskE2ETests(TestCase):
         ]
 
         run_e2e_test(self, tile_events, instructions)
+    
+    def test_takes_2_leaves_2(self) -> None:
+        tile_events = [
+            (1, config.BLACK_TILE, True),
+            (1, config.WHITE_TILE, True),
+            (2, config.WHITE_TILE, False),
+            (1, config.BLACK_TILE, False)
+        ]
+        instructions = [
+           BitmaskInstruction("1100")
+        ]
+
+        run_e2e_test(self, tile_events, instructions)
+    
+    def test_take_2_leave_2_twice(self) -> None:
+        tile_events = [
+            (1, config.BLACK_TILE, True),
+            (1, config.WHITE_TILE, True),
+            (2, config.WHITE_TILE, False),
+            (1, config.BLACK_TILE, False),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, False),
+            (1, config.BLACK_TILE, False)
+        ]
+        instructions = [
+           BitmaskInstruction("11001100")
+        ]
+
+        run_e2e_test(self, tile_events, instructions)
+    
+    def test_take_3_leave_2_take_1(self) -> None:
+        tile_events = [
+            (1, config.BLACK_TILE, True),
+            (1, config.WHITE_TILE, True),
+            (2, config.WHITE_TILE, True),
+            (1, config.BLACK_TILE, False),
+            (1, config.BLACK_TILE, False),
+            (1, config.BLACK_TILE, True)
+        ]
+        instructions = [
+           BitmaskInstruction("111001")
+        ]
+
+        run_e2e_test(self, tile_events, instructions)
+    
+    def test_leave_6_take_4(self) -> None:
+        tile_events = [
+            (1, config.BLACK_TILE, False),
+            (1, config.WHITE_TILE, False),
+            (2, config.WHITE_TILE, False),
+            (1, config.BLACK_TILE, False),
+            (1, config.BLACK_TILE, False),
+            (1, config.BLACK_TILE, False),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True)
+        ]
+        instructions = [
+           BitmaskInstruction("0000001111")
+        ]
+
+        run_e2e_test(self, tile_events, instructions)
+    
+    def test_alternate(self) -> None:
+        tile_events = [
+            (1, config.BLACK_TILE, False),
+            (1, config.WHITE_TILE, True),
+            (2, config.WHITE_TILE, False),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, False),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, False),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, False),
+            (1, config.BLACK_TILE, True)
+        ]
+        instructions = [
+           BitmaskInstruction("0101010101")
+        ]
+
+        run_e2e_test(self, tile_events, instructions)
+
+# TileOrder
+class TileOrderE2ETests(TestCase):
+    def test_take_2_black_and_2_whitw(self) -> None:
+        tile_events = [
+            (1, config.WHITE_TILE, True),
+            (1, config.WHITE_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True)
+        ]
+        instructions = [
+            TileOrderInstruction("1100")
+        ]
+
+        run_e2e_test(self, tile_events, instructions)
+    
+    def test_take_5_whites(self) -> None:
+        tile_events = [
+            (1, config.WHITE_TILE, True),
+            (1, config.WHITE_TILE, True),
+            (2, config.WHITE_TILE, True),
+            (2, config.WHITE_TILE, True),
+            (2, config.WHITE_TILE, True)
+        ]
+        instructions = [
+            TileOrderInstruction("11111")
+        ]
+
+        run_e2e_test(self, tile_events, instructions)
+
+    def test_take_5_blacks(self) -> None:
+        tile_events = [
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True)
+        ]
+        instructions = [
+            TileOrderInstruction("00000")
+        ]
+
+        run_e2e_test(self, tile_events, instructions)
+
+    def test_1_black_2_whites_and_2_blacks(self) -> None:
+        tile_events = [
+            (1, config.BLACK_TILE, True),
+            (1, config.WHITE_TILE, True),
+            (2, config.WHITE_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True)
+        ]
+        instructions = [
+           TileOrderInstruction("01100")
+        ]
+
+        run_e2e_test(self, tile_events, instructions)
+    
+    def test_sorting_black(self) -> None:
+        tile_events = [
+            (1, config.BLACK_TILE, True),
+            (1, config.WHITE_TILE, True),
+            (2, config.WHITE_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.WHITE_TILE, True),
+            (2, config.WHITE_TILE, True)
+
+        ]
+        instructions = [
+           TileOrderInstruction("0110011")
+        ]
+
+        run_e2e_test(self, tile_events, instructions)
+    
+    def test_take_1_black_2_whites_and_1_black(self) -> None:
+        tile_events = [
+            (1, config.BLACK_TILE, True),
+            (1, config.WHITE_TILE, True),
+            (2, config.WHITE_TILE, True),
+            (1, config.BLACK_TILE, True)
+        ]
+        instructions = [
+           TileOrderInstruction("0110")
+        ]
+
+        run_e2e_test(self, tile_events, instructions)
+    
+    def test_1_black_2_whites_5_blacks(self) -> None:
+        tile_events = [
+            (1, config.BLACK_TILE, True),
+            (1, config.WHITE_TILE, True),
+            (2, config.WHITE_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True)
+        ]
+        instructions = [
+           TileOrderInstruction("01100000")
+        ]
+
+        run_e2e_test(self, tile_events, instructions)
+    
+    def test_take_1_black_2_whites_3_black(self) -> None:
+        tile_events = [
+            (1, config.BLACK_TILE, True),
+            (1, config.WHITE_TILE, True),
+            (2, config.WHITE_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True)
+        ]
+        instructions = [
+           TileOrderInstruction("011000")
+        ]
+
+        run_e2e_test(self, tile_events, instructions)
+    
+    def test_take_2_white_then_take_8_black(self) -> None:
+        tile_events = [
+            (1, config.WHITE_TILE, True),
+            (1, config.WHITE_TILE, True),
+            (2, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True)
+        ]
+        instructions = [
+           TileOrderInstruction("1100000000")
+        ]
+
+        run_e2e_test(self, tile_events, instructions)
+    
+    def test_take_2_black_and_2_whites_4_times(self) -> None:
+        tile_events = [
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.WHITE_TILE, True),
+            (2, config.WHITE_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.WHITE_TILE, True),
+            (2, config.WHITE_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.WHITE_TILE, True),
+            (2, config.WHITE_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.WHITE_TILE, True),
+            (2, config.WHITE_TILE, True)
+            
+        ]
+        instructions = [
+           TileOrderInstruction("0011001100110011")
+        ]
+
+        run_e2e_test(self, tile_events, instructions)
+
+# Requirements and Bitmask
+class RequirementsAndBitmaskE2ETest(TestCase):
+    pass
+
+# Requirements and TileOrder
+class RequirementsAndTileOrderE2ETest(TestCase):
+    pass
+
+# Bitmask and TileOrer
+class BitmaskAndBTileOrderE2ETest(TestCase):
+    pass
+
+# Requirements and Bitmask and TileOrder
+class RequirementsAndBitmaskAndTileOrderE2ETest(TestCase):
+    pass
