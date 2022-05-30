@@ -17,7 +17,7 @@ class TestTileOrderInstruction(TestCase):
         instruction = TileOrderInstruction("01")
         self.assertTrue(instruction.process(config.BLACK_TILE))
         self.assertTrue(instruction.process(config.WHITE_TILE))
-
+        
     def test_one_white_followed_by_one_black(self):
         instruction = TileOrderInstruction("10")
         self.assertTrue(instruction.process(config.WHITE_TILE))

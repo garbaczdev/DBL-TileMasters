@@ -223,8 +223,8 @@ class TileOrderInstruction(Instruction):
     """
     This instruction type indicates in what order the tiles of a certain color should be pushed to the box.
 
-    Example: TileOrderInstruction(tile_order="111000111") should first take 3 black tiles and skip all the white tiles
-    which were detected, then take 3 white tiles and skip the others, then take 3 black tiles and skip all the white tiles.
+    Example: TileOrderInstruction(tile_order="111000111") should first take 3 white tiles and skip all the black tiles
+    which were detected, then take 3 black tiles and skip the others, then take 3 white tiles and skip all the black tiles.
     This is an equivalent to the morse code SOS (or OSO, depends on the interpretation of 0s and 1s).
 
     This could be extended to using more than only black and white tiles.
