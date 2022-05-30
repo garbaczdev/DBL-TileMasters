@@ -6,7 +6,7 @@ from typing import Union
 from .tile_manager import TileManager
 from .tile_scanner import TileScanner, TestingTileScanner
 from .instruction_manager import InstructionManager
-from .instructions import RequirementsInstruction
+from .instructions import Instruction
 from .arm import Arm, TestingArm
 from .events import TileEvent
 
@@ -19,7 +19,7 @@ class Robot(LogComponent):
     This is the main class for operating the robot.
     """
     
-    def __init__(self, test_tile_events: Union[None, list[TileEvent]] = None) -> None:
+    def __init__(self, test_tile_events: Union[None, list[TileEvent]] = None, mode: str = config.INSTRUCTION_MODE) -> None:
         """
         This constructor takes the optional argument test_tile_events, which is the list of TileEvents.
         If test_tile_events is passed, robot will enter the ARTIFICIAL_ENVIRONMENT_TESTING mode, which will
@@ -27,7 +27,9 @@ class Robot(LogComponent):
         """
         
         # Enter testing mode basing on test_tile_events
-        self.update_testing_variables(test_tile_events)
+        self._update_testing_variables(test_tile_events)
+
+        self.mode = mode
 
         # Create main logs.
         logs = Logs()
@@ -55,11 +57,21 @@ class Robot(LogComponent):
         # Indicates whether the robot should stop.
         self.should_stop = False
 
+        self.new_instructions = list()
+        self.new_instructions_set = False
+
 
     @property
     def COMPONENT_NAME(self) -> str:
         return "Robot"
 
+    def change_mode(self, mode: str) -> None:
+        self.mode = mode
+
+    def update_instructions(self, instructions: list[Instruction]) -> None:
+        self.new_instructions = instructions
+        self.new_instructions_set = True
+    
     def run(self) -> None:
         """
         Runs the main loop of the robot.
@@ -101,12 +113,24 @@ class Robot(LogComponent):
             self._log_action("Stop called")
         self.should_stop = True
 
-    def _run_actions(self) -> None:
-        self.tile_scanner.scan()
-        self.tile_manager.execute_ready_tile_event()
-
-    def update_testing_variables(self, test_tile_events: Union[None, list[TileEvent]]) -> None:
+    def _update_testing_variables(self, test_tile_events: Union[None, list[TileEvent]]) -> None:
         if test_tile_events is None:
             config.ARTIFICIAL_ENVIRONMENT_TESTING = False
         else:
             config.ARTIFICIAL_ENVIRONMENT_TESTING = True
+
+    def _run_actions(self) -> None:
+        if self.mode == config.INSTRUCTION_MODE:
+            self._update_instructions()
+            self.tile_scanner.scan()
+            self.tile_manager.execute_ready_tile_event()
+    
+    def _update_instructions(self) -> None:
+        if self.new_instructions_set:
+            
+            self.instruction_manager.update_instructions(self.new_instructions)
+            self._log_action(f"Instructions updated to {[repr(instruction) for instruction in self.new_instructions]}")
+
+            self.new_instructions_set = False
+            self.new_instructions = list()
+            

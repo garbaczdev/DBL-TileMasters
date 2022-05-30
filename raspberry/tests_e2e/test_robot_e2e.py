@@ -16,7 +16,7 @@ def run_e2e_test(testing_class: TestCase, tile_events: list[tuple[int, int, bool
 
     robot_tile_events = utils.create_robot_tile_events(tile_events)
     robot = Robot(robot_tile_events)
-    robot.instruction_manager.set_new_instructions(instructions)
+    robot.instruction_manager.update_instructions(instructions)
     
     arm = robot.tile_manager._arm
 
@@ -390,7 +390,7 @@ class BitmaskE2ETests(TestCase):
 
         run_e2e_test(self, tile_events, instructions)
 
-# TileOrder
+# 
 class TileOrderE2ETests(TestCase):
     def test_take_2_black_and_2_whitw(self) -> None:
         tile_events = [
