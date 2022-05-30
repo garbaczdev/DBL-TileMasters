@@ -1,102 +1,158 @@
-
 from unittest import TestCase
 
-from src.robot.instructions import RequirementsInstruction
+from src.robot.instructions import PatternInstruction
 from src.robot.config import Config as config
 
 from run_e2e_test import run_e2e_test
 
 
-class RequirementsInstructionE2ETests(TestCase):
-
-    def test_sorting_white(self) -> None:
+class PatternE2ETests(TestCase):
+    def test_take_2_black_and_2_whitw(self) -> None:
         tile_events = [
-            (1, config.BLACK_TILE, False),
             (1, config.WHITE_TILE, True),
-            (2, config.WHITE_TILE, True),
-            (1, config.BLACK_TILE, False),
-            (1, config.BLACK_TILE, False)
+            (1, config.WHITE_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True)
         ]
         instructions = [
-            RequirementsInstruction(0, 1, -1)
+            PatternInstruction("1100")
+        ]
+
+        run_e2e_test(self, tile_events, instructions)
+    
+    def test_take_5_whites(self) -> None:
+        tile_events = [
+            (1, config.WHITE_TILE, True),
+            (1, config.WHITE_TILE, True),
+            (2, config.WHITE_TILE, True),
+            (2, config.WHITE_TILE, True),
+            (2, config.WHITE_TILE, True)
+        ]
+        instructions = [
+            PatternInstruction("11111")
         ]
 
         run_e2e_test(self, tile_events, instructions)
 
+    def test_take_5_blacks(self) -> None:
+        tile_events = [
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True)
+        ]
+        instructions = [
+            PatternInstruction("00000")
+        ]
+
+        run_e2e_test(self, tile_events, instructions)
+
+    def test_1_black_2_whites_and_2_blacks(self) -> None:
+        tile_events = [
+            (1, config.BLACK_TILE, True),
+            (1, config.WHITE_TILE, True),
+            (2, config.WHITE_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True)
+        ]
+        instructions = [
+           PatternInstruction("01100")
+        ]
+
+        run_e2e_test(self, tile_events, instructions)
+    
     def test_sorting_black(self) -> None:
         tile_events = [
             (1, config.BLACK_TILE, True),
-            (1, config.WHITE_TILE, False),
-            (2, config.WHITE_TILE, False),
-            (1, config.BLACK_TILE, True),
-            (1, config.BLACK_TILE, True)
-        ]
-        instructions = [
-            RequirementsInstruction(1, 0, -1)
-        ]
-
-        run_e2e_test(self, tile_events, instructions)
-
-    def test_requirements_without_repetition(self) -> None:
-        tile_events = [
-            (1, config.BLACK_TILE, True),
             (1, config.WHITE_TILE, True),
             (2, config.WHITE_TILE, True),
-            (1, config.BLACK_TILE, False),
-            (1, config.BLACK_TILE, False)
-        ]
-        instructions = [
-            RequirementsInstruction(1, 2)
-        ]
-
-        run_e2e_test(self, tile_events, instructions)
-
-    def test_requirements_without_repetition_2(self) -> None:
-        tile_events = [
             (1, config.BLACK_TILE, True),
             (1, config.BLACK_TILE, True),
             (1, config.WHITE_TILE, True),
-            (2, config.WHITE_TILE, True),
-            (1, config.BLACK_TILE, False)
+            (2, config.WHITE_TILE, True)
+
         ]
         instructions = [
-            RequirementsInstruction(2, 2)
+           PatternInstruction("0110011")
         ]
 
         run_e2e_test(self, tile_events, instructions)
     
-    
-    def test_requirements_with_repetition(self) -> None:
+    def test_take_1_black_2_whites_and_1_black(self) -> None:
         tile_events = [
             (1, config.BLACK_TILE, True),
-            (1, config.WHITE_TILE, True),
-            (2, config.WHITE_TILE, True),
-            (1, config.BLACK_TILE, True),
-            (1, config.BLACK_TILE, False)
-        ]
-        instructions = [
-            RequirementsInstruction(1, 2, 2)
-        ]
-
-        run_e2e_test(self, tile_events, instructions)
-    
-    def test_requirements_with_repetition_2(self) -> None:
-        tile_events = [
-            (1, config.BLACK_TILE, True),
-            (1, config.BLACK_TILE, True),
-            (1, config.BLACK_TILE, True),
-            (1, config.BLACK_TILE, True),
-            (1, config.BLACK_TILE, False),
             (1, config.WHITE_TILE, True),
             (2, config.WHITE_TILE, True),
             (1, config.BLACK_TILE, True)
         ]
         instructions = [
-            RequirementsInstruction(4, 2, 2),
+           PatternInstruction("0110")
         ]
 
-    def test_requirements_without_repetition_3(self) -> None:
+        run_e2e_test(self, tile_events, instructions)
+    
+    def test_1_black_2_whites_5_blacks(self) -> None:
         tile_events = [
+            (1, config.BLACK_TILE, True),
+            (1, config.WHITE_TILE, True),
+            (2, config.WHITE_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True)
+        ]
+        instructions = [
+           PatternInstruction("01100000")
+        ]
+
+        run_e2e_test(self, tile_events, instructions)
+    
+    def test_take_1_black_2_whites_3_black(self) -> None:
+        tile_events = [
+            (1, config.BLACK_TILE, True),
+            (1, config.WHITE_TILE, True),
+            (2, config.WHITE_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True)
+        ]
+        instructions = [
+           PatternInstruction("011000")
+        ]
+
+        run_e2e_test(self, tile_events, instructions)
+    
+    def test_take_2_white_then_take_8_black(self) -> None:
+        tile_events = [
+            (1, config.WHITE_TILE, True),
+            (1, config.WHITE_TILE, True),
+            (2, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True)
+        ]
+        instructions = [
+           PatternInstruction("1100000000")
+        ]
+
+        run_e2e_test(self, tile_events, instructions)
+    
+    def test_take_2_black_and_2_whites_4_times(self) -> None:
+        tile_events = [
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.WHITE_TILE, True),
+            (2, config.WHITE_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.BLACK_TILE, True),
+            (1, config.WHITE_TILE, True),
+            (2, config.WHITE_TILE, True),
             (1, config.BLACK_TILE, True),
             (1, config.BLACK_TILE, True),
             (1, config.WHITE_TILE, True),
@@ -105,65 +161,10 @@ class RequirementsInstructionE2ETests(TestCase):
             (1, config.BLACK_TILE, True),
             (1, config.WHITE_TILE, True),
             (2, config.WHITE_TILE, True)
+            
         ]
         instructions = [
-            RequirementsInstruction(2, 2, 2)
-        ]
-
-        run_e2e_test(self, tile_events, instructions)
-    
-    def test_requirements_without_repetition_4(self) -> None:
-        tile_events = [
-            (1, config.BLACK_TILE, True),
-            (1, config.WHITE_TILE, True),
-            (2, config.WHITE_TILE, True),
-            (1, config.BLACK_TILE, True),
-            (1, config.WHITE_TILE, True),
-            (2, config.WHITE_TILE, True),
-            (1, config.BLACK_TILE, True),
-            (1, config.WHITE_TILE, True),
-            (2, config.WHITE_TILE, True)
-        ]
-        instructions = [
-            RequirementsInstruction(1, 2, 3)
-        ]
-
-        run_e2e_test(self, tile_events, instructions)
-    
-    def test_requirements_without_repetition_5(self) -> None:
-        tile_events = [
-            (1, config.BLACK_TILE, True),
-            (1, config.WHITE_TILE, False),
-            (2, config.WHITE_TILE, False),
-            (1, config.BLACK_TILE, True),
-            (1, config.WHITE_TILE, False),
-            (2, config.WHITE_TILE, False),
-            (1, config.BLACK_TILE, True),
-            (1, config.WHITE_TILE, False),
-            (2, config.WHITE_TILE, False)
-        ]
-        instructions = [
-            RequirementsInstruction(1, 0, 3)
-        ]
-
-        run_e2e_test(self, tile_events, instructions)
-
-    def test_requirements_without_repetition_6(self) -> None:
-        tile_events = [
-            (1, config.BLACK_TILE, True),
-            (1, config.WHITE_TILE, True),
-            (1, config.BLACK_TILE, True),
-            (1, config.WHITE_TILE, True),
-            (1, config.BLACK_TILE, True),
-            (1, config.WHITE_TILE, True),
-            (1, config.BLACK_TILE, True),
-            (1, config.WHITE_TILE, True),
-            (1, config.BLACK_TILE, True),
-            (1, config.WHITE_TILE, True)
-          
-        ]
-        instructions = [
-            RequirementsInstruction(1, 1, 5)
+           PatternInstruction("0011001100110011")
         ]
 
         run_e2e_test(self, tile_events, instructions)
