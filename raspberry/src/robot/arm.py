@@ -1,12 +1,35 @@
-
+from typing import Union
+from time import sleep
+from threading import Thread
 
 from .logs import Logs, LogComponent
+from .config import Config as config
+
 
 class Arm(LogComponent):
     """
     A class representing a physical arm controlled by a servo motor.
     """
 
+    def __init__(self, gpio_pin: Union[int, None], logs: Logs = Logs()) -> None:
+        super().__init__(logs)
+        self.gpio_pin = gpio_pin
+        self._servo = None
+
+        if gpio_pin is not None:
+            import RPi.GPIO as GPIO
+
+            # Set GPIO numbering mode
+            GPIO.setmode(GPIO.BOARD)
+            GPIO.setup(self.gpio_pin, GPIO.OUT)
+            GPIO.setwarnings(False)
+
+            self._servo = GPIO.PWM(self.gpio_pin, 50) # pin 11 for servo1, pulse 50Hz
+
+            # Start PWM running, with value of 0 (pulse off)
+            self._servo.start(0)
+
+        self.is_pushing = False
 
     @property
     def COMPONENT_NAME(self) -> str:
@@ -17,31 +40,39 @@ class Arm(LogComponent):
         This method hides the arm if it is not hidden.
         """
 
+        if self.is_pushing:
+            return 
+
         # If should log
         if log:
             self._log_action("Push called")
 
-        # Physically hide the arm
-        self._extend_motor()
-        self._hide_motor()
+        self.is_pushing = True
+
+        if self.gpio_pin is None:
+            push_thread = Thread(target = self._testing_push_thread)
+        else:
+            push_thread = Thread(target = self._push_thread)
+        
+        push_thread.start()
+
+
     
-    def _hide_motor(self) -> None:
+    def _push_thread(self) -> None:
         """
-        This physically moves the motor such that the arm is hidden.
+        This physically extends and hides the motor
         """
-        pass
+        self._servo.ChangeDutyCycle(9)
+        sleep(config.ARM_PUSH_TIMEOUT)
+        self._servo.ChangeDutyCycle(4)
 
-    def _extend_motor(self) -> None:
-        """
-        This physically moves the motor such that the arm is extended.
-        """
-        pass
 
-    def _rotate(self, degrees: int) -> None:
+    def _testing_push_thread(self) -> None:
         """
-        This method rotates the arm by a certain amount of degrees.
+        This is a testing function that just waits.
         """
-        pass
+        sleep(config.ARM_PUSH_TIMEOUT)
+        self.is_pushing = False
 
 
 class TestingArm(Arm):
@@ -50,8 +81,8 @@ class TestingArm(Arm):
     It can be used for the ARTIFICIAL_ENVIRONMENT_TESTING mode.
     """
 
-    def __init__(self, *args, **kwargs) -> None:
-        super().__init__(*args, **kwargs)
+    def __init__(self, gpio_pin: int = None, logs: Logs = Logs()) -> None:
+        super().__init__(gpio_pin, logs)
         # Variable used for determining whether the arm has been pushed since the last time checked.
         self._has_pushed = False
     

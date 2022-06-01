@@ -6,8 +6,12 @@ from .api import API
 
 
 class App:
-    def __init__(self) -> None:
-        self.robot = Robot([])
+    def __init__(self, testing = False) -> None:
+        if testing:
+            self.robot = Robot([])
+        else:
+            self.robot = Robot()
+            
         self.api = API(self.robot, __name__)
 
     def run(self) -> None:

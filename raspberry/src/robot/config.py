@@ -20,6 +20,10 @@ class Config:
     LOG_ID_SPACE = 10
     LOG_TIME_SPACE = 12
     LOG_COMPONENT_NAME_SPACE = 25
+    
+    # Arm config
+    ARM_GPIO_PIN = 11
+    ARM_PUSH_TIMEOUT = 0.5
 
     # Timeout for each main loop execution in seconds
     MAIN_LOOP_TIMEOUT = 0.1

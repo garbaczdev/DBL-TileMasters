@@ -48,7 +48,7 @@ class Robot(LogComponent):
             self.tile_scanner = TestingTileScanner(test_tile_events, self.tile_manager, logs=self.logs)
         else:
             # Create a normal arm
-            self.arm = Arm(logs=self.logs)
+            self.arm = Arm(config.ARM_GPIO_PIN, logs=self.logs)
             # Create a normal tile manager.
             self.tile_manager = TileManager(self.arm, self.instruction_manager, logs=self.logs)
             # Create a normal tile scanner.
