@@ -65,7 +65,7 @@ class InstructionManager(LogComponent):
         """
         self.set_new_instructions(list())
 
-    def set_new_instructions(self, instructions: list[Instruction]) -> None:
+    def update_instructions(self, instructions: list[Instruction]) -> None:
         """
         Sets the instruction list to the new given instructions.
         """

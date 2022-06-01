@@ -28,6 +28,15 @@ class Log:
         # Additional data
         self.additional_data = additional_data
 
+    def to_dict(self) -> dict:
+        return {
+            "id": self.id,
+            "componentName": self.component_name,
+            "type": self.type,
+            "description": self.description,
+            "additionalData": self.additional_data
+        }
+
     def __str__(self) -> str:
         """
         This returns the string representation of an object.
@@ -65,21 +74,28 @@ class Logs:
         # This is used so that the header is printed the first time a log is printed.
         self.header_printed = False
 
+    def __str__(self) -> str:
+        return self._get_header() + "\n" + "\n".join([str(log) for log in self._logs])
+
+    def to_jsonify_format(self) -> list:
+        return [log.to_dict() for log in self._logs]
+
     def print(self, amount: int = 0) -> None:
         """
         Prints the logs. If given the amount, it will print last amount of logs.
         If amount is 0, it will print all of the logs.
         """
-        self.print_header()
-        for log in self._logs[-amount:]:
-            print(log)
+        print(self)
+
+    def _get_header(self) -> str:
+        header = utils.get_log_format_str("ID", "HH:MM:SS:mmm", "COMPONENT_NAME", "DESCRIPTION")
+        return header
 
     def print_header(self) -> None:
         """
         Prints the log header.
         """
-        header = utils.get_log_format_str("ID", "HH:MM:SS:mmm", "COMPONENT_NAME", "DESCRIPTION")
-        print(header)
+        print(self._get_header())
 
     def add(self, log: Log) -> None:
         """

@@ -4,6 +4,9 @@ class Config:
     This class contains the configurable variables used all over the robot package.
     """
 
+    INSTRUCTION_MODE = "instruction"
+    PUSH_MODE = "push"
+
     # Variable indicating whether the robot is in artificial environment testing mode.
     # In this mode, the robot will not perform real word actions.
     # This mode can be changed only by the Robot upon its creation.

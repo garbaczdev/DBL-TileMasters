@@ -120,6 +120,12 @@ class RequirementsInstruction(Instruction):
 
         super().__init__(repetitions)
 
+    def __str__(self) -> str:
+        return f"RequirementsInstruction(i_b:{self._initial_black}, i_w:{self._initial_white}, b:{self.black_left}, w:{self.white_left} r:{self.repetitions})"
+
+    def __repr__(self) -> str:
+        return f"RequirementsInstruction(i_b:{self._initial_black}, i_w:{self._initial_white}, r:{self.repetitions})"
+
     def reset(self) -> None:
         self._black = self._initial_black
         self._white = self._initial_white
@@ -192,6 +198,12 @@ class BitmaskInstruction(Instruction):
 
         super().__init__(repetitions)
 
+    def __str__(self) -> str:
+        return f"BitmaskInstruction(bitmask:{self.bitmask}, pos:{self.position}, r:{self.repetitions})"
+
+    def __repr__(self) -> str:
+        return f"BitmaskInstruction(bitmask:{self.bitmask}, r:{self.repetitions})"
+
     def reset(self) -> None:
         self.position = 0
 
@@ -219,35 +231,41 @@ class BitmaskInstruction(Instruction):
         return self.position == len(self.bitmask)
 
 
-class TileOrderInstruction(Instruction):
+class PatternInstruction(Instruction):
     """
     This instruction type indicates in what order the tiles of a certain color should be pushed to the box.
 
-    Example: TileOrderInstruction(tile_order="111000111") should first take 3 white tiles and skip all the black tiles
+    Example: PatternInstruction(pattern="111000111") should first take 3 white tiles and skip all the black tiles
     which were detected, then take 3 black tiles and skip the others, then take 3 white tiles and skip all the black tiles.
     This is an equivalent to the morse code SOS (or OSO, depends on the interpretation of 0s and 1s).
 
     This could be extended to using more than only black and white tiles.
     """
     
-    def __init__(self, tile_order: Union[str, list], repetitions: int = 1) -> None:
+    def __init__(self, pattern: Union[str, list], repetitions: int = 1) -> None:
         
-        # If the tile_order is string, make it a list
-        if isinstance(tile_order, str):
+        # If the pattern is string, make it a list
+        if isinstance(pattern, str):
             # This will make a list of characters.
-            # Example: tile_order = "11100"; then: self.tile_order = ["1", "1", "1", "0", "0"]
-            self.tile_order = [char for char in tile_order]
+            # Example: pattern = "11100"; then: self.pattern = ["1", "1", "1", "0", "0"]
+            self.pattern = [char for char in pattern]
         else:
             # This allows for having more arbitrary tile types.
             # Example: ["green", "blue", "purple"]
-            self.tile_order = tile_order
+            self.pattern = pattern
 
-        self.initial_tile_order = self.tile_order[:]
+        self.initial_pattern = self.pattern[:]
         
         super().__init__(repetitions)
+
+    def __str__(self) -> str:
+        return f"PatternInstruction(pattern:{self.pattern}, pos:{self.position}, r:{self.repetitions})"
+
+    def __repr__(self) -> str:
+        return f"PatternInstruction(pattern:{self.pattern}, r:{self.repetitions})"
         
     def reset(self) -> None:
-        self.tile_order = self.initial_tile_order[:]
+        self.pattern = self.initial_pattern[:]
     
     def should_take(self, tile: int) -> bool:
         
@@ -256,7 +274,7 @@ class TileOrderInstruction(Instruction):
             return False
         
         # Return whether the tile order at the current position is equal to the tile color
-        return self.tile_order[0] == str(tile)
+        return self.pattern[0] == str(tile)
 
     def inform(self, tile: int) -> None:
         # Error checking
@@ -267,9 +285,37 @@ class TileOrderInstruction(Instruction):
             return
 
         # Remove the first tile in the order.
-        self.tile_order.pop(0)
+        self.pattern.pop(0)
 
     def _has_repetition_ended(self) -> bool:
-        # Return whether the tile_order is empty
-        return len(self.tile_order) == 0
+        # Return whether the pattern is empty
+        return len(self.pattern) == 0
 
+
+class InstructionJSONParser:
+    """
+    Parses the instructions from the JSON request format to actual objects.
+    """
+
+    @classmethod
+    def parse_instructions(cls, instructions: list[dict]) -> list[Instruction]:
+
+        instruction_dict = {
+            "requirements": cls.parse_requirements_instruction,
+            "bitmask": cls.parse_bitmask_instruction,
+            "pattern": cls.parse_pattern_instruction
+        }
+
+        return [instruction_dict[instruction["type"]](instruction) for instruction in instructions]
+
+    @staticmethod
+    def parse_requirements_instruction(instruction: dict) -> RequirementsInstruction:
+        return RequirementsInstruction(instruction["black"], instruction["white"], instruction["repetitions"])
+    
+    @staticmethod
+    def parse_bitmask_instruction(instruction: dict) -> BitmaskInstruction:
+        return BitmaskInstruction(instruction["bitmask"], instruction["repetitions"])
+
+    @staticmethod
+    def parse_pattern_instruction(instruction: dict) -> PatternInstruction:
+        return PatternInstruction(instruction["pattern"], instruction["repetitions"])

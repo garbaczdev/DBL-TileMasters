@@ -1,14 +1,12 @@
-# https://nl.aliexpress.com/item/1005003697943326.html?gatewayAdapt=glo2nld
+# Import libraries
 import RPi.GPIO as GPIO
 import time
-
-
-gpio_pin = 11
 
 # Set GPIO numbering mode
 GPIO.setmode(GPIO.BOARD)
 
 # Set pin 11 as an output, and define as servo1 as PWM pin
+gpio_pin = 11
 GPIO.setup(gpio_pin, GPIO.OUT)
 GPIO.setwarnings(False)
 servo1 = GPIO.PWM(gpio_pin, 50) # pin 11 for servo1, pulse 50Hz
