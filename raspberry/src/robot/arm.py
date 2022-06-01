@@ -65,6 +65,7 @@ class Arm(LogComponent):
         self._servo.ChangeDutyCycle(9)
         sleep(config.ARM_PUSH_TIMEOUT)
         self._servo.ChangeDutyCycle(4)
+        self.is_pushing = False
 
 
     def _testing_push_thread(self) -> None:
