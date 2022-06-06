@@ -1,0 +1,31 @@
+{
+  "files": {
+    "main.css": "/static/css/main.c02246ef.css",
+    "main.js": "/static/js/main.d1684cb7.js",
+    "static/js/787.c4e7f8f9.chunk.js": "/static/js/787.c4e7f8f9.chunk.js",
+    "static/media/program-instructions-dark.svg": "/static/media/program-instructions-dark.732fac1bc86dbbc7272684ff1ab2b64f.svg",
+    "static/media/program-instructions-light.svg": "/static/media/program-instructions-light.ff296e41e5bef7f9cb358b24d2a963e9.svg",
+    "static/media/medium-logo-white.svg": "/static/media/medium-logo-white.217319466bc357d6c1b05805c65c5ccd.svg",
+    "static/media/big-logo-light-theme.svg": "/static/media/big-logo-light-theme.4b54743a015462b55bf3ab0a6b8f7dce.svg",
+    "static/media/big-logo-dark-theme.svg": "/static/media/big-logo-dark-theme.5cdd749ebe37a335f2ff8b64986b2e0a.svg",
+    "static/media/big-logo.svg": "/static/media/big-logo.2ebfba27a30fbf915b59b9b65d768616.svg",
+    "static/media/manual-mode-light.svg": "/static/media/manual-mode-light.d36fc66b5f8c511a9829e0ab3783a24a.svg",
+    "static/media/manual-mode-dark.svg": "/static/media/manual-mode-dark.c029924085c2e2654f5fd48988c9d10d.svg",
+    "static/media/medium-logo-dark-theme.svg": "/static/media/medium-logo-dark-theme.7567ffa3ca291c58c07c8c2a9aaef528.svg",
+    "static/media/medium-logo-light-theme.svg": "/static/media/medium-logo-light-theme.89784f34ee6c80d6d99c19ff9e205fb5.svg",
+    "static/media/medium-logo.svg": "/static/media/medium-logo.8bd3eb103e62d62fe95ad8f8ced94f59.svg",
+    "static/media/robot-utils-dark.svg": "/static/media/robot-utils-dark.b9885be5ab836b83069a42fc1a8d4654.svg",
+    "static/media/robot-utils-light.svg": "/static/media/robot-utils-light.79f0c2d6e05909c22bb7d03a147adab1.svg",
+    "static/media/small-logo.svg": "/static/media/small-logo.0003ac0fd8fc4466c13f482179d1ea5f.svg",
+    "static/media/small-logo-light-theme.svg": "/static/media/small-logo-light-theme.f2d34045856a1741fb7c1458bc87c2e5.svg",
+    "static/media/small-logo-dark-theme.svg": "/static/media/small-logo-dark-theme.face742be56a2e285044b78fe562e18e.svg",
+    "index.html": "/index.html",
+    "main.c02246ef.css.map": "/static/css/main.c02246ef.css.map",
+    "main.d1684cb7.js.map": "/static/js/main.d1684cb7.js.map",
+    "787.c4e7f8f9.chunk.js.map": "/static/js/787.c4e7f8f9.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c02246ef.css",
+    "static/js/main.d1684cb7.js"
+  ]
+}
