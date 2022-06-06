@@ -1,14 +1,39 @@
 import {Link} from "react-router-dom";
 
+import './styles/Nav.css';
+
+
+const subpages = [
+    {
+        url: '/program-instructions',
+        title: "Program Instructions"
+    },
+    {
+        url: '/robot-utils',
+        title: "Robot Utils"
+    },
+    {
+        url: '/manual-mode',
+        title: "Manual Mode"
+    },
+]
+
 
 function Nav() {
     return (
-        <div className="Nav">
-            <Link to="/">Home</Link>
-            <Link to="/program-instructions">Program Instructions</Link>
-            <Link to="/robot-utils">Robot Utils</Link>
-            <Link to="/manual-mode">Manual Mode</Link>
-        </div>
+        <nav className="nav">
+            <Link className="nav-logo" to="/">Home</Link>
+            <div className="nav-ul-div">
+                <ul className="nav-ul">
+                    <li>Dark Mode</li>
+                    {
+                        subpages.map((subpage) => {
+                            return <li><Link key={subpage.url} to={subpage.url}>{subpage.title}</Link></li>
+                        })
+                    }
+                </ul>
+            </div>
+        </nav>
     );
   }
   

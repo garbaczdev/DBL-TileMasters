@@ -1,6 +1,6 @@
 function ProgramInstructionsPage() {
     return (
-        <div id="ProgramInstructionsPage">
+        <div id="program-instructions-page">
             ProgramInstructionsPage
         </div>
     );

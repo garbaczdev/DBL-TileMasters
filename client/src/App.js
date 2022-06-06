@@ -12,10 +12,10 @@ import './styles/App.css';
 function App() {
   return (
     <BrowserRouter>
-      <div className="App">
+      <div className="app">
         <Nav/>
 
-        <section className="AppBody">
+        <section className="app-body">
           <Routes>
 
           <Route path="/" element={<HomePage/>} />

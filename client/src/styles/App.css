@@ -1,1 +1,6 @@
-/* No CSS *//*# sourceMappingURL=App.css.map */
+.app {
+  width: 100%;
+  min-height: 95vh;
+  padding-top: 80px;
+}
+/*# sourceMappingURL=App.css.map */

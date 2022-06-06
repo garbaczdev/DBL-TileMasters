@@ -1,6 +1,6 @@
 function ManualModePage() {
     return (
-        <div id="ManualModePage">
+        <div id="manual-mode-page">
             ManualModePage
         </div>
     );
