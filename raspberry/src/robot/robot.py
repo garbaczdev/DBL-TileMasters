@@ -43,14 +43,14 @@ class Robot(LogComponent):
             # Create a testing arm
             self.arm = TestingArm(logs=self.logs)
             # Create a normal tile manager.
-            self.tile_manager = TileManager(self.arm, self.instruction_manager, logs=self.logs)
+            self.tile_manager = TileManager(self.arm, self.get_mode, self.instruction_manager, logs=self.logs)
             # Create a testing tile scanner.
             self.tile_scanner = TestingTileScanner(test_tile_events, self.tile_manager, logs=self.logs)
         else:
             # Create a normal arm
             self.arm = Arm(config.ARM_GPIO_PIN, logs=self.logs)
             # Create a normal tile manager.
-            self.tile_manager = TileManager(self.arm, self.instruction_manager, logs=self.logs)
+            self.tile_manager = TileManager(self.arm, self.get_mode, self.instruction_manager, logs=self.logs)
             # Create a normal tile scanner.
             self.tile_scanner = TileScanner(self.tile_manager, logs=self.logs)
 
@@ -65,8 +65,15 @@ class Robot(LogComponent):
     def COMPONENT_NAME(self) -> str:
         return "Robot"
 
-    def change_mode(self, mode: str) -> None:
-        self.mode = mode
+    def get_mode(self) -> str:
+        return self.mode
+
+    def change_to_manual_mode(self) -> str:
+        self.mode = config.MANUAL_MODE
+
+    def change_to_instruction_mode(self) -> str:
+        self.mode = config.INSTRUCTION_MODE
+
 
     def update_instructions(self, instructions: list[Instruction]) -> None:
         self.new_instructions = instructions
@@ -120,10 +127,9 @@ class Robot(LogComponent):
             config.ARTIFICIAL_ENVIRONMENT_TESTING = True
 
     def _run_actions(self) -> None:
-        if self.mode == config.INSTRUCTION_MODE:
-            self._update_instructions()
-            self.tile_scanner.scan()
-            self.tile_manager.execute_ready_tile_event()
+        self._update_instructions()
+        self.tile_scanner.scan()
+        self.tile_manager.execute_ready_tile_event()
     
     def _update_instructions(self) -> None:
         if self.new_instructions_set:

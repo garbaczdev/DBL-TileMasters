@@ -5,7 +5,7 @@ class Config:
     """
 
     INSTRUCTION_MODE = "instruction"
-    PUSH_MODE = "push"
+    MANUAL_MODE = "push"
 
     # Variable indicating whether the robot is in artificial environment testing mode.
     # In this mode, the robot will not perform real word actions.
