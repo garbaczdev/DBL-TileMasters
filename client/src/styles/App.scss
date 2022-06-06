@@ -1,4 +1,4 @@
-
+@import './variables.scss';
 
 .app{
 
@@ -13,7 +13,7 @@
     bottom:0px;
     left:0px;
 
-    padding-top: 80px;
+    padding-top: #{$nav-height};
 }
 
 .subpage{
