@@ -1,5 +1,6 @@
 .app {
-  background: blue;
+  background-color: var(--background-color);
+  color: var(--support-color);
   position: absolute;
   top: 0px;
   right: 0px;

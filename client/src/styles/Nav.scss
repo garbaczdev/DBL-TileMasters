@@ -1,7 +1,8 @@
 @import './variables.scss';
 
 .nav{
-    background-color: #663399;
+    background-color: var(--main-color);
+    color: var(--nav-text-color);
 
     width: 100%;
  
@@ -13,6 +14,30 @@
 
     vertical-align: middle;
 
+    a{
+        text-decoration: none;
+        display: block;
+        color: var(--nav-text-color);
+    }
+
+    ul {
+
+        padding: 0;
+        margin: 0;
+
+        list-style: none;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        li{
+            float: left;
+            width:auto;
+            padding: 10px;
+        }
+    }
+
     .nav-menu-icon{
         display: none;
     }
@@ -23,6 +48,7 @@
         left: 10px;
         top: 50%;
         transform: translateY(-50%);
+        width: 150px;
     }
 
     .nav-ul-div{
@@ -30,34 +56,29 @@
         float: right;
     }
 
-    ul {
+    .change-theme-icon{
+        width: 40px;
+        height: 40px;
+    }
 
-        background-color: #444;
+    .change-theme-span {
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
-        padding: 0;
-        margin: 0;
-
-        list-style: none;
-
-        li{
-            float: left;
-            width:auto;
-            padding: 10px
-        }
-
-        a{
-            text-decoration: none;
-            color: #fff;
-            display: block;
-
+        span{
+            padding-left: 5px;
         }
     }
 }
 
-@media (max-width: $tablet-breakpoint), (max-device-width: $tablet-breakpoint){
+
+@media (max-width: #{$tablet-breakpoint}), (max-device-width: #{$tablet-breakpoint}){
     .nav{
-        height: $nav-height;
-        background-color: rebeccapurple;
+        height: #{$nav-height};
+
+        font-size: 30px;
+        font-weight: bold;
 
         .nav-menu-icon{
             display: flex;
@@ -68,22 +89,39 @@
         }
 
         .nav-ul-div{
-            background:red;
+            background: var(--background-color);
+            color: var(--support-color);
+
             position:fixed;
-            top:$nav-height;
+            top: #{$nav-height};
             right:0px;
             bottom:0px;
             left:0px;
-    
+
             transition: 0.5s;
-    
+
             &.hidden{
                 transform: translateX(100%);
             }
+
+            a{
+                color: var(--support-color);
+            }
+
+            .nav-ul{
+                display: flex;
+                width: 100%;
+                flex-direction: column;
+            }
     
+        }
+
+        .nav-logo{
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
     }
 }
 
-@media (max-width: $phone-breakpoint), (max-device-width: $phone-breakpoint){
+@media (max-width: #{$phone-breakpoint}), (max-device-width: #{$phone-breakpoint}){
 }

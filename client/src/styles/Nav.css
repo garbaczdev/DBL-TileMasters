@@ -1,11 +1,39 @@
 .nav {
-  background-color: #663399;
+  background-color: var(--main-color);
+  color: var(--nav-text-color);
   width: 100%;
   position: fixed;
   top: 0;
   left: 0;
   text-align: center;
   vertical-align: middle;
+}
+
+.nav a {
+  text-decoration: none;
+  display: block;
+  color: var(--nav-text-color);
+}
+
+.nav ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.nav ul li {
+  float: left;
+  width: auto;
+  padding: 10px;
 }
 
 .nav .nav-menu-icon {
@@ -18,6 +46,7 @@
   top: 50%;
   -webkit-transform: translateY(-50%);
           transform: translateY(-50%);
+  width: 150px;
 }
 
 .nav .nav-ul-div {
@@ -27,29 +56,32 @@
   float: right;
 }
 
-.nav ul {
-  background-color: #444;
-  padding: 0;
-  margin: 0;
-  list-style: none;
+.nav .change-theme-icon {
+  width: 40px;
+  height: 40px;
 }
 
-.nav ul li {
-  float: left;
-  width: auto;
-  padding: 10px;
+.nav .change-theme-span {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
-.nav ul a {
-  text-decoration: none;
-  color: #fff;
-  display: block;
+.nav .change-theme-span span {
+  padding-left: 5px;
 }
 
 @media (max-width: 1100px), (max-device-width: 1100px) {
   .nav {
     height: 50px;
-    background-color: rebeccapurple;
+    font-size: 30px;
+    font-weight: bold;
   }
   .nav .nav-menu-icon {
     display: -webkit-box;
@@ -62,7 +94,8 @@
             transform: translateY(-50%);
   }
   .nav .nav-ul-div {
-    background: red;
+    background: var(--background-color);
+    color: var(--support-color);
     position: fixed;
     top: 50px;
     right: 0px;
@@ -74,6 +107,24 @@
   .nav .nav-ul-div.hidden {
     -webkit-transform: translateX(100%);
             transform: translateX(100%);
+  }
+  .nav .nav-ul-div a {
+    color: var(--support-color);
+  }
+  .nav .nav-ul-div .nav-ul {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: 100%;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .nav .nav-logo {
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
   }
 }
 /*# sourceMappingURL=Nav.css.map */
