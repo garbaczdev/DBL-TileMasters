@@ -1,0 +1,129 @@
+@import './variables.scss';
+
+.nav{
+    background-color: var(--main-color);
+    color: var(--nav-text-color);
+
+    width: 100%;
+ 
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    text-align: center;
+
+    vertical-align: middle;
+    z-index: 2;
+    
+    a{
+        text-decoration: none;
+        display: block;
+        color: var(--nav-text-color);
+    }
+
+    ul {
+
+        padding: 0;
+        margin: 0;
+
+        list-style: none;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        li{
+            float: left;
+            width:auto;
+            padding: 10px;
+        }
+    }
+
+    .nav-menu-icon{
+        display: none;
+    }
+
+
+    .nav-logo{
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 150px;
+    }
+
+    .nav-ul-div{
+        display: flex;
+        float: right;
+    }
+
+    .change-theme-icon{
+        width: 40px;
+        height: 40px;
+    }
+
+    .change-theme-span {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        span{
+            padding-left: 5px;
+        }
+    }
+}
+
+
+@media (max-width: #{$tablet-breakpoint}), (max-device-width: #{$tablet-breakpoint}){
+    .nav{
+        height: #{$nav-height};
+
+        font-size: 30px;
+        font-weight: bold;
+
+        .nav-menu-icon{
+            display: flex;
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .nav-ul-div{
+            background: var(--background-color);
+            color: var(--support-color);
+
+            position:fixed;
+            top: #{$nav-height};
+            right:0px;
+            bottom:0px;
+            left:0px;
+
+            transition: 0.5s;
+
+            &.hidden{
+                transform: translateX(100%);
+            }
+
+            a{
+                color: var(--support-color);
+            }
+
+            .nav-ul{
+                display: flex;
+                width: 100%;
+                flex-direction: column;
+            }
+    
+        }
+
+        .nav-logo{
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+}
+
+@media (max-width: #{$phone-breakpoint}), (max-device-width: #{$phone-breakpoint}){
+
+}

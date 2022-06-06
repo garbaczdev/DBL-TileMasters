@@ -1,0 +1,61 @@
+@import './variables.scss';
+
+.app{
+
+    display: flex;
+
+    background-color: var(--background-color);
+    color: var(--support-color);
+
+    position:absolute;
+    top:0px;
+    right:0px;
+    bottom:0px;
+    left:0px;
+
+    padding-top: 80px;
+}
+
+.subpage{
+    min-height: 80vh;
+}
+
+.std-shadow{
+    box-shadow: 0px 0px 25px -6px  var(--main-color);
+}
+
+.std-card{
+    @extend .std-shadow;
+
+    border-radius: 20px;
+}
+
+.std-btn{
+    
+    position: relative;
+
+    width: 100px;
+    padding: 20px;
+
+    border: 1px solid var(--outline-color);
+    color: var(--outline-color);
+
+    border-radius: 15px;
+
+    transition: 0.2s;
+
+    box-shadow: 0px 0px 20px -6px  var(--outline-color);
+
+    a{
+        text-decoration: none;
+    }
+}
+
+.std-btn:hover{
+    color: var(--background-color);
+    background-color: var(--outline-color);
+}
+
+.std-btn:active{
+    box-shadow: 2px 2px 10px 0px var(--outline-color), -2px -2px 10px 0px var(--outline-color);
+}
