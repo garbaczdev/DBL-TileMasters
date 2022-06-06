@@ -5,14 +5,17 @@ import reportWebVitals from './reportWebVitals';
 
 import {BrowserRouter} from "react-router-dom";
 
+import {PaginatedDataFetcher} from "./apiUtils";
 
 import "./styles/index.css"
+
+const dataFetcher = new PaginatedDataFetcher();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <App dataFetcher={dataFetcher}/>
     </BrowserRouter>
   </React.StrictMode>
 );
