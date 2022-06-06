@@ -1,4 +1,4 @@
-from os import getcwd
+import os
 
 from flask import Flask, jsonify, request, make_response, send_from_directory
 
@@ -16,7 +16,7 @@ class API:
 
         # Flask app
         self.debug = debug
-        self.app = Flask(main_dir)
+        self.app = Flask(main_dir, static_folder='build')
         self._register_routes()
 
     def run(self) -> None:
@@ -24,13 +24,13 @@ class API:
 
     def _register_routes(self) -> None:
 
+        @self.app.route('/', defaults={'path': ''})
         @self.app.route('/<path:path>')
         def send_static_file(path):
-            return send_from_directory("static", path)
-
-        @self.app.route("/")
-        def index():
-            return send_from_directory('static', 'index.html')
+            if path != "" and os.path.exists(self.app.static_folder + '/' + path):
+                return send_from_directory(self.app.static_folder, path)
+            else:
+                return send_from_directory(self.app.static_folder, 'index.html')
 
         @self.app.route('/logs', methods=["GET"])
         def get_logs():
