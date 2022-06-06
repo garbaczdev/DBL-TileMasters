@@ -35,7 +35,7 @@ class Arm(LogComponent):
     def COMPONENT_NAME(self) -> str:
         return "Arm"
 
-    def push(self, log: bool = True) -> None:
+    def push(self, tile: Union[int, None] = None, log: bool = True) -> None:
         """
         This method hides the arm if it is not hidden.
         """
@@ -45,7 +45,12 @@ class Arm(LogComponent):
 
         # If should log
         if log:
-            self._log_action("Push called")
+            if tile is not None:
+                tile_color = config.TILE_COLOR_DICT.get(tile)
+                self.add_log("pushed", f"Pushed {tile_color} Tile")
+                
+            else:
+                self.add_log("pushed", "Push called")
 
         self.is_pushing = True
 
@@ -91,8 +96,8 @@ class TestingArm(Arm):
     def COMPONENT_NAME(self) -> str:
         return "TestingArm"
 
-    def push(self) -> None:
-        super().push()
+    def push(self, tile: int) -> None:
+        super().push(tile)
         self._has_pushed = True
 
     def has_pushed(self) -> bool:

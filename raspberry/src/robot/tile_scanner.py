@@ -82,7 +82,7 @@ class TileScanner(LogComponent):
 
         # If such color exists, log the action.        
         if color is not None:
-            self._log_action(f"{color} tile detected")
+            self.add_log(f"{color.lower()}-detected", f"{color} tile detected")
 
 
     def _register_tile_event(self, tile: int) -> None:
@@ -148,7 +148,7 @@ class TestingTileScanner(TileScanner):
 
             # If the end of tile events has not been logged yet.
             if not self.tile_events_logged_finish:
-                self._log_action("Tile events have been finished")
+                self.add_log("testing-events-finished", "Tile events have been finished")
                 self.tile_events_logged_finish = True
 
         # Return no tile.

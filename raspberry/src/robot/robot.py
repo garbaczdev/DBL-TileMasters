@@ -69,9 +69,11 @@ class Robot(LogComponent):
         return self.mode
 
     def change_to_manual_mode(self) -> str:
+        self.add_log("switched-to-manual-mode", "Switched to manual mode")
         self.mode = config.MANUAL_MODE
 
     def change_to_instruction_mode(self) -> str:
+        self.add_log("switched-to-instruction-mode", "Switched to instruction mode")
         self.mode = config.INSTRUCTION_MODE
 
 
@@ -83,7 +85,7 @@ class Robot(LogComponent):
         """
         Runs the main loop of the robot.
         """
-        self._log_action("Starting to run")
+        self.add_log("turned-on", "Starting to run")
         self.should_stop = False
 
         while not self.should_stop:
@@ -96,7 +98,7 @@ class Robot(LogComponent):
         """
         Runs the robot until certain given datetime passes.
         """
-        self._log_action(f"Starting to run until: {time}")
+        self.add_log("turned-on", f"Starting to run until: {time}")
         self.should_stop = False
         
         while not self.should_stop and datetime.now() < time:
@@ -117,7 +119,7 @@ class Robot(LogComponent):
         If this method is called, it will stop the robot as soon as it ends its loop actions.
         """
         if log:
-            self._log_action("Stop called")
+            self.add_log("stop", "Stop called")
         self.should_stop = True
 
     def _update_testing_variables(self, test_tile_events: Union[None, list[TileEvent]]) -> None:
@@ -135,7 +137,7 @@ class Robot(LogComponent):
         if self.new_instructions_set:
             
             self.instruction_manager.update_instructions(self.new_instructions)
-            self._log_action(f"Instructions updated to {[repr(instruction) for instruction in self.new_instructions]}")
+            self.add_log("new-instructions", f"Instructions updated to {[repr(instruction) for instruction in self.new_instructions]}")
 
             self.new_instructions_set = False
             self.new_instructions = list()

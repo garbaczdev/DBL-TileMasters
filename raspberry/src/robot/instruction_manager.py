@@ -30,7 +30,7 @@ class InstructionManager(LogComponent):
 
             # This does not work??
             if not self._instrucions_ended_finish_logged:
-                self._log_action("Instructions Finished")
+                self.add_log("instructions-finished", "Instructions Finished")
                 self._instrucions_ended_finish_logged = True
 
             return False

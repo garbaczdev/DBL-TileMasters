@@ -48,7 +48,11 @@ class TileManager(LogComponent):
             # If the tile event is ready.
             if tile_event.is_ready():
                 # Log out the action.
-                self._log_action(f"{config.TILE_COLOR_DICT[tile_event.tile]} tile at the arm")
+
+                color = config.TILE_COLOR_DICT.get(tile_event.tile)
+
+                self.add_log(f"tile-at-arm", f"{color} tile at the arm")
+
                 # Delete the tile event.
                 self._tile_events.pop(0)
 
@@ -64,7 +68,7 @@ class TileManager(LogComponent):
 
         # If it should be, push it.
         if should_arm_push:
-            self._arm.push()
+            self._arm.push(tile_event.tile)
 
 
     def add_tile_event(self, tile_event: TileEvent) -> None:
