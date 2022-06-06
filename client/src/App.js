@@ -40,9 +40,12 @@ const subpages = [
 ]
 
 
-function App() {
+function App({dataFetcher}) {
 
   const [darkTheme, setDarkTheme] = React.useState(true);
+  const [localRobotMode, setLocalRobotMode] = React.useState("instruction");
+  
+  dataFetcher.add_mode_listener(setLocalRobotMode);
 
   const location = useLocation();
 
@@ -55,7 +58,12 @@ function App() {
             <Routes location={location} key={location.key}>
               {
                 subpages.map(page => 
-                  <Route path={page.path} key={page.path} element={<FadedDiv>{<page.component darkTheme={darkTheme}/>}</FadedDiv>}/>
+                  <Route path={page.path} key={page.path} element={
+                    <FadedDiv>
+                      {<page.component darkTheme={darkTheme} localRobotMode={localRobotMode} setLocalRobotMode={setLocalRobotMode}/>}
+                    </FadedDiv>
+                    }
+                  />
                   )
               }
             </Routes>

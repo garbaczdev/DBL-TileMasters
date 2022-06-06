@@ -12,16 +12,16 @@ class TileManager(LogComponent):
     This is the class that manages the tile distribution. It controls all of the events and the arm.
     """
     
-    def __init__(self, arm: Arm, instruction_manager: InstructionManager = None, logs: Logs = Logs()) -> None:
+    def __init__(self, arm: Arm, mode_callback = None,  instruction_manager: InstructionManager = None, logs: Logs = Logs()) -> None:
         super().__init__(logs)
 
         # If the instruction manager was not given.
         if instruction_manager is None:
             instruction_manager = InstructionManager(logs=self.logs)
-        
-        self.instruction_manager = instruction_manager
 
         self._arm = arm
+        self.mode_callback = mode_callback
+        self.instruction_manager = instruction_manager
         
         # List containing the tile events.
         # Every TileEvent indicates that a tile of color X is at the place of the arm in the time X.
@@ -48,11 +48,17 @@ class TileManager(LogComponent):
             # If the tile event is ready.
             if tile_event.is_ready():
                 # Log out the action.
-                self._log_action(f"{config.TILE_COLOR_DICT[tile_event.tile]} tile at the arm")
+
+                color = config.TILE_COLOR_DICT.get(tile_event.tile)
+
+                self.add_log(f"tile-at-arm", f"{color} tile at the arm")
+
                 # Delete the tile event.
                 self._tile_events.pop(0)
+
                 # Execute the tile event.
-                self.execute_tile_event(tile_event)
+                if self.mode_callback is None or self.mode_callback() == config.INSTRUCTION_MODE:
+                    self.execute_tile_event(tile_event)
 
 
     def execute_tile_event(self, tile_event: TileEvent) -> None:
@@ -62,7 +68,7 @@ class TileManager(LogComponent):
 
         # If it should be, push it.
         if should_arm_push:
-            self._arm.push()
+            self._arm.push(tile_event.tile)
 
 
     def add_tile_event(self, tile_event: TileEvent) -> None:

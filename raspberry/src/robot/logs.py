@@ -77,8 +77,29 @@ class Logs:
     def __str__(self) -> str:
         return self._get_header() + "\n" + "\n".join([str(log) for log in self._logs])
 
-    def to_jsonify_format(self) -> list:
-        return [log.to_dict() for log in self._logs]
+    def to_jsonify_format(self, last_log_id: int = -1) -> list:
+        if last_log_id >= 0:
+            logs = self.get_logs_since(last_log_id)
+        else:
+            logs = self._logs
+            
+        return [log.to_dict() for log in logs]
+
+    def get_logs_since(self, last_log_id: int) -> list:
+        """
+        Gets logs since the log with the given id.
+        """
+        if not self._logs:
+            return self._logs
+        
+        last_local_log_id = self._logs[-1].id
+
+        diff = last_log_id - last_local_log_id
+
+        if diff >= 0:
+            return []
+        
+        return self._logs[diff:]
 
     def print(self, amount: int = 0) -> None:
         """
@@ -139,19 +160,7 @@ class LogComponent(ABC):
         """
         pass
 
-    def _log_action(self, description: str) -> None:
-        """
-        Saves the log of type "action" with the given description and current time.
-        """
-        self._add_log("action", description)
-
-    def _log_error(self, description: str) -> None:
-        """
-        Saves the log of type "error" with the given description and current time.
-        """
-        self._add_log("error", description)
-
-    def _add_log(self, _type: str, description: str) -> None:
+    def add_log(self, _type: str, description: str) -> None:
         """
         Saves the log of given type, description and current time.
         """

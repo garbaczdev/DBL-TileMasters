@@ -43,14 +43,14 @@ class Robot(LogComponent):
             # Create a testing arm
             self.arm = TestingArm(logs=self.logs)
             # Create a normal tile manager.
-            self.tile_manager = TileManager(self.arm, self.instruction_manager, logs=self.logs)
+            self.tile_manager = TileManager(self.arm, self.get_mode, self.instruction_manager, logs=self.logs)
             # Create a testing tile scanner.
             self.tile_scanner = TestingTileScanner(test_tile_events, self.tile_manager, logs=self.logs)
         else:
             # Create a normal arm
             self.arm = Arm(config.ARM_GPIO_PIN, logs=self.logs)
             # Create a normal tile manager.
-            self.tile_manager = TileManager(self.arm, self.instruction_manager, logs=self.logs)
+            self.tile_manager = TileManager(self.arm, self.get_mode, self.instruction_manager, logs=self.logs)
             # Create a normal tile scanner.
             self.tile_scanner = TileScanner(self.tile_manager, logs=self.logs)
 
@@ -65,8 +65,17 @@ class Robot(LogComponent):
     def COMPONENT_NAME(self) -> str:
         return "Robot"
 
-    def change_mode(self, mode: str) -> None:
-        self.mode = mode
+    def get_mode(self) -> str:
+        return self.mode
+
+    def change_to_manual_mode(self) -> str:
+        self.add_log("switched-to-manual-mode", "Switched to manual mode")
+        self.mode = config.MANUAL_MODE
+
+    def change_to_instruction_mode(self) -> str:
+        self.add_log("switched-to-instruction-mode", "Switched to instruction mode")
+        self.mode = config.INSTRUCTION_MODE
+
 
     def update_instructions(self, instructions: list[Instruction]) -> None:
         self.new_instructions = instructions
@@ -76,7 +85,7 @@ class Robot(LogComponent):
         """
         Runs the main loop of the robot.
         """
-        self._log_action("Starting to run")
+        self.add_log("turned-on", "Starting to run")
         self.should_stop = False
 
         while not self.should_stop:
@@ -89,7 +98,7 @@ class Robot(LogComponent):
         """
         Runs the robot until certain given datetime passes.
         """
-        self._log_action(f"Starting to run until: {time}")
+        self.add_log("turned-on", f"Starting to run until: {time}")
         self.should_stop = False
         
         while not self.should_stop and datetime.now() < time:
@@ -110,7 +119,7 @@ class Robot(LogComponent):
         If this method is called, it will stop the robot as soon as it ends its loop actions.
         """
         if log:
-            self._log_action("Stop called")
+            self.add_log("stop", "Stop called")
         self.should_stop = True
 
     def _update_testing_variables(self, test_tile_events: Union[None, list[TileEvent]]) -> None:
@@ -120,16 +129,15 @@ class Robot(LogComponent):
             config.ARTIFICIAL_ENVIRONMENT_TESTING = True
 
     def _run_actions(self) -> None:
-        if self.mode == config.INSTRUCTION_MODE:
-            self._update_instructions()
-            self.tile_scanner.scan()
-            self.tile_manager.execute_ready_tile_event()
+        self._update_instructions()
+        self.tile_scanner.scan()
+        self.tile_manager.execute_ready_tile_event()
     
     def _update_instructions(self) -> None:
         if self.new_instructions_set:
             
             self.instruction_manager.update_instructions(self.new_instructions)
-            self._log_action(f"Instructions updated to {[repr(instruction) for instruction in self.new_instructions]}")
+            self.add_log("new-instructions", f"Instructions updated to {[repr(instruction) for instruction in self.new_instructions]}")
 
             self.new_instructions_set = False
             self.new_instructions = list()

@@ -3,7 +3,7 @@ import React from 'react';
 import {Link} from "react-router-dom";
 
 import {ThemeChanger} from './ThemeChanger'
-import {icons, getThemedIcon} from './icons'
+import {icons} from './icons'
 
 import './styles/Nav.css';
 
