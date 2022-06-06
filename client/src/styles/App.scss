@@ -21,7 +21,7 @@
 }
 
 .std-shadow{
-    box-shadow: 2px 2px 20px 0px var(--main-color), -2px -2px 20px 0px var(--main-color);
+    box-shadow: 0px 0px 25px -6px  var(--main-color);
 }
 
 .std-card{
@@ -31,14 +31,31 @@
 }
 
 .std-btn{
-    @extend .std-shadow;
+    
+    position: relative;
+
+    width: 100px;
     padding: 20px;
+
+    border: 1px solid var(--outline-color);
+    color: var(--outline-color);
 
     border-radius: 15px;
 
-    width: 100px;
+    transition: 0.2s;
+
+    box-shadow: 0px 0px 20px -6px  var(--outline-color);
 
     a{
         text-decoration: none;
     }
+}
+
+.std-btn:hover{
+    color: var(--background-color);
+    background-color: var(--outline-color);
+}
+
+.std-btn:active{
+    box-shadow: 2px 2px 10px 0px var(--outline-color), -2px -2px 10px 0px var(--outline-color);
 }
