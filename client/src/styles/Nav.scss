@@ -13,6 +13,7 @@
     text-align: center;
 
     vertical-align: middle;
+    z-index: 2;
 
     a{
         text-decoration: none;
@@ -124,4 +125,5 @@
 }
 
 @media (max-width: #{$phone-breakpoint}), (max-device-width: #{$phone-breakpoint}){
+
 }

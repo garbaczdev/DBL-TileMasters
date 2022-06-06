@@ -1,0 +1,93 @@
+.app {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  background-color: var(--background-color);
+  color: var(--support-color);
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  padding-top: 80px;
+}
+
+.std-shadow, .std-card, .std-btn {
+  -webkit-box-shadow: 2px 2px 20px 0px var(--main-color), -2px -2px 20px 0px var(--main-color);
+          box-shadow: 2px 2px 20px 0px var(--main-color), -2px -2px 20px 0px var(--main-color);
+}
+
+.std-card {
+  border-radius: 20px;
+}
+
+.std-btn {
+  padding: 20px;
+  border-radius: 15px;
+  width: 100px;
+}
+
+.std-btn a {
+  text-decoration: none;
+}
+
+.home-page {
+  width: 100vw;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.home-page .std-card {
+  position: relative;
+  height: 450px;
+  min-width: 260px;
+  width: 20%;
+  padding: 20px;
+  margin: 20px;
+  text-align: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.home-page .std-card p {
+  font-size: 20px;
+}
+
+.home-page .std-card .illustration {
+  width: 220px;
+  height: 200px;
+}
+
+.home-page .std-card .std-btn {
+  position: absolute;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  bottom: 0;
+  left: 50%;
+}
+
+@media (max-width: 1100px), (max-device-width: 1100px) {
+  .home-page {
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+  }
+}
+/*# sourceMappingURL=HomePage.css.map */

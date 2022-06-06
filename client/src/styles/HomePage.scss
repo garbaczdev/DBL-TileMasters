@@ -1,0 +1,55 @@
+@import './App.scss';
+@import './variables.scss';
+
+
+.home-page{
+
+    width: 100vw;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    // min-height: 80vh;
+
+    .std-card{
+
+        position: relative;
+
+        height: 450px;
+    
+        min-width: 260px;
+        width: 20%;
+    
+        padding: 20px;
+        margin: 20px;
+
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        align-items: center;
+
+        p{
+            font-size: 20px;
+        }
+
+        .illustration{
+            width: 220px;
+            height: 200px;
+        }
+
+        .std-btn{
+            position: absolute;
+            transform: translate(-50%, -50%);
+            bottom: 0;
+            left: 50%;
+        }
+
+    }
+}
+
+@media (max-width: #{$tablet-breakpoint}), (max-device-width: #{$tablet-breakpoint}){
+    .home-page{
+        flex-wrap: wrap;
+    }
+}

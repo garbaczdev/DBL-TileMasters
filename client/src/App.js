@@ -1,3 +1,5 @@
+import React from 'react';
+
 import {Route, Routes, useLocation} from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 
@@ -40,18 +42,20 @@ const subpages = [
 
 function App() {
 
+  const [darkTheme, setDarkTheme] = React.useState(true);
+
   const location = useLocation();
 
   return (
       <div className="app">
-        <Nav/>
+        <Nav darkTheme={darkTheme} setDarkTheme={setDarkTheme}/>
 
         <section className="app-body">
           <AnimatePresence exitBeforeEnter initial={false}>
             <Routes location={location} key={location.key}>
               {
                 subpages.map(page => 
-                  <Route path={page.path} key={page.path} element={<FadedDiv>{<page.component/>}</FadedDiv>}/>
+                  <Route path={page.path} key={page.path} element={<FadedDiv>{<page.component darkTheme={darkTheme}/>}</FadedDiv>}/>
                   )
               }
             </Routes>

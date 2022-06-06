@@ -32,24 +32,22 @@ const subpages = [
 ]
 
 
-function Nav() {
+function Nav(props) {
 
-    const [hidden, setHidden] = React.useState(false);
+    const [hidden, setHidden] = React.useState(true);
 
     function changeMenuShowing(){
         setHidden(!hidden);
     }
 
-    const MediumLogo = icons.mediumLogoWhite
-
     return (
         <nav className="nav">
             <Link to="/">
-                <MediumLogo className="nav-logo"/>
+                {<icons.MediumLogoWhite className="nav-logo"/>}
             </Link>
             <div className={`nav-ul-div ${hidden ? "hidden":""}`}>
                 <ul className="nav-ul">
-                    <li><ThemeChanger/></li>
+                    <li><ThemeChanger darkTheme={props.darkTheme} setDarkTheme={props.setDarkTheme}/></li>
                     {
                         subpages.map((subpage) => {
                             return <li key={subpage.url} onClick={() => setHidden(true)}>
@@ -61,7 +59,7 @@ function Nav() {
             </div>
             <div className="nav-menu-icon" onClick={changeMenuShowing}>
                 {
-                    hidden ? <icons.hideMenu size={40}/> : <icons.showMenu size={40}/>
+                    hidden ? <icons.HideMenu size={40}/> : <icons.ShowMenu size={40}/>
                 }
             </div>
         </nav>

@@ -1,6 +1,9 @@
 
 
 .app{
+
+    display: flex;
+
     background-color: var(--background-color);
     color: var(--support-color);
 
@@ -13,12 +16,18 @@
     padding-top: 80px;
 }
 
+.subpage{
+    min-height: 80vh;
+}
+
 .std-shadow{
     box-shadow: 2px 2px 20px 0px var(--main-color), -2px -2px 20px 0px var(--main-color);
 }
 
 .std-card{
     @extend .std-shadow;
+
+    border-radius: 20px;
 }
 
 .std-btn{
@@ -26,6 +35,8 @@
     padding: 20px;
 
     border-radius: 15px;
+
+    width: 100px;
 
     a{
         text-decoration: none;
