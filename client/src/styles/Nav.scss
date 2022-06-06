@@ -1,3 +1,5 @@
+@import './variables.scss';
+
 .nav{
     background-color: #663399;
 
@@ -11,9 +13,12 @@
 
     vertical-align: middle;
 
+    .nav-menu-icon{
+        display: none;
+    }
+
 
     .nav-logo{
-        float: left;
         position: absolute;
         left: 10px;
         top: 50%;
@@ -47,4 +52,38 @@
 
         }
     }
+}
+
+@media (max-width: $tablet-breakpoint), (max-device-width: $tablet-breakpoint){
+    .nav{
+        height: $nav-height;
+        background-color: rebeccapurple;
+
+        .nav-menu-icon{
+            display: flex;
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .nav-ul-div{
+            background:red;
+            position:fixed;
+            top:$nav-height;
+            right:0px;
+            bottom:0px;
+            left:0px;
+    
+            transition: 0.5s;
+    
+            &.hidden{
+                transform: translateX(100%);
+            }
+    
+        }
+    }
+}
+
+@media (max-width: $phone-breakpoint), (max-device-width: $phone-breakpoint){
 }

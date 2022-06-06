@@ -8,8 +8,11 @@
   vertical-align: middle;
 }
 
+.nav .nav-menu-icon {
+  display: none;
+}
+
 .nav .nav-logo {
-  float: left;
   position: absolute;
   left: 10px;
   top: 50%;
@@ -41,5 +44,36 @@
   text-decoration: none;
   color: #fff;
   display: block;
+}
+
+@media (max-width: 1100px), (max-device-width: 1100px) {
+  .nav {
+    height: 50px;
+    background-color: rebeccapurple;
+  }
+  .nav .nav-menu-icon {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+  }
+  .nav .nav-ul-div {
+    background: red;
+    position: fixed;
+    top: 50px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+  }
+  .nav .nav-ul-div.hidden {
+    -webkit-transform: translateX(100%);
+            transform: translateX(100%);
+  }
 }
 /*# sourceMappingURL=Nav.css.map */
