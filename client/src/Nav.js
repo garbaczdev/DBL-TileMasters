@@ -10,6 +10,10 @@ import './styles/Nav.css';
 
 const subpages = [
     {
+        url: '/',
+        title: "Home"
+    },
+    {
         url: '/program-instructions',
         title: "Program Instructions"
     },
@@ -20,6 +24,10 @@ const subpages = [
     {
         url: '/manual-mode',
         title: "Manual Mode"
+    },
+    {
+        url: '/logs',
+        title: "Logs"
     },
 ]
 
@@ -49,7 +57,6 @@ function Nav() {
                             </li>
                         })
                     }
-                    <li>Logs</li>
                 </ul>
             </div>
             <div className="nav-menu-icon" onClick={changeMenuShowing}>

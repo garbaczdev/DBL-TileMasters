@@ -12,3 +12,22 @@
 
     padding-top: 80px;
 }
+
+.std-shadow{
+    box-shadow: 2px 2px 20px 0px var(--main-color), -2px -2px 20px 0px var(--main-color);
+}
+
+.std-card{
+    @extend .std-shadow;
+}
+
+.std-btn{
+    @extend .std-shadow;
+    padding: 20px;
+
+    border-radius: 15px;
+
+    a{
+        text-decoration: none;
+    }
+}
