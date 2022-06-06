@@ -48,7 +48,7 @@ function Nav() {
             </div>
             <div className="nav-menu-icon" onClick={changeMenuShowing}>
                 {
-                    hidden ? <AiOutlineMenuUnfold size={40}/> : <AiOutlineMenuFold size={40}/>
+                    hidden ? <AiOutlineMenuFold size={40}/> : <AiOutlineMenuUnfold size={40}/>
                 }
             </div>
             {/* {
