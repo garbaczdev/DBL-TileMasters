@@ -1,0 +1,1 @@
+cd client & npm run build & cd .. & Xcopy "./client/build" "./raspberry/src/build" /E /H /C /I /Y

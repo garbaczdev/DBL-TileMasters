@@ -1,0 +1,1 @@
+cd raspberry & run_testing.py & cd ..
