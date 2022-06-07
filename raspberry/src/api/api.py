@@ -1,6 +1,7 @@
 import os
 
-from flask import Flask, jsonify, request, make_response, send_from_directory, redirect
+from flask import Flask, jsonify, request, make_response, send_from_directory
+from werkzeug.exceptions import BadRequest, MethodNotAllowed, TooManyRequests
 
 from ..robot import Robot
 from ..robot import InstructionJSONParser
@@ -34,15 +35,15 @@ class API:
 
         @self.app.route('/api/logs', methods=["GET"])
         def get_logs_json():
-            return make_response(jsonify({
+            return jsonify({
                 "logs": self.logs.to_jsonify_format()
-            }))
+            })
 
         @self.app.route('/api/mode', methods=["GET"])
         def get_mode_json():
-            return make_response(jsonify({
+            return jsonify({
                 "mode": self.robot.get_mode()
-            }))
+            })
 
         @self.app.route('/api/mode/<string:mode>', methods=["POST"])
         def update_mode(mode: str):
@@ -51,47 +52,44 @@ class API:
 
                 self.robot.change_to_instruction_mode()
 
-                return make_response(jsonify({
+                return jsonify({
                     "ok": True,
                     "mode": self.robot.get_mode()
-                }))
+                })
 
             elif mode == "manual":
 
                 self.robot.change_to_manual_mode()
 
-                return make_response(jsonify({
+                return jsonify({
                     "ok": True,
                     "mode": self.robot.get_mode()
-                }))
+                })
 
-            else:
-                return make_response(
-                    make_response(jsonify({
-                        "ok": False,
-                        "error": f"{mode} is an unknown mode.",
-                        "mode": self.robot.get_mode()
-                    }),
-                    400
-                ))
+            raise BadRequest(f"{mode} is an unknown mode.")
 
         @self.app.route("/api/info-pagination/<int:last_log_id>", methods=["GET"])
         def get_paginated_info(last_log_id: int):
-            return make_response(jsonify({
+            return jsonify({
                 "logs": self.logs.to_jsonify_format(last_log_id),
                 "mode": self.robot.get_mode()
-            }))
+            })
 
         
         @self.app.route('/api/push', methods=["POST"])
         def push():
+            if self.robot.is_in_manual_mode():
 
-            # CHANGE THIS
-            self.arm.push()
+                if self.arm.is_pushing():
+                    return TooManyRequests("Arm is being pushed already.")
+                    
+                self.arm.push()
 
-            return make_response(jsonify({
-                "ok": True
-            }))
+                return jsonify({
+                    "ok": True
+                })
+            
+            raise MethodNotAllowed("Robot is not in the manual mode.")
 
         @self.app.route('/api/instructions', methods=["PUT"])
         def update_instructions():
@@ -99,15 +97,9 @@ class API:
                 instructions = request.json["instructions"]
                 self.robot.update_instructions(InstructionJSONParser.parse_instructions(instructions))
             except Exception as e:
-                return make_response(
-                    make_response(jsonify({
-                        "ok": False,
-                        "error": str(e) if self.debug else "Incorrect instructions format.",
-                    }),
-                    400
-                ))
+                raise BadRequest(str(e) if self.debug else "Incorrect instruction format.")
             
-            return make_response(jsonify({
+            return jsonify({
                 "ok": True
-            }))
+            })
 

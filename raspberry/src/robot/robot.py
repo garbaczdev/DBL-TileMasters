@@ -65,6 +65,9 @@ class Robot(LogComponent):
     def COMPONENT_NAME(self) -> str:
         return "Robot"
 
+    def is_in_manual_mode(self) -> bool:
+        return self.mode == config.MANUAL_MODE
+
     def get_mode(self) -> str:
         return self.mode
 
