@@ -1,13 +1,12 @@
-# SPDX-FileCopyrightText: 2020 Bryan Siepert, written for Adafruit Industries
-
-# SPDX-License-Identifier: Unlicense
+import smbus
 import time
-import board
-import adafruit_bh1750
 
-i2c = board.I2C()
-sensor = adafruit_bh1750.BH1750(i2c)
+bus = smbus.SMBus(1)
+address = 0x29
+
 
 while True:
-    print("%.2f Lux" % sensor.lux)
+    for i in range(100):
+        bear = bus.read_byte_data(address, 1)
+        print(f"[Register {i}]:", bin(bear))
     time.sleep(1)

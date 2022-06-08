@@ -43,7 +43,7 @@ function Nav(props) {
     return (
         <nav className="nav">
             <Link to="/">
-                {<icons.MediumLogoWhite className="nav-logo"/>}
+                {<icons.MediumLogoWhite className="nav-logo" onClick={() => setHidden(true)}/>}
             </Link>
             <div className={`nav-ul-div ${hidden ? "hidden":""}`}>
                 <ul className="nav-ul">

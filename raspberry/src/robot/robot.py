@@ -48,7 +48,8 @@ class Robot(LogComponent):
             self.tile_scanner = TestingTileScanner(test_tile_events, self.tile_manager, logs=self.logs)
         else:
             # Create a normal arm
-            self.arm = Arm(config.ARM_GPIO_PIN, logs=self.logs)
+            # self.arm = TestingArm(config.ARM_GPIO_PIN, logs=self.logs)
+            self.arm = TestingArm(logs=self.logs)
             # Create a normal tile manager.
             self.tile_manager = TileManager(self.arm, self.get_mode, self.instruction_manager, logs=self.logs)
             # Create a normal tile scanner.
@@ -64,6 +65,9 @@ class Robot(LogComponent):
     @property
     def COMPONENT_NAME(self) -> str:
         return "Robot"
+
+    def is_in_manual_mode(self) -> bool:
+        return self.mode == config.MANUAL_MODE
 
     def get_mode(self) -> str:
         return self.mode

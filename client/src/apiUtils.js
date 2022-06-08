@@ -5,12 +5,17 @@ const sleep = (milliseconds) => {
 
 export async function fetchPaginatedData(){
     // THIS SHOULD BE CHANGED ON DEPLOYMENT.
-    const response = await fetch('http://localhost:5000/api/logs',{
-        method: "GET",
-        mode: "no-cors"
+    const response = await fetch('./api/logs',{
+        method: "GET"
     })
-    // const responseJson = await response.json();
-    return response
+
+    try{
+        const responseJson = await response.json();
+        return responseJson;
+    }
+    catch(e){
+        return response;
+    }
 }
 
 export function PaginatedDataFetcher(){

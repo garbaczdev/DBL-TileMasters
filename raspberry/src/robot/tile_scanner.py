@@ -17,12 +17,23 @@ class TileScanner(LogComponent):
     saying that "the tile of color x will be at your place at time x".
     """
 
-    def __init__(self, tile_manager: TileManager, logs: Logs = Logs()) -> None:
+    def __init__(self, tile_manager: TileManager, logs: Logs = Logs(), use_pins: bool = True) -> None:
         super().__init__(logs)
 
         self.tile_manager = tile_manager
         # This is used for timing out the scanner.
         self.timeout_end_event = TimeoutEvent()
+
+        if use_pins:
+
+            from .sensor_driver import TCS3472
+            import board
+
+            i2c = board.I2C()  # uses board.SCL and board.SDA
+            self.sensor = TCS3472(i2c)
+
+        else:
+            self.sensor = None
 
     @property
     def COMPONENT_NAME(self) -> str:
@@ -54,6 +65,19 @@ class TileScanner(LogComponent):
         """
         This should return the tile that is currently detected by the scanner.
         """
+
+        if self.sensor is None:
+            return config.NO_TILE
+        
+        color = self.sensor.color
+        color_rgb = self.sensor.color_rgb_bytes
+
+        # Read the color temperature and lux of the sensor too.
+        temp = self.sensor.color_temperature
+        lux = self.sensor.lux
+
+        print("COLOR:", color_rgb)
+        print("LUX:", lux)
 
         # This is only temporary and should be replaced by the code that gets
         # the currently scanned tile.
@@ -113,7 +137,7 @@ class TestingTileScanner(TileScanner):
         """
         The constructor takes the tile_events, which is the list of TileEvents, indicating when the tile will appear at the scanner.
         """
-        super().__init__(tile_manager, logs)
+        super().__init__(tile_manager, logs, use_pins=False)
         self.tile_events = tile_events
         # If finishing the tile_events has been logged.
         self.tile_events_logged_finish = False
