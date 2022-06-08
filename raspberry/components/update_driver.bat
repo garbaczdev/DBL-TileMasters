@@ -1,0 +1,1 @@
+scp -P 22 -r ./Adafruit_CircuitPython_TCS34725/adafruit_tcs34725.py pi@192.168.0.137:~/.local/lib/python3.10/site-packages
