@@ -13,6 +13,7 @@ export function AnimatedDiv({
             initial = {initial}
             animate = {animate}
             exit = {exit}
+            className="faded-div"
         >
             {children}
         </motion.div>

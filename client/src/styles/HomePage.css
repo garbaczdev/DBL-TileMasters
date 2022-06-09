@@ -113,6 +113,7 @@
   .home-page {
     -ms-flex-wrap: wrap;
         flex-wrap: wrap;
+    width: auto;
   }
 }
 /*# sourceMappingURL=HomePage.css.map */

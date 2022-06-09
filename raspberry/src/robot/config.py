@@ -5,7 +5,7 @@ class Config:
     """
 
     INSTRUCTION_MODE = "instruction"
-    MANUAL_MODE = "push"
+    MANUAL_MODE = "manual"
 
     # Variable indicating whether the robot is in artificial environment testing mode.
     # In this mode, the robot will not perform real word actions.
@@ -22,11 +22,11 @@ class Config:
     LOG_COMPONENT_NAME_SPACE = 25
     
     # Arm config
-    ARM_GPIO_PIN = 11
+    ARM_GPIO_PIN = 17
     ARM_PUSH_TIMEOUT = 0.5
 
     # Timeout for each main loop execution in seconds
-    MAIN_LOOP_TIMEOUT = 0.1
+    MAIN_LOOP_TIMEOUT = 0.05
 
     # Intigers that indicate the tile colors.
     BLACK_TILE = 0

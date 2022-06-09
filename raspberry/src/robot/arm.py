@@ -20,7 +20,7 @@ class Arm(LogComponent):
             import RPi.GPIO as GPIO
 
             # Set GPIO numbering mode
-            GPIO.setmode(GPIO.BOARD)
+            GPIO.setmode(GPIO.BCM)
             GPIO.setup(self.gpio_pin, GPIO.OUT)
             GPIO.setwarnings(False)
 
@@ -96,7 +96,7 @@ class TestingArm(Arm):
     def COMPONENT_NAME(self) -> str:
         return "TestingArm"
 
-    def push(self, tile: int) -> None:
+    def push(self, tile: int = None) -> None:
         super().push(tile)
         self._has_pushed = True
 

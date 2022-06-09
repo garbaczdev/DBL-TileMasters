@@ -55,5 +55,6 @@
 @media (max-width: #{$tablet-breakpoint}), (max-device-width: #{$tablet-breakpoint}){
     .home-page{
         flex-wrap: wrap;
+        width: auto;
     }
 }

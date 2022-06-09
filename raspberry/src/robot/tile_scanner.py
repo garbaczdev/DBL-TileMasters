@@ -8,6 +8,53 @@ from .logs import LogComponent, Logs
 from .config import Config as config
 from .utils import Utils as utils
 
+
+
+class TileColorDecider:
+    PERFECT_COLORS = {
+        config.NO_TILE: {
+            "lux": 90,
+            "rgb": (8, 8, 8)
+        },
+
+        config.WHITE_TILE: {
+            "lux": 270,
+            "rgb": (16, 16, 16)
+        },
+
+        config.BLACK_TILE: {
+            "lux": 90,
+            "rgb": (16, 16, 16)
+        }
+    }
+
+    RGB_CHANNEL_THRESHOLD = 2
+    LUX_THRESHOLD = 20
+
+    @classmethod
+    def get_color(cls, rgb: tuple, lux: float) -> None:
+
+        diffs = []
+
+        for tile_color, properties in cls.PERFECT_COLORS.items():
+
+            perfect_rgb = properties["rgb"]
+            perfect_lux = properties["lux"]
+
+            rgb_diff = [abs(channel - perfect_channel) for channel, perfect_channel in zip(rgb, perfect_rgb)]
+            lux_diff = abs(lux - perfect_lux)
+
+            if cls.in_range(lux_diff, cls.LUX_THRESHOLD) and \
+                all(cls.in_range(channel_diff, cls.RGB_CHANNEL_THRESHOLD) for channel_diff in rgb_diff):
+                
+                pass
+
+    @staticmethod
+    def in_range(num1: int, num2: int, range: int) -> bool:
+        return abs(num1 - num2) <= range
+
+
+
 class TileScanner(LogComponent):
 
     """
@@ -76,8 +123,11 @@ class TileScanner(LogComponent):
         temp = self.sensor.color_temperature
         lux = self.sensor.lux
 
-        print("COLOR:", color_rgb)
+        print("COLOR RGB:", color_rgb)
         print("LUX:", lux)
+        print("TEMP:", temp)
+        print("COLOR RAW:", color)
+        print()
 
         # This is only temporary and should be replaced by the code that gets
         # the currently scanned tile.

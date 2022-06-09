@@ -6,6 +6,7 @@ import { AnimatePresence } from "framer-motion";
 import {FadedDiv} from "./AnimatedRoute";
 
 import Nav from "./Nav";
+import ModePrompt from "./ModePrompt";
 
 import HomePage from "./HomePage";
 import ProgramInstructionsPage from "./ProgramInstructionsPage";
@@ -43,9 +44,6 @@ const subpages = [
 function App({dataFetcher}) {
 
   const [darkTheme, setDarkTheme] = React.useState(true);
-  const [localRobotMode, setLocalRobotMode] = React.useState("instruction");
-  
-  dataFetcher.add_mode_listener(setLocalRobotMode);
 
   const location = useLocation();
 
@@ -53,23 +51,22 @@ function App({dataFetcher}) {
       <div className="app">
         <Nav darkTheme={darkTheme} setDarkTheme={setDarkTheme}/>
 
-        <section className="app-body">
-          <AnimatePresence exitBeforeEnter initial={false}>
-            <Routes location={location} key={location.key}>
-              {
-                subpages.map(page => 
-                  <Route path={page.path} key={page.path} element={
-                    <FadedDiv>
-                      {<page.component darkTheme={darkTheme} localRobotMode={localRobotMode} setLocalRobotMode={setLocalRobotMode}/>}
-                    </FadedDiv>
-                    }
-                  />
-                  )
-              }
-            </Routes>
-          </AnimatePresence>
-        </section>
+        <AnimatePresence exitBeforeEnter initial={false}>
+          <Routes location={location} key={location.key}>
+            {
+              subpages.map(page => 
+                <Route path={page.path} key={page.path} element={
+                  <FadedDiv>
+                    {<page.component darkTheme={darkTheme} dataFetcher={dataFetcher}/>}
+                  </FadedDiv>
+                  }
+                />
+                )
+            }
+          </Routes>
+        </AnimatePresence>
 
+        <ModePrompt dataFetcher={dataFetcher}/>
       </div>
   );
 }

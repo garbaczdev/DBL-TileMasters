@@ -10,6 +10,7 @@ import {PaginatedDataFetcher} from "./apiUtils";
 import "./styles/index.css"
 
 const dataFetcher = new PaginatedDataFetcher();
+dataFetcher.runLoop();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
