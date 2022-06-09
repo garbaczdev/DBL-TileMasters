@@ -34,12 +34,36 @@ async function fetchPaginatedData(lastLogId = 0){
 
 async function PaginatedDataFetcherLoop(fetcher){
 
+    const missedRequestsThreshold = 5;
+
+    let missedRequests = 0;
+    let lostConnection = false;
+
     while(true){
 
-        const response = await fetchPaginatedData(fetcher.lastLogId);
+        try{
+            const response = await fetchPaginatedData(fetcher.lastLogId);
+            fetcher.updateCallback(response);
+            
+            missedRequests = 0;
+            if (lostConnection){
+                console.log("Connection Retrieved!");
+                lostConnection = false;
+            }
 
-        fetcher.updateCallback(response);
+        }
+        catch (e){
+            if (missedRequests === missedRequestsThreshold){
+                
+                console.log("No response from the server");
 
+                lostConnection = true;
+                missedRequests = 0;
+            }
+            else{
+                missedRequests++;
+            }
+        }
         await sleep(fetcher.loopTimeout);
     }
 
