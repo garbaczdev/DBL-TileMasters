@@ -72,10 +72,11 @@ async function PaginatedDataFetcherLoop(fetcher){
 export async function changeMode(mode, dataFetcher=null){
 
     if (dataFetcher !== null) {
+        // Pre-Request change mode
         dataFetcher.updateCallback({
             logs: [],
             mode: mode
-        })
+        }, true);
     }
 
     if (testing){
@@ -121,7 +122,8 @@ export class PaginatedDataFetcher{
         this.modeListeners = [];
 
         this.loopRunning = false;
-        
+        this.callbackTimeout = false;
+
         this.loopTimeout = 500;
         this.maxLogsLength = 100;
     }
@@ -143,7 +145,16 @@ export class PaginatedDataFetcher{
         }
     }
 
-    updateCallback(response){
+    updateCallback(response, setCallbackTimeout=false){
+
+        if (this.callbackTimeout) {
+            // Blocked in case of local mode change!
+            return;
+        };
+        if (setCallbackTimeout){
+            this.callbackTimeout = true;
+            setTimeout(() => this.callbackTimeout = false, this.loopTimeout);
+        }
 
         const logs = response.logs;
         const mode = response.mode;
@@ -164,5 +175,6 @@ export class PaginatedDataFetcher{
             this.mode = mode;
             for (const modeListener of this.modeListeners) modeListener(this.mode);
         }
+
     }
 }
