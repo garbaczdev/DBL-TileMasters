@@ -1,0 +1,38 @@
+.theme-changer-blinder {
+  background: var(--background-color);
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  z-index: 6;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+
+.theme-changer-blinder.hidden {
+  top: -100%;
+}
+
+.theme-changer-blinder .change-theme-icon {
+  width: 200px;
+  height: 200px;
+}
+
+.theme-changer-blinder .title {
+  color: var(--outline-color);
+}
+/*# sourceMappingURL=ThemeChangerBlinder.css.map */

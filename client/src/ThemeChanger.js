@@ -2,6 +2,9 @@ import React from 'react';
 
 
 import { themeIcons } from './icons';
+import {sleep} from './apiUtils'
+
+import './styles/ThemeChangerBlinder.css';
 
 
 const themes = {
@@ -19,29 +22,60 @@ const themes = {
     }
 }
 
+let blinderSwitching = false;
+const root = document.querySelector(':root');
 
-export function ThemeChanger(props) {
+async function changeTheme(darkTheme, setBlinderHidden, setDarkTheme){
 
-    const root = document.querySelector(':root');
+    if (blinderSwitching) return;
+    blinderSwitching = true;
 
-    function changeTheme(){
-        const theme = props.darkTheme ? themes.light : themes.dark;
+    setBlinderHidden(false);
+    await sleep(500);
 
-        root.style.setProperty('--main-color', theme.main);
-        root.style.setProperty('--support-color', theme.support);
-        root.style.setProperty('--outline-color', theme.outline);
-        root.style.setProperty('--background-color', theme.background);
+    // Change theme
+    const theme = darkTheme ? themes.light : themes.dark;
 
-        props.setDarkTheme(!props.darkTheme);
-        // setIsDarkTheme(!isDarkTheme);
+    root.style.setProperty('--main-color', theme.main);
+    root.style.setProperty('--support-color', theme.support);
+    root.style.setProperty('--outline-color', theme.outline);
+    root.style.setProperty('--background-color', theme.background);
 
-        // ANIMATION TO BE DONE HERE!
-    }
+    setDarkTheme(!darkTheme);
+    await sleep(500);
+
+    setBlinderHidden(true);
+    blinderSwitching = false;
+    // setIsDarkTheme(!isDarkTheme);
+
+    // ANIMATION TO BE DONE HERE!
+}
+
+
+export function ThemeChanger({darkTheme, setDarkTheme}) {
+
+    const [blinderHidden, setBlinderHidden] = React.useState(true);
 
     return (
-        <span className="change-theme-span" onClick={changeTheme}>
+    <>
+        <div className={`theme-changer-blinder ${blinderHidden ? "hidden": ""}`}>
+
             {
-                props.darkTheme ?
+                darkTheme ?
+                <>
+                    <themeIcons.SmallLogo.dark className="change-theme-icon"/>
+                </>
+                :
+                <>
+                    <themeIcons.SmallLogo.light className="change-theme-icon"/>
+                </>
+            }
+            <h1 className="title">Changing Theme...</h1>
+            
+        </div>
+        <span className="change-theme-span" onClick={() => changeTheme(darkTheme, setBlinderHidden, setDarkTheme)}>
+            {
+                darkTheme ?
                 <>
                     <themeIcons.SmallLogo.light className="change-theme-icon"/><span>Light Theme</span>
                 </>
@@ -51,5 +85,6 @@ export function ThemeChanger(props) {
                 </>
             }
         </span>
+    </>
     );
   }
