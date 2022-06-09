@@ -69,7 +69,14 @@ async function PaginatedDataFetcherLoop(fetcher){
 
 }
 
-export async function changeMode(mode){
+export async function changeMode(mode, dataFetcher=null){
+
+    if (dataFetcher !== null) {
+        dataFetcher.updateCallback({
+            logs: [],
+            mode: mode
+        })
+    }
 
     if (testing){
         console.log("Changed to mode: " + mode)
@@ -77,6 +84,23 @@ export async function changeMode(mode){
     }
 
     const response = await fetch(`/api/mode/${mode}`,{
+        method: "POST"
+    });
+
+    const responseJson = await response.json();
+
+    return responseJson;
+}
+
+
+export async function pushArm(){
+
+    if (testing){
+        console.log("Pushed the arm")
+        return;
+    }
+
+    const response = await fetch(`/api/push`,{
         method: "POST"
     });
 

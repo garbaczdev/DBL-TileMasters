@@ -19,7 +19,7 @@ function ModePrompt({dataFetcher}) {
     return (
         <div className={`mode-prompt ${mode === "manual" ? "" : "hidden"}`}>
             <h4>The robot is in the manual mode</h4>
-            <button className="std-btn" onClick={() => changeMode("instruction")}>Switch to Instructions Mode</button>
+            <button className="std-btn" onClick={() => changeMode("instruction", dataFetcher)}>Switch to Instructions Mode</button>
         </div>
     );
   }

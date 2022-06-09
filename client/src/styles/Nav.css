@@ -32,9 +32,14 @@
 }
 
 .nav ul li {
+  cursor: pointer;
   float: left;
   width: auto;
   padding: 10px;
+}
+
+.nav ul li:hover {
+  font-weight: bold;
 }
 
 .nav .nav-menu-icon {
