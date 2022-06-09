@@ -43,6 +43,7 @@
 }
 
 .std-btn:hover {
+  cursor: pointer;
   color: var(--background-color);
   background-color: var(--outline-color);
 }

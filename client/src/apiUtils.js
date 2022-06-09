@@ -1,6 +1,9 @@
 
+// const NotificationContainer = window.ReactNotifications.NotificationContainer;
+// const NotificationManager = window.ReactNotifications.NotificationManager;
+import {NotificationManager} from 'react-notifications';
 
-const testing = false;
+const localDevelopment = false;
 
 
 const sleep = (milliseconds) => {
@@ -10,17 +13,6 @@ const sleep = (milliseconds) => {
 async function fetchPaginatedData(lastLogId = 0){
     // THIS SHOULD BE CHANGED ON DEPLOYMENT.
 
-    if (testing){
-        console.log("Asked for pagination");
-        return {
-            logs: [
-                {additionalData: {}, componentName: 'Robot', description: 'Starting to run', id: 1, type: 'turned-on'}, 
-                {additionalData: {}, componentName: 'TestingTileScanner', description: 'Tile events have been finished', id: 2, type: 'testing-events-finished'}    
-            ],
-            mode: "manual"
-        }
-    
-    }
 
     const response = await fetch(`/api/info-pagination/${lastLogId}`,{
         method: "GET"
@@ -34,7 +26,7 @@ async function fetchPaginatedData(lastLogId = 0){
 
 async function PaginatedDataFetcherLoop(fetcher){
 
-    const missedRequestsThreshold = 5;
+    const missedRequestsThreshold = 10;
 
     let missedRequests = 0;
     let lostConnection = false;
@@ -47,7 +39,8 @@ async function PaginatedDataFetcherLoop(fetcher){
             
             missedRequests = 0;
             if (lostConnection){
-                console.log("Connection Retrieved!");
+                // console.log("Connection Retrieved!");
+                if (!localDevelopment) NotificationManager.success("", "Connection Regained");
                 lostConnection = false;
             }
 
@@ -55,7 +48,8 @@ async function PaginatedDataFetcherLoop(fetcher){
         catch (e){
             if (missedRequests === missedRequestsThreshold){
                 
-                console.log("No response from the server");
+                // console.log("No response from the server");
+                if (!localDevelopment) NotificationManager.warning("", "No response from the server");
 
                 lostConnection = true;
                 missedRequests = 0;
@@ -78,12 +72,6 @@ export async function changeMode(mode, dataFetcher=null){
             mode: mode
         }, true);
     }
-
-    if (testing){
-        console.log("Changed to mode: " + mode)
-        return;
-    }
-
     const response = await fetch(`/api/mode/${mode}`,{
         method: "POST"
     });
@@ -95,11 +83,6 @@ export async function changeMode(mode, dataFetcher=null){
 
 
 export async function pushArm(){
-
-    if (testing){
-        console.log("Pushed the arm")
-        return;
-    }
 
     const response = await fetch(`/api/push`,{
         method: "POST"

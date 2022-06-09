@@ -2,6 +2,7 @@ import React from 'react';
 
 import {Route, Routes, useLocation} from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
+import {NotificationContainer} from 'react-notifications';
 
 import {FadedDiv} from "./AnimatedRoute";
 
@@ -15,6 +16,7 @@ import ManualModePage from "./ManualModePage";
 import LogsPage from "./LogsPage";
 
 import './styles/App.css';
+import './styles/Notofications.css';
 
 
 const subpages = [
@@ -49,6 +51,7 @@ function App({dataFetcher}) {
 
   return (
       <div className="app">
+        <NotificationContainer className="notification-container" />
         <Nav darkTheme={darkTheme} setDarkTheme={setDarkTheme}/>
 
         <AnimatePresence exitBeforeEnter initial={false}>
