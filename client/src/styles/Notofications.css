@@ -37,8 +37,8 @@
   background-size: 30px 30px;
   width: 30px;
   height: 30px;
-  -webkit-transform: translateY(30%);
-          transform: translateY(30%);
+  -webkit-transform: translateY(40%);
+          transform: translateY(40%);
 }
 
 .notification-container .notification-warning {
@@ -46,7 +46,7 @@
 }
 
 .notification-container .notification-warning .notification-message::before {
-  background-image: url("../../public/connection-failed.svg");
+  background-image: url("./connection-failed.svg");
 }
 
 .notification-container .notification-success {
@@ -54,7 +54,7 @@
 }
 
 .notification-container .notification-success .notification-message::before {
-  background-image: url("../../public/connection-regained.svg");
+  background-image: url("./connection-regained.svg");
 }
 
 @media (max-width: 1100px), (max-device-width: 1100px) {

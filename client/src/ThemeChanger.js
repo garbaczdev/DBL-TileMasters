@@ -63,11 +63,11 @@ export function ThemeChanger({darkTheme, setDarkTheme}) {
             {
                 darkTheme ?
                 <>
-                    <themeIcons.SmallLogo.dark className="change-theme-icon"/>
+                    <themeIcons.SmallLogo.dark className="blinder-icon"/>
                 </>
                 :
                 <>
-                    <themeIcons.SmallLogo.light className="change-theme-icon"/>
+                    <themeIcons.SmallLogo.light className="blinder-icon"/>
                 </>
             }
             <h1 className="title">Changing Theme...</h1>

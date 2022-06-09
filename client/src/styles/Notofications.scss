@@ -38,21 +38,21 @@
             background-size: 30px 30px;
             width: 30px;
             height: 30px;
-            transform: translateY(30%);
+            transform: translateY(40%);
         }
     }
 
     .notification-warning{
         background-color: #e74c3c;
         & .notification-message::before{
-            background-image: url("../../public/connection-failed.svg");
+            background-image: url("./connection-failed.svg");
         }
     }
 
     .notification-success{
         background-color: #2ecc71;
         & .notification-message::before{
-            background-image: url("../../public/connection-regained.svg");
+            background-image: url("./connection-regained.svg");
         }
     }
 }
