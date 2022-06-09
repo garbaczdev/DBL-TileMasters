@@ -1,0 +1,65 @@
+@import './variables.scss';
+
+.notification-container{
+    position: fixed;
+    top: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    text-align: center;
+
+    vertical-align: middle;
+    z-index: 2;
+
+    transition: 0.5s;
+
+    .notification{
+        width: 200px;
+        height: 50px;
+        padding: 10px;
+        margin: 10px;
+        border-radius: 10px;
+
+        transition: 0.2s;
+
+
+        & .title{
+            color: white;
+            padding: 0;
+            margin: 0;
+            font-size: 13px;
+            padding-left: 35px;
+            transform: translateY(-65%);
+        }
+
+        & .notification-message::before{
+            display: block;
+            content: ' ';
+            background-size: 30px 30px;
+            width: 30px;
+            height: 30px;
+            transform: translateY(40%);
+        }
+    }
+
+    .notification-warning{
+        background-color: #e74c3c;
+        & .notification-message::before{
+            background-image: url("./connection-failed.svg");
+        }
+    }
+
+    .notification-success{
+        background-color: #2ecc71;
+        & .notification-message::before{
+            background-image: url("./connection-regained.svg");
+        }
+    }
+}
+
+
+@media (max-width: #{$tablet-breakpoint}), (max-device-width: #{$tablet-breakpoint}){
+    .notification-container{
+        top: 60px;
+    }
+}

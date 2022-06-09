@@ -7,7 +7,7 @@
   left: 0;
   text-align: center;
   vertical-align: middle;
-  z-index: 2;
+  z-index: 3;
 }
 
 .nav a {
@@ -32,9 +32,14 @@
 }
 
 .nav ul li {
+  cursor: pointer;
   float: left;
   width: auto;
   padding: 10px;
+}
+
+.nav ul li:hover {
+  font-weight: bold;
 }
 
 .nav .nav-menu-icon {

@@ -43,6 +43,7 @@
 }
 
 .std-btn:hover {
+  cursor: pointer;
   color: var(--background-color);
   background-color: var(--outline-color);
 }
@@ -52,8 +53,11 @@
           box-shadow: 2px 2px 10px 0px var(--outline-color), -2px -2px 10px 0px var(--outline-color);
 }
 
+button.std-btn {
+  background-color: var(--background-color);
+}
+
 .home-page {
-  width: 100vw;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -113,6 +117,7 @@
   .home-page {
     -ms-flex-wrap: wrap;
         flex-wrap: wrap;
+    width: auto;
   }
 }
 /*# sourceMappingURL=HomePage.css.map */

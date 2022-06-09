@@ -7,7 +7,7 @@ from .utils import Utils as utils
 
 
 # This is used for a log id. It is increased by 1 every time the Log class is made.
-LOG_COUNTER = 0
+LOG_COUNTER = 1
 
 
 class Log:
@@ -77,7 +77,7 @@ class Logs:
     def __str__(self) -> str:
         return self._get_header() + "\n" + "\n".join([str(log) for log in self._logs])
 
-    def to_jsonify_format(self, last_log_id: int = -1) -> list:
+    def to_jsonify_format(self, last_log_id: int = 0) -> list:
         if last_log_id >= 0:
             logs = self.get_logs_since(last_log_id)
         else:

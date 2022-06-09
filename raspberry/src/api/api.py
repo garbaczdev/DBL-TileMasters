@@ -80,7 +80,7 @@ class API:
         def push():
             if self.robot.is_in_manual_mode():
 
-                if self.arm.is_pushing():
+                if self.arm.is_pushing:
                     return TooManyRequests("Arm is being pushed already.")
                     
                 self.arm.push()

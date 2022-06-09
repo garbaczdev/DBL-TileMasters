@@ -1,0 +1,35 @@
+@import './variables.scss';
+
+.manual-mode-page{
+    
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: start;
+
+    .illustration{
+        width: 400px;
+        height: 200px;
+    }
+    .title{
+        color: var(--outline-color);
+        padding-bottom: 0;
+    }
+    .description{
+        color: var(--support-color);
+        width: 300px;
+    }
+    .main-btn{
+        margin-top: 20px;
+        width: 200px;
+        height: 100px;
+    }
+}
+
+@media (max-width: #{$tablet-breakpoint}), (max-device-width: #{$tablet-breakpoint}){
+    .manual-mode-page{
+        justify-content: center;
+        padding-bottom: 200px;
+    }
+}

@@ -27,14 +27,14 @@ const homeCards = [
 ]
 
 
-function HomePage(props) {
+function HomePage({darkTheme}) {
 
     return (
         <div className="home-page subpage">
             {
                 homeCards.map((cardData) => {
 
-                    const Icon = getThemedIcon(cardData.iconName, props.darkTheme);
+                    const Icon = getThemedIcon(cardData.iconName, darkTheme);
 
                     return (
                         <div className="std-card" key={cardData.url}>

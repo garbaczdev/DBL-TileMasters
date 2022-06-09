@@ -15,7 +15,6 @@
 
     padding-top: 80px;
 }
-
 .subpage{
     min-height: 80vh;
 }
@@ -52,10 +51,15 @@
 }
 
 .std-btn:hover{
+    cursor: pointer;
     color: var(--background-color);
     background-color: var(--outline-color);
 }
 
 .std-btn:active{
     box-shadow: 2px 2px 10px 0px var(--outline-color), -2px -2px 10px 0px var(--outline-color);
+}
+
+button.std-btn{
+    background-color: var(--background-color);
 }

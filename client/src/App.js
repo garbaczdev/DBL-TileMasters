@@ -2,10 +2,12 @@ import React from 'react';
 
 import {Route, Routes, useLocation} from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
+import {NotificationContainer} from 'react-notifications';
 
 import {FadedDiv} from "./AnimatedRoute";
 
 import Nav from "./Nav";
+import ModePrompt from "./ModePrompt";
 
 import HomePage from "./HomePage";
 import ProgramInstructionsPage from "./ProgramInstructionsPage";
@@ -14,6 +16,7 @@ import ManualModePage from "./ManualModePage";
 import LogsPage from "./LogsPage";
 
 import './styles/App.css';
+import './styles/Notofications.css';
 
 
 const subpages = [
@@ -43,33 +46,30 @@ const subpages = [
 function App({dataFetcher}) {
 
   const [darkTheme, setDarkTheme] = React.useState(true);
-  const [localRobotMode, setLocalRobotMode] = React.useState("instruction");
-  
-  dataFetcher.add_mode_listener(setLocalRobotMode);
 
   const location = useLocation();
 
   return (
       <div className="app">
+        <NotificationContainer className="notification-container" />
         <Nav darkTheme={darkTheme} setDarkTheme={setDarkTheme}/>
 
-        <section className="app-body">
-          <AnimatePresence exitBeforeEnter initial={false}>
-            <Routes location={location} key={location.key}>
-              {
-                subpages.map(page => 
-                  <Route path={page.path} key={page.path} element={
-                    <FadedDiv>
-                      {<page.component darkTheme={darkTheme} localRobotMode={localRobotMode} setLocalRobotMode={setLocalRobotMode}/>}
-                    </FadedDiv>
-                    }
-                  />
-                  )
-              }
-            </Routes>
-          </AnimatePresence>
-        </section>
+        <AnimatePresence exitBeforeEnter initial={false}>
+          <Routes location={location} key={location.key}>
+            {
+              subpages.map(page => 
+                <Route path={page.path} key={page.path} element={
+                  <FadedDiv>
+                    {<page.component darkTheme={darkTheme} dataFetcher={dataFetcher}/>}
+                  </FadedDiv>
+                  }
+                />
+                )
+            }
+          </Routes>
+        </AnimatePresence>
 
+        <ModePrompt dataFetcher={dataFetcher}/>
       </div>
   );
 }

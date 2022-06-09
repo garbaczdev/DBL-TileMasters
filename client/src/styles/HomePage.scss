@@ -4,8 +4,6 @@
 
 .home-page{
 
-    width: 100vw;
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -55,5 +53,6 @@
 @media (max-width: #{$tablet-breakpoint}), (max-device-width: #{$tablet-breakpoint}){
     .home-page{
         flex-wrap: wrap;
+        width: auto;
     }
 }

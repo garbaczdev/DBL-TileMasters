@@ -1,0 +1,65 @@
+.notification-container {
+  position: fixed;
+  top: 70px;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  text-align: center;
+  vertical-align: middle;
+  z-index: 2;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+
+.notification-container .notification {
+  width: 200px;
+  height: 50px;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+
+.notification-container .notification .title {
+  color: white;
+  padding: 0;
+  margin: 0;
+  font-size: 13px;
+  padding-left: 35px;
+  -webkit-transform: translateY(-65%);
+          transform: translateY(-65%);
+}
+
+.notification-container .notification .notification-message::before {
+  display: block;
+  content: ' ';
+  background-size: 30px 30px;
+  width: 30px;
+  height: 30px;
+  -webkit-transform: translateY(40%);
+          transform: translateY(40%);
+}
+
+.notification-container .notification-warning {
+  background-color: #e74c3c;
+}
+
+.notification-container .notification-warning .notification-message::before {
+  background-image: url("./connection-failed.svg");
+}
+
+.notification-container .notification-success {
+  background-color: #2ecc71;
+}
+
+.notification-container .notification-success .notification-message::before {
+  background-image: url("./connection-regained.svg");
+}
+
+@media (max-width: 1100px), (max-device-width: 1100px) {
+  .notification-container {
+    top: 60px;
+  }
+}
+/*# sourceMappingURL=Notofications.css.map */

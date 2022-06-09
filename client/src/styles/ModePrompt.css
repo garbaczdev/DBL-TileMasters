@@ -1,0 +1,97 @@
+.app {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  background-color: var(--background-color);
+  color: var(--support-color);
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  padding-top: 80px;
+}
+
+.subpage {
+  width: 100vw;
+  min-height: 80vh;
+}
+
+.std-shadow, .std-card, .mode-prompt {
+  -webkit-box-shadow: 0px 0px 25px -6px var(--main-color);
+          box-shadow: 0px 0px 25px -6px var(--main-color);
+}
+
+.std-card, .mode-prompt {
+  border-radius: 20px;
+}
+
+.std-btn {
+  position: relative;
+  width: 100px;
+  padding: 20px;
+  border: 1px solid var(--outline-color);
+  color: var(--outline-color);
+  border-radius: 15px;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+  -webkit-box-shadow: 0px 0px 20px -6px var(--outline-color);
+          box-shadow: 0px 0px 20px -6px var(--outline-color);
+}
+
+.std-btn a {
+  text-decoration: none;
+}
+
+.std-btn:hover {
+  cursor: pointer;
+  color: var(--background-color);
+  background-color: var(--outline-color);
+}
+
+.std-btn:active {
+  -webkit-box-shadow: 2px 2px 10px 0px var(--outline-color), -2px -2px 10px 0px var(--outline-color);
+          box-shadow: 2px 2px 10px 0px var(--outline-color), -2px -2px 10px 0px var(--outline-color);
+}
+
+button.std-btn {
+  background-color: var(--background-color);
+}
+
+.mode-prompt {
+  background-color: var(--background-color);
+  color: var(--outline-color);
+  border: 1px solid var(--outline-color);
+  width: 300px;
+  height: 150px;
+  position: fixed;
+  bottom: -30px;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  text-align: center;
+  vertical-align: middle;
+  z-index: 2;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+
+.mode-prompt.hidden {
+  bottom: -100%;
+}
+
+.mode-prompt button {
+  background-color: var(--background-color);
+}
+
+.mode-prompt h4 {
+  font-size: 15px;
+  margin: 5px;
+  margin-bottom: 10px;
+}
+
+.mode-prompt .std-btn {
+  height: 80px;
+  width: 200px;
+}
+/*# sourceMappingURL=ModePrompt.css.map */
