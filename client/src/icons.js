@@ -21,11 +21,10 @@ import {ReactComponent as ManualModeLight} from './assets/illustrations/manual-m
 import {ReactComponent as ManualModeDark} from './assets/illustrations/manual-mode-dark.svg';
 // Icons
 import {AiOutlineMenuFold,  AiOutlineMenuUnfold, AiOutlineEllipsis, AiFillRobot} from 'react-icons/ai';
-import {BiErrorAlt, BiHide} from 'react-icons/bi';
+import {BiErrorAlt, BiHide, BiJoystickButton} from 'react-icons/bi';
 import {FaCircle, FaRegCircle, FaRegQuestionCircle} from 'react-icons/fa';
 import {BsCloudArrowUp, BsFillCloudCheckFill, BsCloudy, BsQuestion} from 'react-icons/bs';
 import {GiRobotGrab} from 'react-icons/gi';
-import {GrManual} from 'react-icons/gr';
 
 
 export const themeIcons = {
@@ -92,7 +91,7 @@ export const logIcons = {
     "pushed": GiRobotGrab,
     "error": BiErrorAlt,
     "switched-to-instruction-mode": AiFillRobot,
-    "switched-to-manual-mode": GrManual,
+    "switched-to-manual-mode": BiJoystickButton,
 
 }
 
