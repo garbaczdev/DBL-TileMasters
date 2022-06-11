@@ -9,49 +9,38 @@ from .config import Config as config
 from .utils import Utils as utils
 
 
+# class TileColorDecider:
+#     PERFECT_COLORS = {
+#         config.BLACK_TILE: {
+#             "lux": 90,
+#             "rgb": (16, 16, 16)
+#         }
+#     }
 
-class TileColorDecider:
-    PERFECT_COLORS = {
-        config.NO_TILE: {
-            "lux": 90,
-            "rgb": (8, 8, 8)
-        },
+#     RGB_CHANNEL_THRESHOLD = 2
+#     LUX_THRESHOLD = 20
 
-        config.WHITE_TILE: {
-            "lux": 270,
-            "rgb": (16, 16, 16)
-        },
+#     @classmethod
+#     def get_color(cls, rgb: tuple, lux: float) -> None:
 
-        config.BLACK_TILE: {
-            "lux": 90,
-            "rgb": (16, 16, 16)
-        }
-    }
+#         diffs = []
 
-    RGB_CHANNEL_THRESHOLD = 2
-    LUX_THRESHOLD = 20
+#         for tile_color, properties in cls.PERFECT_COLORS.items():
 
-    @classmethod
-    def get_color(cls, rgb: tuple, lux: float) -> None:
+#             perfect_rgb = properties["rgb"]
+#             perfect_lux = properties["lux"]
 
-        diffs = []
+#             rgb_diff = [abs(channel - perfect_channel) for channel, perfect_channel in zip(rgb, perfect_rgb)]
+#             lux_diff = abs(lux - perfect_lux)
 
-        for tile_color, properties in cls.PERFECT_COLORS.items():
-
-            perfect_rgb = properties["rgb"]
-            perfect_lux = properties["lux"]
-
-            rgb_diff = [abs(channel - perfect_channel) for channel, perfect_channel in zip(rgb, perfect_rgb)]
-            lux_diff = abs(lux - perfect_lux)
-
-            if cls.in_range(lux_diff, cls.LUX_THRESHOLD) and \
-                all(cls.in_range(channel_diff, cls.RGB_CHANNEL_THRESHOLD) for channel_diff in rgb_diff):
+#             if cls.in_range(lux_diff, cls.LUX_THRESHOLD) and \
+#                 all(cls.in_range(channel_diff, cls.RGB_CHANNEL_THRESHOLD) for channel_diff in rgb_diff):
                 
-                pass
+#                 pass
 
-    @staticmethod
-    def in_range(num1: int, num2: int, range: int) -> bool:
-        return abs(num1 - num2) <= range
+#     @staticmethod
+#     def in_range(num1: int, num2: int, range: int) -> bool:
+#         return abs(num1 - num2) <= range
 
 
 
@@ -64,12 +53,20 @@ class TileScanner(LogComponent):
     saying that "the tile of color x will be at your place at time x".
     """
 
+    READINGS_THRESHOLD = 30
+
     def __init__(self, tile_manager: TileManager, logs: Logs = Logs(), use_pins: bool = True) -> None:
         super().__init__(logs)
 
         self.tile_manager = tile_manager
         # This is used for timing out the scanner.
-        self.timeout_end_event = TimeoutEvent()
+
+        self.readings = []
+
+        self.tile_color_methods = {
+            config.WHITE_TILE: self.is_tile_white,
+            config.BLACK_TILE: self.is_tile_black
+        }
 
         if use_pins:
 
@@ -91,22 +88,15 @@ class TileScanner(LogComponent):
         This method scans the current tile and if the scanner is not timed out,
         it adds the TileEvent to the tile manager.
         """
+
+        # Get the current tile.
+        tile = self.current_tile()
         
-        # Check whether the timeout is over
-        if self.timeout_end_event.is_ready():
-
-            # Get the current tile.
-            tile = self.current_tile()
-            
-            # Check whether there is a tile.
-            if tile != config.NO_TILE:
-                # Add the event to the tile_manager
-                self._log_tile(tile)
-
-                self._register_tile_event(tile)
-
-                # Set timeout to the scanner so it doesnt scan the same tile several times.
-                self.set_timeout()
+        # Check whether there is a tile.
+        if tile != config.NO_TILE:
+            # Add the event to the tile_manager
+            self._log_tile(tile)
+            self._register_tile_event(tile)
 
     def current_tile(self) -> int:
         """
@@ -116,33 +106,61 @@ class TileScanner(LogComponent):
         if self.sensor is None:
             return config.NO_TILE
         
-        color = self.sensor.color
-        color_rgb = self.sensor.color_rgb_bytes
-
-        # Read the color temperature and lux of the sensor too.
-        temp = self.sensor.color_temperature
+        rgb = self.sensor.color_rgb_bytes
         lux = self.sensor.lux
 
-        print("COLOR RGB:", color_rgb)
-        print("LUX:", lux)
-        print("TEMP:", temp)
-        print("COLOR RAW:", color)
-        print()
+        self.readings.append((rgb, lux))
+        if all(self.is_reading_background(reading) for reading in self.readings):
+            self.readings.pop()
 
-        # This is only temporary and should be replaced by the code that gets
-        # the currently scanned tile.
+        if len(self.readings) > self.READINGS_THRESHOLD:
+            self.readings.pop(0)
+
+            if not self.finished_reading(self.readings):
+                self.add_log("error", f"Something is blocking the scanner!")
+                self.readings = []
+                return config.NO_TILE
+
+
+        # print(self.readings)
+
+        if self.finished_reading(self.readings):
+
+            for tile_color, method in self.tile_color_methods.items():
+                
+                if method(self.readings):
+                    self.readings = []
+                    return tile_color
+
+            self.readings = []
+            return config.UNDEFINED_TILE
+
         return config.NO_TILE
+
+    @classmethod
+    def is_tile_black(cls, readings: list):
+        black_readings = [reading for reading in readings if cls.is_reading_black(reading)]
+        return len(black_readings) >= 2
+
+    @staticmethod
+    def is_tile_white(readings: list):
+        # print(readings)
+        return any(lux > 750 for rgb, lux in readings)
+
+    @classmethod
+    def finished_reading(cls, readings: list) -> None:
+        return len(readings) >= 5 and cls.is_reading_background(readings[-1])
+
+    @staticmethod
+    def is_reading_background(reading: tuple) -> bool:
+        rgb, lux = reading
+        return all(utils.is_in_range(channel, 16, 2) for channel in rgb) and utils.is_in_range(lux, 90, 5)
     
+    @staticmethod
+    def is_reading_black(reading: tuple) -> None:
+        rgb, lux = reading
 
-    def set_timeout(self) -> None:
-        """
-        This sets the timeout to the scanner. It is like sleeping.
-        """
-        # Get the time after config.SCANNER_TIMEOUT has passed
-        timeout_end_time = utils.get_time_after_s(config.SCANNER_TIMEOUT)
-
-        # Set the new timeout end
-        self.timeout_end_event.update_time(timeout_end_time)
+        return all(utils.is_in_range(channel, 8, 2) for channel in rgb) and utils.is_in_range(lux, 90, 5)
 
     def _log_tile(self, tile: int) -> None:
         """

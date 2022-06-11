@@ -3,6 +3,7 @@ from time import sleep
 
 from .robot import Robot
 from .api import API
+from .robot.instructions import PatternInstruction
 
 
 class App:
@@ -13,6 +14,10 @@ class App:
             self.robot = Robot()
             
         self.api = API(self.robot, __name__)
+
+        self.robot.update_instructions([
+            PatternInstruction("01", -1)
+        ])
 
     def run(self) -> None:
 
