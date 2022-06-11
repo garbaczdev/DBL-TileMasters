@@ -45,10 +45,10 @@ class API:
                 "mode": self.robot.get_mode()
             })
 
-        @self.app.route('/api/tile-count', methods=["GET"])
+        @self.app.route('/api/count', methods=["GET"])
         def get_tile_count_json():
             return jsonify({
-                "tileCount": self.logs.tile_count
+                "count": self.logs.tile_count
             })
 
         @self.app.route('/api/mode/<string:mode>', methods=["POST"])
@@ -79,7 +79,7 @@ class API:
             return jsonify({
                 "logs": self.logs.to_jsonify_format(last_log_id),
                 "mode": self.robot.get_mode(),
-                "tileCount": self.logs.tile_count
+                "count": self.logs.tile_count
             })
 
         

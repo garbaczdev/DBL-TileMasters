@@ -15,7 +15,7 @@ const counterElements = [
         iconName: "WhiteTile"
     },
     {
-        attribute: "g",
+        attribute: "u",
         iconName: "UndefinedTile"
     }
 ]
@@ -24,9 +24,9 @@ function TileCounter({darkTheme, dataFetcher}) {
 
     const [listenerRegistered, setListenerRegistered] = React.useState(false);
     const [count, setCount] = React.useState({
-        b: 0,
-        w: 0,
-        g: 0
+        "b": 0,
+        "w": 0,
+        "u": 0
     });
 
     if (!listenerRegistered){
@@ -45,7 +45,7 @@ function TileCounter({darkTheme, dataFetcher}) {
                         const color = getColor(darkTheme, "outline")
 
                         return (
-                            <li className="tile-counter-element">
+                            <li key={counterElement.attribute} className="tile-counter-element">
                                 <span className="tile-counter-element-counter">{count[counterElement.attribute]}</span>
                                 <Icon className="tile-counter-element-icon" color={color}/>
                             </li>

@@ -34,7 +34,9 @@ class Log:
             "componentName": self.component_name,
             "type": self.type,
             "description": self.description,
-            "additionalData": self.additional_data
+            "additionalData": self.additional_data,
+            "date": self.time.strftime(config.LOG_DATE_STR_FORMAT),
+            "time": self.time.strftime(config.LOG_TIME_STR_FORMAT)
         }
 
     def __str__(self) -> str:

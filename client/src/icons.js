@@ -20,9 +20,12 @@ import {ReactComponent as RobotUtilsDark} from './assets/illustrations/robot-uti
 import {ReactComponent as ManualModeLight} from './assets/illustrations/manual-mode-light.svg';
 import {ReactComponent as ManualModeDark} from './assets/illustrations/manual-mode-dark.svg';
 // Icons
-import {AiOutlineMenuFold,  AiOutlineMenuUnfold} from 'react-icons/ai';
-import {BiErrorAlt} from 'react-icons/bi';
+import {AiOutlineMenuFold,  AiOutlineMenuUnfold, AiOutlineEllipsis, AiFillRobot} from 'react-icons/ai';
+import {BiErrorAlt, BiHide} from 'react-icons/bi';
 import {FaCircle, FaRegCircle, FaRegQuestionCircle} from 'react-icons/fa';
+import {BsCloudArrowUp, BsFillCloudCheckFill, BsCloudy, BsQuestion} from 'react-icons/bs';
+import {GiRobotGrab} from 'react-icons/gi';
+import {GrManual} from 'react-icons/gr';
 
 
 export const themeIcons = {
@@ -72,4 +75,28 @@ export const icons = {
     BlackTile: FaCircle,
     WhiteTile: FaRegCircle,
     UndefinedTile: FaRegQuestionCircle,
+
+    ShowMore: AiOutlineEllipsis,
+    Hide: BiHide,
+    Unknown: BsQuestion
+}
+
+
+export const logIcons = {
+    "new-instructions": BsCloudArrowUp,
+    "instructions-finished": BsFillCloudCheckFill,
+    "turned-on": BsCloudy,
+    "white-detected": FaRegCircle,
+    "black-detected": FaCircle,
+    "undefined-detected": FaRegQuestionCircle,
+    "pushed": GiRobotGrab,
+    "error": BiErrorAlt,
+    "switched-to-instruction-mode": AiFillRobot,
+    "switched-to-manual-mode": GrManual,
+
+}
+
+export function getLogIcon(iconName){
+    if (logIcons.hasOwnProperty(iconName)) return logIcons[iconName];
+    return icons.Unknown;
 }

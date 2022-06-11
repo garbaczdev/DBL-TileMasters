@@ -13,6 +13,7 @@
       -ms-flex-align: center;
           align-items: center;
   color: var(--outline-color);
+  padding-bottom: 150px;
 }
 
 .logs-page .tile-counter-title {
@@ -22,5 +23,9 @@
 
 .logs-page .logs-title {
   font-size: 30px;
+}
+
+.logs-page .log-time {
+  font-weight: bold;
 }
 /*# sourceMappingURL=LogsPage.css.map */

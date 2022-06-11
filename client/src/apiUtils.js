@@ -4,7 +4,7 @@
 import {NotificationManager} from 'react-notifications';
 
 
-const localDevelopment = true;
+const localDevelopment = false;
 
 
 export const sleep = (milliseconds) => {
@@ -35,15 +35,16 @@ async function PaginatedDataFetcherLoop(fetcher){
     while(true){
 
         try{
-            const response = await fetchPaginatedData(fetcher.lastLogId);
-            fetcher.updateCallback(response);
-            
+            const response = await fetchPaginatedData(fetcher.lastLogId());
+
             missedRequests = 0;
             if (lostConnection){
                 // console.log("Connection Retrieved!");
                 if (!localDevelopment) NotificationManager.success("", "Connection Regained");
                 lostConnection = false;
             }
+
+            fetcher.updateCallback(response);
 
         }
         catch (e){
@@ -70,7 +71,8 @@ export async function changeMode(mode, dataFetcher=null){
         // Pre-Request change mode
         dataFetcher.updateCallback({
             logs: [],
-            mode: mode
+            mode: mode,
+            count: null
         }, true);
     }
     const response = await fetch(`/api/mode/${mode}`,{
@@ -97,41 +99,32 @@ export async function pushArm(){
 
 export class PaginatedDataFetcher{
 	constructor(){
-
-        this.lastLogId = 0;
-        this.logs = [];
-        this.mode = "instruction";
-        
-        this.count = {
-            b: 0,
-            w: 0,
-            g: 0
-        }
-
-        this.logsListeners = [];
+        this.logsListener = null;
         this.modeListeners = [];
         this.countListeners = [];
 
         this.loopRunning = false;
         this.callbackTimeout = false;
 
-        this.loopTimeout = 500;
-        this.maxLogsLength = 100;
+        this.loopTimeout = 800;
+    }
+
+    lastLogId(){
+        if (this.logsListener === null) return 0;
+        return this.logsListener.lastLogId();
     }
 
     addLogsListener(logsListener){
-    	this.logsListeners.push(logsListener);
-        logsListener(this.logs);
+    	this.logsListener = logsListener;
+        console.log(this.logsListener);
     }
 
     addModeListener(modeListener){
         this.modeListeners.push(modeListener);
-        modeListener(this.mode);
     }
 
     addCountListener(countListener){
         this.countListeners.push(countListener);
-        countListener(this.count);
     }
 
     runLoop(){
@@ -156,30 +149,11 @@ export class PaginatedDataFetcher{
         const mode = response.mode;
         const count = response.count;
 
-        const newLogs = logs.filter(log => log.id > this.lastLogId);
+        if (logs.length > 0 && this.logsListener !== null) this.logsListener.addLogs(logs);
 
-        if (newLogs.length > 0){
-            
-            this.logs = [...this.logs, ...newLogs];
-            this.logs = this.logs.slice(-this.maxLogsLength, this.logs.length);
-
-            this.lastLogId = this.logs[this.logs.length - 1].id;
-
-            console.log(this.logs)
-
-            for (const logListener of this.logsListeners) logListener(this.logs);
-        }
-
-        if (mode !== this.mode){
-            this.mode = mode;
-            for (const modeListener of this.modeListeners) modeListener(this.mode);
-        }
-
+        if (mode !== null) for (const modeListener of this.modeListeners) modeListener(mode);
         
-        this.count = count;
-        for (const countListener of this.countListeners){
-            countListener(this.count);
-        }
+        if (count !== null) for (const countListener of this.countListeners) countListener(count);
 
     }
 }
