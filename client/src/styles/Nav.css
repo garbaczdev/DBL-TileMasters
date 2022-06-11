@@ -38,6 +38,10 @@
   padding: 10px;
 }
 
+.nav ul li a {
+  padding: 10px;
+}
+
 .nav ul li:hover {
   font-weight: bold;
 }

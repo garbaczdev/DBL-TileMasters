@@ -120,7 +120,11 @@ class LogsPage extends React.Component{
                 <h2 className="logs-title">Logs</h2>
                 <ul className="log-list std-item-list">
                     {
+                        this.state.logs.length > 0
+                        ?
                         this.state.logs
+                        :
+                        <h1 className="log-loading">Loading...</h1>
                     }
                 </ul>
             </div>

@@ -106,7 +106,7 @@ export class PaginatedDataFetcher{
         this.loopRunning = false;
         this.callbackTimeout = false;
 
-        this.loopTimeout = 800;
+        this.loopTimeout = 500;
     }
 
     lastLogId(){
