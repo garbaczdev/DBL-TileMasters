@@ -68,14 +68,29 @@ class Logs:
     Logs representation, which holds the info about actions and errors that occured in components.
     """
 
+    TILE_TO_COUNT_FORMAT = {
+        config.BLACK_TILE: "b",
+        config.WHITE_TILE: "w",
+        config.UNDEFINED_TILE: "g"
+    }
+
     def __init__(self) -> None:
         # List of logs.
         self._logs: list[Log] = list()
         # This is used so that the header is printed the first time a log is printed.
         self.header_printed = False
 
+        self.tile_count = {
+            "b": 0,
+            "w": 0,
+            "u": 0
+        }
+
     def __str__(self) -> str:
         return self._get_header() + "\n" + "\n".join([str(log) for log in self._logs])
+
+    def report_tile(self, tile: int) -> None:
+        self.tile_count[self.TILE_TO_COUNT_FORMAT[tile]] += 1
 
     def to_jsonify_format(self, last_log_id: int = 0) -> list:
         if last_log_id >= 0:

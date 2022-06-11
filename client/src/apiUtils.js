@@ -4,7 +4,7 @@
 import {NotificationManager} from 'react-notifications';
 
 
-const localDevelopment = false;
+const localDevelopment = true;
 
 
 export const sleep = (milliseconds) => {
@@ -101,9 +101,16 @@ export class PaginatedDataFetcher{
         this.lastLogId = 0;
         this.logs = [];
         this.mode = "instruction";
+        
+        this.count = {
+            b: 0,
+            w: 0,
+            g: 0
+        }
 
         this.logsListeners = [];
         this.modeListeners = [];
+        this.countListeners = [];
 
         this.loopRunning = false;
         this.callbackTimeout = false;
@@ -120,6 +127,11 @@ export class PaginatedDataFetcher{
     addModeListener(modeListener){
         this.modeListeners.push(modeListener);
         modeListener(this.mode);
+    }
+
+    addCountListener(countListener){
+        this.countListeners.push(countListener);
+        countListener(this.count);
     }
 
     runLoop(){
@@ -142,6 +154,7 @@ export class PaginatedDataFetcher{
 
         const logs = response.logs;
         const mode = response.mode;
+        const count = response.count;
 
         const newLogs = logs.filter(log => log.id > this.lastLogId);
 
@@ -152,12 +165,20 @@ export class PaginatedDataFetcher{
 
             this.lastLogId = this.logs[this.logs.length - 1].id;
 
+            console.log(this.logs)
+
             for (const logListener of this.logsListeners) logListener(this.logs);
         }
 
         if (mode !== this.mode){
             this.mode = mode;
             for (const modeListener of this.modeListeners) modeListener(this.mode);
+        }
+
+        
+        this.count = count;
+        for (const countListener of this.countListeners){
+            countListener(this.count);
         }
 
     }

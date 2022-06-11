@@ -21,6 +21,8 @@ import {ReactComponent as ManualModeLight} from './assets/illustrations/manual-m
 import {ReactComponent as ManualModeDark} from './assets/illustrations/manual-mode-dark.svg';
 // Icons
 import {AiOutlineMenuFold,  AiOutlineMenuUnfold} from 'react-icons/ai';
+import {BiErrorAlt} from 'react-icons/bi';
+import {FaCircle, FaRegCircle, FaRegQuestionCircle} from 'react-icons/fa';
 
 
 export const themeIcons = {
@@ -61,6 +63,13 @@ export const icons = {
     MediumLogo : MediumLogo,
     MediumLogoWhite: MediumLogoWhite,
     BigLogo : BigLogo,
+
     HideMenu: AiOutlineMenuFold,
-    ShowMenu: AiOutlineMenuUnfold
+    ShowMenu: AiOutlineMenuUnfold,
+
+    Error: BiErrorAlt,
+
+    BlackTile: FaCircle,
+    WhiteTile: FaRegCircle,
+    UndefinedTile: FaRegQuestionCircle,
 }

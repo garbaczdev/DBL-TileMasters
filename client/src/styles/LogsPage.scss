@@ -1,0 +1,17 @@
+.logs-page{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+
+    color: var(--outline-color);
+
+    .tile-counter-title{
+        margin: 0;
+        font-size: 25px;
+    }
+
+    .logs-title{
+        font-size: 30px;
+    }
+}

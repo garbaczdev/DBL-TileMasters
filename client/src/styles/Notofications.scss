@@ -45,14 +45,14 @@
     .notification-warning{
         background-color: #e74c3c;
         & .notification-message::before{
-            background-image: url("./connection-failed.svg");
+            background-image: url("../../public/connection-failed.svg");
         }
     }
 
     .notification-success{
         background-color: #2ecc71;
         & .notification-message::before{
-            background-image: url("./connection-regained.svg");
+            background-image: url("../../public/connection-regained.svg");
         }
     }
 }

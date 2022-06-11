@@ -174,6 +174,7 @@ class TileScanner(LogComponent):
 
         # If such color exists, log the action.        
         if color is not None:
+            self.logs.report_tile(tile)
             self.add_log(f"{color.lower()}-detected", f"{color} tile detected")
 
 
