@@ -14,6 +14,8 @@ import ProgramInstructionsPage from "./ProgramInstructionsPage";
 import RobotUtilsPage from "./RobotUtilsPage";
 import ManualModePage from "./ManualModePage";
 import LogsPage from "./LogsPage";
+import ProgramInstructionsTutorialPage from './ProgramInstructionsTutorialPage';
+import NotFoundPage from './NotFoundPage';
 
 import './styles/App.css';
 import './styles/Notofications.css';
@@ -41,6 +43,10 @@ const subpages = [
     path: "/logs",
     component: LogsPage
   },
+  {
+    path: "/program-instructions/tutorial",
+    component: ProgramInstructionsTutorialPage
+  },
 ]
 
 
@@ -67,6 +73,7 @@ function App({dataFetcher}) {
                 />
                 )
             }
+            <Route path="*" element={<NotFoundPage darkTheme={darkTheme}/>} />
           </Routes>
         </AnimatePresence>
 

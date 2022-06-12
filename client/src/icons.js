@@ -123,8 +123,8 @@ export const logIcons = {
 }
 
 export function getLogIcon(iconName, darkTheme=true){
-    if (iconName == "white-detected") return getIcon("WhiteTile", darkTheme);
-    else if (iconName == "black-detected") return getIcon("BlackTile", darkTheme);
+    if (iconName === "white-detected") return getIcon("WhiteTile", darkTheme);
+    else if (iconName === "black-detected") return getIcon("BlackTile", darkTheme);
     
     if (logIcons.hasOwnProperty(iconName)) return logIcons[iconName];
     return icons.Unknown;

@@ -1,9 +1,9 @@
 function ProgramInstructionsPage() {
     return (
-        <div id="program-instructions-page">
+        <div className="program-instructions-page subpage">
             ProgramInstructionsPage
         </div>
     );
   }
   
-  export default ProgramInstructionsPage;
+export default ProgramInstructionsPage;
