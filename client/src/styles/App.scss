@@ -257,6 +257,16 @@ button.std-btn{
     }
 }
 
+
+.popup-content{
+    padding: 10px !important;
+    background: var(--background-color) !important;
+    border: 2px solid var(--outline-color) !important;
+    border-radius: 15px;
+    color: var(--support-color);
+}
+
+
 @media (max-width: #{$tablet-breakpoint}), (max-device-width: #{$tablet-breakpoint}){
     .subpage{
         padding-bottom: 200px;

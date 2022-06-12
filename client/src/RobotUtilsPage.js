@@ -1,17 +1,21 @@
 import React from 'react';
+import Popup from 'reactjs-popup';
 
 import {getThemedIcon, icons} from './icons';
 
 import './styles/RobotUtils.css';
 
 
+
+function dec2bin(dec) {
+    return (dec >>> 0).toString(2);
+}
+
+
 class SortingCard extends React.Component{
 
     constructor(props){
         super(props);
-
-        this.state = {
-        }
     }
 
     render(){
@@ -23,6 +27,10 @@ class SortingCard extends React.Component{
                     <option value="black">Black</option>
                     <option value="all">All</option>
                 </select>
+
+                <button className='std-btn std-big-card-send-btn stick-down' onClick={() => this.sendInstructions()}>
+                    Send Instructions
+                </button>
             </>
         );
     }
@@ -42,31 +50,66 @@ class BinaryCard extends React.Component{
         super(props);
 
         this.state = {
+            popupOpen: false,
+            firstBit: "left",
+            number: '0'
         }
+
+        this.popupMessage = "The input is not a non-negative integer"
     }
 
     render(){
+        console.log(this.state);
         return (
             <>
                 <label className='std-label'>Positive Integer to output:</label>
-                <input className="std-text-input number-input" pattern="[A-Za-z]{3}" title="A positive integer" />
+                <input className="std-text-input number-input" title="A positive integer" value={this.state.number} 
+                    onChange={e => this.setState({...this.state, number: e.target.value})}
+                />
 
                 <label className='std-label'>What should come out first:</label>
-                <select className='std-dropdown'>
+                <select className='std-dropdown' value={this.state.value} 
+                    onChange={e => this.setState({...this.state, firstBit: e.target.value})}
+                >
                     <option value="left">Left-Most Bit</option>
                     <option value="right">Right-Most Bit</option>
                 </select>
                 <label className='std-label'>Expected output:</label>
+
+                <button className='std-btn std-big-card-send-btn stick-down' onClick={() => this.sendInstructions()}>
+                    Send Instructions
+                </button>
+
+                <Popup 
+                    open={this.state.popupOpen}
+                    onClose={() => this.setState({...this.state, popupOpen: false})}
+                    position="right center"
+                    closeOnDocumentClick
+                >
+                    <div className="std-popup">
+                    {this.popupMessage}
+                    </div>
+                </Popup>
             </>
         );
     }
 
     canBeSent(){
-
+        if (!Number.isInteger(this.state.number) || parseInt(this.state.number) < 0) return false;
+        return true;
     }
 
     sendInstructions(){
-        
+        if (!this.canBeSent()){
+            this.setState({...this.state, popupOpen: true});
+            return;
+        }
+
+        const binNumber = this.getBinNumber(parseInt(this.state.number));
+    }
+
+    getBinNumber(number){
+        return dec2bin(number);
     }
 
 }
@@ -86,6 +129,10 @@ class MorseCodeCard extends React.Component{
                 <label className='std-label'>Enter text to be outputted in morse-code</label>
                 <input className="std-text-input morse-code-input"/>
                 <label className='std-label'>Expected output:</label>
+
+                <button className='std-btn std-big-card-send-btn stick-down' onClick={() => this.sendInstructions()}>
+                    Send Instructions
+                </button>
             </>
         );
     }
@@ -139,9 +186,6 @@ function RobotUtilsPage({darkTheme}) {
                             <h1 className="std-big-card-title">{utilCard.title}</h1>
                             <p className="std-big-card-description">{utilCard.description}</p>
                             {<utilCard.component />}
-                            <button className='std-btn std-big-card-send-btn stick-down' onClick={utilCard.sendInstructions}>
-                                Send Instructions
-                            </button>
                         </div>
                     </div>
                 )

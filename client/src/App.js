@@ -17,6 +17,7 @@ import LogsPage from "./LogsPage";
 
 import './styles/App.css';
 import './styles/Notofications.css';
+import 'reactjs-popup/dist/index.css';
 
 
 const subpages = [
