@@ -29,7 +29,7 @@ import {ReactComponent as Sorting} from './assets/illustrations/sorting.svg';
 
 
 // Icons
-import {AiOutlineMenuFold,  AiOutlineMenuUnfold, AiOutlineEllipsis, AiFillRobot} from 'react-icons/ai';
+import {AiOutlineMenuFold,  AiOutlineMenuUnfold, AiOutlineEllipsis, AiFillRobot, AiOutlineBarcode, AiOutlineControl, AiOutlineBuild} from 'react-icons/ai';
 import {BiErrorAlt, BiHide, BiJoystickButton} from 'react-icons/bi';
 import {FaCircle, FaRegCircle, FaRegQuestionCircle} from 'react-icons/fa';
 import {BsCloudArrowUp, BsFillCloudCheckFill, BsCloudy, BsQuestion} from 'react-icons/bs';
@@ -91,7 +91,11 @@ export const icons = {
     Sorting: Sorting,
     BinaryLight: BinaryLight,
     BinaryDark: BinaryDark,
-    MorseCode: MorseCode
+    MorseCode: MorseCode,
+
+    RequirementsInstruction: AiOutlineControl,
+    PatternInstruction: AiOutlineBuild,
+    BitmaskInstruction: AiOutlineBarcode
 }
 
 export function getIcon(iconName, darkTheme=true){

@@ -142,6 +142,10 @@ button.std-btn {
   height: 30px;
 }
 
+.std-item-list .std-item .std-item-contents .std-item-icon path {
+  fill: var(--outline-color);
+}
+
 .std-item-list .std-item .std-item-contents .std-item-description {
   color: var(--support-color);
   padding-right: 40px;
