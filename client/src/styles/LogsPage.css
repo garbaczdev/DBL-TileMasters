@@ -1,0 +1,31 @@
+.logs-page {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  color: var(--outline-color);
+  padding-bottom: 150px;
+}
+
+.logs-page .tile-counter-title {
+  margin: 0;
+  font-size: 25px;
+}
+
+.logs-page .logs-title {
+  font-size: 30px;
+}
+
+.logs-page .log-time {
+  font-weight: bold;
+}
+/*# sourceMappingURL=LogsPage.css.map */

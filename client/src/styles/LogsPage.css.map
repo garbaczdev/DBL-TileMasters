@@ -1,0 +1,10 @@
+{
+    "version": 3,
+    "mappings": "AAEA,AAAA,UAAU,CAAA;EACN,OAAO,EAAE,IAAI;EACb,cAAc,EAAE,MAAM;EACtB,eAAe,EAAE,KAAK;EACtB,WAAW,EAAE,MAAM;EAEnB,KAAK,EAAE,oBAAoB;EAE3B,cAAc,ECTG,KAAK;CDuBzB;;AAtBD,AAUI,UAVM,CAUN,mBAAmB,CAAA;EACf,MAAM,EAAE,CAAC;EACT,SAAS,EAAE,IAAI;CAClB;;AAbL,AAeI,UAfM,CAeN,WAAW,CAAA;EACP,SAAS,EAAE,IAAI;CAClB;;AAjBL,AAmBI,UAnBM,CAmBN,SAAS,CAAA;EACL,WAAW,EAAE,IAAI;CACpB",
+    "sources": [
+        "LogsPage.scss",
+        "variables.scss"
+    ],
+    "names": [],
+    "file": "LogsPage.css"
+}

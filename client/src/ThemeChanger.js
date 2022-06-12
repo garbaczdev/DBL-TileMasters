@@ -52,6 +52,12 @@ async function changeTheme(darkTheme, setBlinderHidden, setDarkTheme){
 }
 
 
+export function getColor(darkTheme, colorName){
+    if (darkTheme) return themes.dark[colorName];
+    return themes.light[colorName];
+}
+
+
 export function ThemeChanger({darkTheme, setDarkTheme}) {
 
     const [blinderHidden, setBlinderHidden] = React.useState(true);

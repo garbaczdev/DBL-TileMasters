@@ -20,7 +20,11 @@ import {ReactComponent as RobotUtilsDark} from './assets/illustrations/robot-uti
 import {ReactComponent as ManualModeLight} from './assets/illustrations/manual-mode-light.svg';
 import {ReactComponent as ManualModeDark} from './assets/illustrations/manual-mode-dark.svg';
 // Icons
-import {AiOutlineMenuFold,  AiOutlineMenuUnfold} from 'react-icons/ai';
+import {AiOutlineMenuFold,  AiOutlineMenuUnfold, AiOutlineEllipsis, AiFillRobot} from 'react-icons/ai';
+import {BiErrorAlt, BiHide, BiJoystickButton} from 'react-icons/bi';
+import {FaCircle, FaRegCircle, FaRegQuestionCircle} from 'react-icons/fa';
+import {BsCloudArrowUp, BsFillCloudCheckFill, BsCloudy, BsQuestion} from 'react-icons/bs';
+import {GiRobotGrab} from 'react-icons/gi';
 
 
 export const themeIcons = {
@@ -61,6 +65,37 @@ export const icons = {
     MediumLogo : MediumLogo,
     MediumLogoWhite: MediumLogoWhite,
     BigLogo : BigLogo,
+
     HideMenu: AiOutlineMenuFold,
-    ShowMenu: AiOutlineMenuUnfold
+    ShowMenu: AiOutlineMenuUnfold,
+
+    Error: BiErrorAlt,
+
+    BlackTile: FaCircle,
+    WhiteTile: FaRegCircle,
+    UndefinedTile: FaRegQuestionCircle,
+
+    ShowMore: AiOutlineEllipsis,
+    Hide: BiHide,
+    Unknown: BsQuestion
+}
+
+
+export const logIcons = {
+    "new-instructions": BsCloudArrowUp,
+    "instructions-finished": BsFillCloudCheckFill,
+    "turned-on": BsCloudy,
+    "white-detected": FaRegCircle,
+    "black-detected": FaCircle,
+    "undefined-detected": FaRegQuestionCircle,
+    "pushed": GiRobotGrab,
+    "error": BiErrorAlt,
+    "switched-to-instruction-mode": AiFillRobot,
+    "switched-to-manual-mode": BiJoystickButton,
+
+}
+
+export function getLogIcon(iconName){
+    if (logIcons.hasOwnProperty(iconName)) return logIcons[iconName];
+    return icons.Unknown;
 }

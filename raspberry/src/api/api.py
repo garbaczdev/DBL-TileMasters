@@ -45,6 +45,12 @@ class API:
                 "mode": self.robot.get_mode()
             })
 
+        @self.app.route('/api/count', methods=["GET"])
+        def get_tile_count_json():
+            return jsonify({
+                "count": self.logs.tile_count
+            })
+
         @self.app.route('/api/mode/<string:mode>', methods=["POST"])
         def update_mode(mode: str):
 
@@ -72,7 +78,8 @@ class API:
         def get_paginated_info(last_log_id: int):
             return jsonify({
                 "logs": self.logs.to_jsonify_format(last_log_id),
-                "mode": self.robot.get_mode()
+                "mode": self.robot.get_mode(),
+                "count": self.logs.tile_count
             })
 
         

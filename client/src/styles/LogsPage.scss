@@ -1,0 +1,25 @@
+@import './variables.scss';
+
+.logs-page{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+
+    color: var(--outline-color);
+
+    padding-bottom: $mode-prompt-height;
+
+    .tile-counter-title{
+        margin: 0;
+        font-size: 25px;
+    }
+
+    .logs-title{
+        font-size: 30px;
+    }
+
+    .log-time{
+        font-weight: bold;
+    }
+}

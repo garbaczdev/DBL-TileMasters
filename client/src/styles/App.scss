@@ -3,6 +3,7 @@
 .app{
 
     display: flex;
+    justify-content: center;
 
     background-color: var(--background-color);
     color: var(--support-color);
@@ -62,4 +63,73 @@
 
 button.std-btn{
     background-color: var(--background-color);
+}
+
+.std-item-list{
+    list-style: none;
+    padding: 0;
+    transition: 0.5s;
+    .std-item{
+        @extend .std-shadow;
+
+        padding: 15px;
+        margin: 15px;
+        width: 80vw;
+        max-width: 1000px;
+
+        border-radius: 20px;
+        
+
+        .std-item-contents{
+
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+
+            position: relative;
+
+            & > *{
+                margin-right: 10px;
+            }
+
+            .std-item-icon{
+                min-width: 30px;
+                height: 30px;
+            }
+
+            .std-item-description{
+                color: var(--support-color);
+                padding-right: 40px;
+            }
+
+            .std-item-show-icon{
+                position: absolute;
+                right: 10px;
+            }
+        }
+
+        .std-item-info{
+            margin-top: 10px;
+            margin-bottom: 10px;
+
+            transition: 0.2s;
+            &.hidden{
+                margin: 0;
+                height: 0;
+            }
+            &.transparent{
+                opacity: 0;
+            }
+
+            .std-item-info-list{
+                list-style: none;
+                color: var(--support-color);
+                
+                .attribute-name{
+                    color: var(--outline-color);
+                    font-weight: bold;
+                }
+            }
+        }
+    }
 }

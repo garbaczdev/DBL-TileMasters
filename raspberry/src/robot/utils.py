@@ -56,3 +56,7 @@ class Utils:
 
         return time + timedelta(milliseconds=milliseconds)
     
+    @staticmethod
+    def is_in_range(num1: float, num2: float, range: float) -> bool:
+        return abs(num1 - num2) <= range
+

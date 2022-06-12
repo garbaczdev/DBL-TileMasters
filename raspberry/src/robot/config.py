@@ -16,6 +16,8 @@ class Config:
     USE_LOGS = True
     PRINT_LOGS = True
     LOG_DATETIME_STR = "%H:%M:%S.%f"
+    LOG_DATE_STR_FORMAT = "%d-%m-%Y"
+    LOG_TIME_STR_FORMAT = "%H:%M:%S"
     # Logs printing options
     LOG_ID_SPACE = 10
     LOG_TIME_SPACE = 12
