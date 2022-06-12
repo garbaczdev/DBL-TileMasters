@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {getColor} from './ThemeChanger';
-import {icons} from './icons';
+import {icons, getIcon} from './icons';
 
 import './styles/TileCounter.css';
 
@@ -44,7 +44,7 @@ function TileCounter({darkTheme, dataFetcher}) {
             <ul className="tile-counter-list">
                 {
                     counterElements.map((counterElement) => {
-                        const Icon = icons[counterElement.iconName];
+                        const Icon = getIcon(counterElement.iconName, darkTheme);
                         const color = getColor(darkTheme, "outline")
 
                         return (

@@ -1,4 +1,14 @@
 
-@import './App.scss';
-@import './variables.scss';
+.robot-utils-page{
+    .std-label{
+        margin-top: 20px;
+    }
+}
 
+.predicted-output{
+    color: var(--outline-color);
+    font-weight: bold;
+    path{
+        fill: var(--outline-color);
+    }
+}

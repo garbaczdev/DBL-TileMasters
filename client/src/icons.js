@@ -23,7 +23,8 @@ import {ReactComponent as ManualModeDark} from './assets/illustrations/manual-mo
 
 // Robot Utils Illustrations
 import {ReactComponent as MorseCode} from './assets/illustrations/morse-code.svg';
-import {ReactComponent as Binary} from './assets/illustrations/binary.svg';
+import {ReactComponent as BinaryLight} from './assets/illustrations/binary-light.svg';
+import {ReactComponent as BinaryDark} from './assets/illustrations/binary-dark.svg';
 import {ReactComponent as Sorting} from './assets/illustrations/sorting.svg';
 
 
@@ -88,10 +89,24 @@ export const icons = {
     Unknown: BsQuestion,
 
     Sorting: Sorting,
-    Binary: Binary,
+    BinaryLight: BinaryLight,
+    BinaryDark: BinaryDark,
     MorseCode: MorseCode
 }
 
+export function getIcon(iconName, darkTheme=true){
+    if (iconName === "BlackTile"){
+        return darkTheme ? icons.WhiteTile : icons.BlackTile;
+    }
+
+    else if (iconName === "WhiteTile"){
+        return darkTheme ? icons.BlackTile : icons.WhiteTile;
+    }
+
+    if (icons.hasOwnProperty(iconName)) return icons[iconName];
+
+    return icons.Unknown;
+}
 
 export const logIcons = {
     "new-instructions": BsCloudArrowUp,
@@ -107,7 +122,10 @@ export const logIcons = {
 
 }
 
-export function getLogIcon(iconName){
+export function getLogIcon(iconName, darkTheme=true){
+    if (iconName == "white-detected") return getIcon("WhiteTile", darkTheme);
+    else if (iconName == "black-detected") return getIcon("BlackTile", darkTheme);
+    
     if (logIcons.hasOwnProperty(iconName)) return logIcons[iconName];
     return icons.Unknown;
 }
