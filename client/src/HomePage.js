@@ -42,7 +42,7 @@ function HomePage({darkTheme}) {
                             <h2>{cardData.title}</h2>
                             <p>{cardData.description}</p>
                             <Link to={cardData.url}>
-                                <div className="std-btn">Open</div>
+                                <div className="std-btn stick-down">Open</div>
 
                             </Link>
                         </div>

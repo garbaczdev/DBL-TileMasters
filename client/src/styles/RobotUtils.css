@@ -51,12 +51,12 @@
   text-align: center;
 }
 
-.std-shadow, .std-card, .robot-utils-page .utils-card, .std-item-list .std-item {
+.std-shadow, .std-card, .std-big-card, .std-item-list .std-item {
   -webkit-box-shadow: 0px 0px 25px -6px var(--main-color);
           box-shadow: 0px 0px 25px -6px var(--main-color);
 }
 
-.std-card, .robot-utils-page .utils-card {
+.std-card, .std-big-card {
   border-radius: 20px;
 }
 
@@ -75,6 +75,14 @@
 
 .std-btn a {
   text-decoration: none;
+}
+
+.std-btn.stick-down {
+  position: absolute;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  bottom: 0;
+  left: 50%;
 }
 
 .std-btn:hover {
@@ -166,13 +174,19 @@ button.std-btn {
   font-weight: bold;
 }
 
-@media (max-width: 1100px), (max-device-width: 1100px) {
-  .subpage {
-    padding-bottom: 200px;
-  }
+.std-label {
+  color: var(--outline-color);
+  margin-bottom: 5px;
+  font-weight: bold;
+  font-size: 18px;
 }
 
-.robot-utils-page .utils-card {
+.std-dropdown {
+  padding: 10px;
+  font-size: 18px;
+}
+
+.std-big-card {
   display: -ms-grid;
   display: grid;
   -ms-grid-columns: 1fr 1fr;
@@ -182,46 +196,45 @@ button.std-btn {
   place-items: center;
   width: 80vw;
   min-width: 280px;
-  height: 60vh;
-  min-height: 500px;
+  min-height: 70vh;
   padding: 20px;
   margin: 20px;
 }
 
-.robot-utils-page .utils-card.illustration-left .utils-card-illustration {
+.std-big-card.illustration-left .std-big-card-illustration {
   -ms-grid-column: 1;
   grid-column: 1;
 }
 
-.robot-utils-page .utils-card.illustration-right .utils-card-illustration {
+.std-big-card.illustration-right .std-big-card-illustration {
   -ms-grid-column: 2;
   grid-column: 2;
 }
 
-.robot-utils-page .utils-card .utils-card-illustration {
+.std-big-card .std-big-card-illustration {
   -ms-grid-row: 1;
   grid-row: 1;
   width: 400px;
   height: 400px;
 }
 
-.robot-utils-page .utils-card .utils-card-illustration path {
+.std-big-card .std-big-card-illustration path {
   fill: var(--outline-color);
 }
 
-.robot-utils-page .utils-card .utils-card-illustration rect {
+.std-big-card .std-big-card-illustration rect {
   fill: var(--outline-color);
 }
 
-.robot-utils-page .utils-card .utils-card-illustration circle {
+.std-big-card .std-big-card-illustration circle {
   fill: var(--outline-color);
 }
 
-.robot-utils-page .utils-card .utils-card-contents {
+.std-big-card .std-big-card-contents {
   -ms-grid-row: 1;
   grid-row: 1;
   width: 100%;
-  height: 100%;
+  padding-bottom: 100px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -232,16 +245,44 @@ button.std-btn {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  position: relative;
 }
 
-.robot-utils-page .utils-card .utils-card-contents .utils-card-title {
+.std-big-card .std-big-card-contents .std-big-card-title {
   color: var(--outline-color);
 }
 
-.robot-utils-page .utils-card .utils-card-contents .utils-card-description {
+.std-big-card .std-big-card-contents .std-big-card-description {
   color: var(--support-color);
   font-size: 20px;
   padding-right: 20px;
   padding-left: 20px;
+}
+
+.std-big-card .std-big-card-contents .std-big-card-send-btn {
+  width: 150px;
+  height: 70px;
+}
+
+@media (max-width: 1100px), (max-device-width: 1100px) {
+  .subpage {
+    padding-bottom: 200px;
+  }
+  .std-big-card {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .std-big-card .std-big-card-title {
+    text-align: center;
+  }
+  .std-big-card .std-big-card-illustration {
+    width: 200px;
+    height: 200px;
+  }
 }
 /*# sourceMappingURL=RobotUtils.css.map */

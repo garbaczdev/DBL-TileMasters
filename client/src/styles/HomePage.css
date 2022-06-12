@@ -44,7 +44,11 @@
 
 .subpage .subpage-description {
   color: var(--support-color);
-  width: 300px;
+  min-width: 300px;
+  width: 40vw;
+  font-size: 20px;
+  margin-top: 0;
+  text-align: center;
 }
 
 .std-shadow, .std-card, .std-item-list .std-item {
@@ -71,6 +75,14 @@
 
 .std-btn a {
   text-decoration: none;
+}
+
+.std-btn.stick-down {
+  position: absolute;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  bottom: 0;
+  left: 50%;
 }
 
 .std-btn:hover {
@@ -162,11 +174,18 @@ button.std-btn {
   font-weight: bold;
 }
 
+.std-dropdown-label {
+  color: var(--outline-color);
+  margin-bottom: 5px;
+}
+
+.std-dropdown {
+  padding: 10px;
+  font-size: 18px;
+}
+
 @media (max-width: 1100px), (max-device-width: 1100px) {
   .subpage {
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
     padding-bottom: 200px;
   }
 }
@@ -218,14 +237,6 @@ button.std-btn {
 .home-page .std-card .illustration {
   width: 220px;
   height: 200px;
-}
-
-.home-page .std-card .std-btn {
-  position: absolute;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
-  bottom: 0;
-  left: 50%;
 }
 
 @media (max-width: 1100px), (max-device-width: 1100px) {

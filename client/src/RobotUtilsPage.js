@@ -17,7 +17,7 @@ class SortingCard extends React.Component{
     render(){
         return (
             <>
-                <label className='std-dropdown-label'>Tiles to be pushed:</label>
+                <label className='std-label'>Tiles to be pushed:</label>
                 <select className='std-dropdown'>
                     <option value="white">White</option>
                     <option value="black">Black</option>
@@ -48,6 +48,15 @@ class BinaryCard extends React.Component{
     render(){
         return (
             <>
+                <label className='std-label'>Positive Integer to output:</label>
+                <input className="std-text-input number-input" pattern="[A-Za-z]{3}" title="A positive integer" />
+
+                <label className='std-label'>What should come out first:</label>
+                <select className='std-dropdown'>
+                    <option value="left">Left-Most Bit</option>
+                    <option value="right">Right-Most Bit</option>
+                </select>
+                <label className='std-label'>Expected output:</label>
             </>
         );
     }
@@ -74,6 +83,9 @@ class MorseCodeCard extends React.Component{
     render(){
         return (
             <>
+                <label className='std-label'>Enter text to be outputted in morse-code</label>
+                <input className="std-text-input morse-code-input"/>
+                <label className='std-label'>Expected output:</label>
             </>
         );
     }
@@ -97,7 +109,7 @@ const utilsCards = [
     },
     {
         title: 'Output number in binary',
-        description: 'This instruction will output the given number in binary, with 1 denoting white and 0 denoting black.',
+        description: 'This instruction will output the given positive integer in binary, using as many bits as needed, with 1 denoting white tile and 0 denoting black tile.',
         component: BinaryCard,
         Illustration: icons.Binary
     },
@@ -121,13 +133,13 @@ function RobotUtilsPage({darkTheme}) {
             <p className="subpage-description">Choose from the following pre-programed robot utilities:</p>
             {
                 utilsCards.map((utilCard, index) => 
-                    <div key={utilCard.title} className={`utils-card ${index % 2 === 0 ? "illustration-left" : "illustration-right"}`}>
-                        <utilCard.Illustration className="utils-card-illustration"/>
-                        <div className="utils-card-contents">
-                            <h1 className="utils-card-title">{utilCard.title}</h1>
-                            <p className="utils-card-description">{utilCard.description}</p>
+                    <div key={utilCard.title} className={`std-big-card ${index % 2 === 0 ? "illustration-left" : "illustration-right"}`}>
+                        <utilCard.Illustration className="std-big-card-illustration"/>
+                        <div className="std-big-card-contents">
+                            <h1 className="std-big-card-title">{utilCard.title}</h1>
+                            <p className="std-big-card-description">{utilCard.description}</p>
                             {<utilCard.component />}
-                            <button className='std-btn utils-card-send-btn' onClick={utilCard.sendInstructions}>
+                            <button className='std-btn std-big-card-send-btn stick-down' onClick={utilCard.sendInstructions}>
                                 Send Instructions
                             </button>
                         </div>
