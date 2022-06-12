@@ -32,6 +32,10 @@
           justify-content: start;
 }
 
+.subpage a {
+  text-decoration: none;
+}
+
 .subpage .subpage-illustration {
   width: 400px;
   height: 200px;
