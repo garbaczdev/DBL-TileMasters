@@ -18,6 +18,33 @@
 }
 .subpage{
     min-height: 80vh;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: start;
+
+    a{
+        text-decoration: none;
+    }
+
+    .subpage-illustration{
+        width: 400px;
+        height: 200px;
+    }
+    .subpage-title{
+        color: var(--outline-color);
+        padding-bottom: 0;
+    }
+    .subpage-description{
+        color: var(--support-color);
+        min-width: 300px;
+        width: 40vw;
+        font-size: 20px;
+        margin-top: 0;
+        text-align: center;
+    }
 }
 
 .std-shadow{
@@ -28,6 +55,7 @@
     @extend .std-shadow;
 
     border-radius: 20px;
+    
 }
 
 .std-btn{
@@ -48,6 +76,13 @@
 
     a{
         text-decoration: none;
+    }
+
+    &.stick-down{
+        position: absolute;
+        transform: translate(-50%, -50%);
+        bottom: 0;
+        left: 50%;
     }
 }
 
@@ -95,6 +130,10 @@ button.std-btn{
             .std-item-icon{
                 min-width: 30px;
                 height: 30px;
+
+                path{
+                    fill: var(--outline-color);
+                }
             }
 
             .std-item-description{
@@ -131,5 +170,143 @@ button.std-btn{
                 }
             }
         }
+    }
+}
+
+.std-label{
+    color: var(--outline-color);
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.std-dropdown{
+    padding: 10px;
+    font-size: 18px;
+}
+
+.std-big-card{
+    @extend .std-card;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+
+    place-items: center;
+
+    width: 80vw;
+    min-width: 280px;
+
+    min-height: 70vh;
+
+    padding: 20px;
+    margin: 20px;
+
+    &.illustration-left{
+        .std-big-card-illustration{
+            grid-column: 1;
+        }
+    }
+
+    &.illustration-right{
+        .std-big-card-illustration{
+            grid-column: 2;
+        }
+    }
+
+    .std-big-card-illustration{
+
+        grid-row: 1;
+
+        width: 400px;
+        height: 400px;
+
+        path{
+            fill: var(--outline-color);
+        }
+        rect{
+            fill: var(--outline-color);
+        }
+        circle{
+            fill: var(--outline-color);
+        }
+    }
+
+    .std-big-card-contents{
+
+        grid-row: 1;
+
+        width: 100%;
+
+        padding-bottom: 150px;
+
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+
+        position: relative;
+
+        .std-big-card-title{
+            color: var(--outline-color);
+        }
+
+        .std-big-card-description{
+            color: var(--support-color);
+            font-size: 20px;
+
+            padding-right: 20px;
+            padding-left: 20px;
+        }
+        
+        .std-big-card-send-btn{
+            width: 150px;
+            height: 70px;
+        }
+    }
+}
+
+.std-text-input{
+    background-color: var(--background-color);
+    color: var(--outline-color);
+    border: 2px solid var(--outline-color);
+    border-radius: 5px;
+    font-size: 18px;
+
+    &.number-input{
+        width: 100px;
+    }
+}
+
+.popup-content{
+    padding: 10px !important;
+    background: var(--background-color) !important;
+    border: 2px solid var(--outline-color) !important;
+    border-radius: 15px;
+    color: var(--support-color);
+}
+
+
+@media (max-width: #{$tablet-breakpoint}), (max-device-width: #{$tablet-breakpoint}){
+    .subpage{
+        padding-bottom: 200px;
+    }
+
+    .std-big-card{
+
+        display: flex;
+        flex-direction: column;
+        
+        min-height: initial;
+        
+        .std-big-card-title{
+            text-align: center;
+        }
+
+        .std-big-card-illustration{
+
+            width: 200px;
+            height: 200px;
+        }
+        
     }
 }

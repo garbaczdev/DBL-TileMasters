@@ -19,4 +19,20 @@ body {
   padding: 0;
   margin: 0;
 }
+
+.outline-color {
+  color: var(--outline-color);
+}
+
+.support-color {
+  color: var(--support-color);
+}
+
+.main-color {
+  color: var(--main-color);
+}
+
+.background-color {
+  color: var(--background-color);
+}
 /*# sourceMappingURL=index.css.map */

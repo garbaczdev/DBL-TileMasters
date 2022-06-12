@@ -66,9 +66,9 @@ const logInfoAttributes = [
 
 const maxLogDescriptionLength = 45;
 
-function Log({log}){
+function Log({log, darkTheme}){
 
-    const LogIcon = getLogIcon(log.type);
+    const LogIcon = getLogIcon(log.type, darkTheme);
 
     let description = log.description;
     if (description.length > maxLogDescriptionLength) description = description.slice(0, maxLogDescriptionLength - 3) + "...";
@@ -145,7 +145,7 @@ class LogsPage extends React.Component{
 
             const lastLogId = newLogs[newLogs.length - 1].id;
 
-            const newLogElements = newLogs.map(log => <Log key={log.id} log={log}/>).reverse();
+            const newLogElements = newLogs.map(log => <Log key={log.id} log={log} darkTheme={this.props.darkTheme}/>).reverse();
 
             let updatedLogs = [...newLogElements, ...this.state.logs];
             updatedLogs = updatedLogs.slice(-this.maxLogsLength, updatedLogs.length);

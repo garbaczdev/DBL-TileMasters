@@ -4,7 +4,7 @@
 import {NotificationManager} from 'react-notifications';
 
 
-const localDevelopment = false;
+const localDevelopment = true;
 
 
 export const sleep = (milliseconds) => {
@@ -65,6 +65,25 @@ async function PaginatedDataFetcherLoop(fetcher){
 
 }
 
+export async function sendInstructions(instructions){
+    const response = await fetch(`/api/instructions`,{
+        method: "PUT",
+        headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            "instructions": instructions
+        })
+    });
+
+    const responseJson = await response.json();
+
+    if (responseJson.ok) NotificationManager.success("", "Instructions sent!", 1000);
+
+    return responseJson;
+}
+
 export async function changeMode(mode, dataFetcher=null){
 
     if (dataFetcher !== null) {
@@ -116,7 +135,6 @@ export class PaginatedDataFetcher{
 
     addLogsListener(logsListener){
     	this.logsListener = logsListener;
-        console.log(this.logsListener);
     }
 
     addModeListener(modeListener){

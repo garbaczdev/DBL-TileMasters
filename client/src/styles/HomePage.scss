@@ -7,7 +7,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    // min-height: 80vh;
+    min-height: 80vh;
 
     .std-card{
 
@@ -38,13 +38,6 @@
         .illustration{
             width: 220px;
             height: 200px;
-        }
-
-        .std-btn{
-            position: absolute;
-            transform: translate(-50%, -50%);
-            bottom: 0;
-            left: 50%;
         }
 
     }

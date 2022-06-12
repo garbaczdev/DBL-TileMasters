@@ -1,46 +1,6 @@
-.manual-mode-page {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: start;
-}
-
-.manual-mode-page .illustration {
-  width: 400px;
-  height: 200px;
-}
-
-.manual-mode-page .title {
-  color: var(--outline-color);
-  padding-bottom: 0;
-}
-
-.manual-mode-page .description {
-  color: var(--support-color);
-  width: 300px;
-}
-
 .manual-mode-page .main-btn {
   margin-top: 20px;
   width: 200px;
   height: 100px;
-}
-
-@media (max-width: 1100px), (max-device-width: 1100px) {
-  .manual-mode-page {
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
-    padding-bottom: 200px;
-  }
 }
 /*# sourceMappingURL=ManualMode.css.map */

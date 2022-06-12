@@ -1,0 +1,13 @@
+.robot-utils-page .std-label {
+  margin-top: 20px;
+}
+
+.predicted-output {
+  color: var(--outline-color);
+  font-weight: bold;
+}
+
+.predicted-output path {
+  fill: var(--outline-color);
+}
+/*# sourceMappingURL=RobotUtils.css.map */

@@ -63,6 +63,8 @@ button.std-btn {
 .std-item-list {
   list-style: none;
   padding: 0;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
 }
 
 .std-item-list .std-item {
@@ -109,13 +111,16 @@ button.std-btn {
 .std-item-list .std-item .std-item-info {
   margin-top: 10px;
   margin-bottom: 10px;
-  -webkit-transition: 0.5s;
-  transition: 0.5s;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
 }
 
 .std-item-list .std-item .std-item-info.hidden {
   margin: 0;
   height: 0;
+}
+
+.std-item-list .std-item .std-item-info.transparent {
   opacity: 0;
 }
 
