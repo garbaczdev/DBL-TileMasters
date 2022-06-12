@@ -30,7 +30,7 @@ const homeCards = [
 function HomePage({darkTheme}) {
 
     return (
-        <div className="home-page subpage">
+        <div className="home-page">
             {
                 homeCards.map((cardData) => {
 

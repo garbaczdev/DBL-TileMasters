@@ -19,6 +19,14 @@ import {ReactComponent as RobotUtilsLight} from './assets/illustrations/robot-ut
 import {ReactComponent as RobotUtilsDark} from './assets/illustrations/robot-utils-dark.svg';
 import {ReactComponent as ManualModeLight} from './assets/illustrations/manual-mode-light.svg';
 import {ReactComponent as ManualModeDark} from './assets/illustrations/manual-mode-dark.svg';
+
+
+// Robot Utils Illustrations
+import {ReactComponent as MorseCode} from './assets/illustrations/morse-code.svg';
+import {ReactComponent as Binary} from './assets/illustrations/binary.svg';
+import {ReactComponent as Sorting} from './assets/illustrations/sorting.svg';
+
+
 // Icons
 import {AiOutlineMenuFold,  AiOutlineMenuUnfold, AiOutlineEllipsis, AiFillRobot} from 'react-icons/ai';
 import {BiErrorAlt, BiHide, BiJoystickButton} from 'react-icons/bi';
@@ -77,7 +85,11 @@ export const icons = {
 
     ShowMore: AiOutlineEllipsis,
     Hide: BiHide,
-    Unknown: BsQuestion
+    Unknown: BsQuestion,
+
+    Sorting: Sorting,
+    Binary: Binary,
+    MorseCode: MorseCode
 }
 
 

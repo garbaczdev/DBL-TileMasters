@@ -8,14 +8,17 @@ import './styles/TileCounter.css';
 const counterElements = [
     {
         attribute: "b",
+        attributeName: "Black",
         iconName: "BlackTile"
     },
     {
         attribute: "w",
+        attributeName: "White",
         iconName: "WhiteTile"
     },
     {
         attribute: "u",
+        attributeName: "Undefined",
         iconName: "UndefinedTile"
     }
 ]
@@ -48,6 +51,7 @@ function TileCounter({darkTheme, dataFetcher}) {
                             <li key={counterElement.attribute} className="tile-counter-element">
                                 <span className="tile-counter-element-counter">{count[counterElement.attribute]}</span>
                                 <Icon className="tile-counter-element-icon" color={color}/>
+                                <span className="tile-counter-element-name">{counterElement.attributeName}</span>
                             </li>
                         );
                     })

@@ -17,6 +17,38 @@
 
 .subpage {
   min-height: 80vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: start;
+}
+
+.subpage .subpage-illustration {
+  width: 400px;
+  height: 200px;
+}
+
+.subpage .subpage-title {
+  color: var(--outline-color);
+  padding-bottom: 0;
+}
+
+.subpage .subpage-description {
+  color: var(--support-color);
+  min-width: 300px;
+  width: 40vw;
+  font-size: 20px;
+  margin-top: 0;
+  text-align: center;
 }
 
 .std-shadow, .std-card, .std-item-list .std-item {
@@ -132,5 +164,21 @@ button.std-btn {
 .std-item-list .std-item .std-item-info .std-item-info-list .attribute-name {
   color: var(--outline-color);
   font-weight: bold;
+}
+
+.std-dropdown-label {
+  color: var(--outline-color);
+  margin-bottom: 5px;
+}
+
+.std-dropdown {
+  padding: 10px;
+  font-size: 18px;
+}
+
+@media (max-width: 1100px), (max-device-width: 1100px) {
+  .subpage {
+    padding-bottom: 200px;
+  }
 }
 /*# sourceMappingURL=App.css.map */

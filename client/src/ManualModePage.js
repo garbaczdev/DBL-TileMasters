@@ -21,9 +21,9 @@ function ManualModePage({darkTheme, dataFetcher}) {
 
     return (
         <div className="manual-mode-page subpage">
-            <Icon className="illustration"/>
-            <h1 className="title">Manual Mode</h1>
-            <p className="description">Stop the instructions and move the robot’s arm manually. When you hit the button push, the arm of the robot will move and make the tile fall into place. This allows you to take direct control of the robot pushing mechanism.</p>
+            <Icon className="subpage-illustration"/>
+            <h1 className="subpage-title">Manual Mode</h1>
+            <p className="subpage-description">Stop the instructions and move the robot’s arm manually. When you hit the button push, the arm of the robot will move and make the tile fall into place. This allows you to take direct control of the robot pushing mechanism.</p>
             {
                 mode === "manual"
                 ?

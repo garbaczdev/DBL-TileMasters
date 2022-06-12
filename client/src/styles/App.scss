@@ -18,6 +18,29 @@
 }
 .subpage{
     min-height: 80vh;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: start;
+
+    .subpage-illustration{
+        width: 400px;
+        height: 200px;
+    }
+    .subpage-title{
+        color: var(--outline-color);
+        padding-bottom: 0;
+    }
+    .subpage-description{
+        color: var(--support-color);
+        min-width: 300px;
+        width: 40vw;
+        font-size: 20px;
+        margin-top: 0;
+        text-align: center;
+    }
 }
 
 .std-shadow{
@@ -131,5 +154,22 @@ button.std-btn{
                 }
             }
         }
+    }
+}
+
+.std-dropdown-label{
+    color: var(--outline-color);
+    margin-bottom: 5px;
+}
+
+.std-dropdown{
+    padding: 10px;
+    font-size: 18px;
+}
+
+
+@media (max-width: #{$tablet-breakpoint}), (max-device-width: #{$tablet-breakpoint}){
+    .subpage{
+        padding-bottom: 200px;
     }
 }
