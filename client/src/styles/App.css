@@ -153,7 +153,7 @@ button.std-btn {
 
 .std-item-list .std-item .std-item-contents .std-item-show-icon {
   position: absolute;
-  right: 10px;
+  right: 0px;
 }
 
 .std-item-list .std-item .std-item-info {
@@ -290,6 +290,18 @@ button.std-btn {
   border: 2px solid var(--outline-color) !important;
   border-radius: 15px;
   color: var(--support-color);
+}
+
+.btn-div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.btn-div .std-btn {
+  width: 120px;
+  height: 80px;
+  margin: 10px;
 }
 
 @media (max-width: 1100px), (max-device-width: 1100px) {
