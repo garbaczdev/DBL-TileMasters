@@ -73,7 +73,7 @@ class Logs:
     TILE_TO_COUNT_FORMAT = {
         config.BLACK_TILE: "b",
         config.WHITE_TILE: "w",
-        config.UNDEFINED_TILE: "g"
+        config.UNDEFINED_TILE: "u"
     }
 
     def __init__(self) -> None:
@@ -85,7 +85,8 @@ class Logs:
         self.tile_count = {
             "b": 0,
             "w": 0,
-            "u": 0
+            "u": 0,
+            "p": 0
         }
 
     def __str__(self) -> str:
@@ -93,6 +94,9 @@ class Logs:
 
     def report_tile(self, tile: int) -> None:
         self.tile_count[self.TILE_TO_COUNT_FORMAT[tile]] += 1
+    
+    def report_push_tile(self) -> None:
+        self.tile_count["p"] += 1
 
     def to_jsonify_format(self, last_log_id: int = 0) -> list:
         if last_log_id >= 0:

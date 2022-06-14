@@ -2,6 +2,7 @@ import os
 
 from flask import Flask, jsonify, request, make_response, send_from_directory
 from werkzeug.exceptions import BadRequest, MethodNotAllowed, TooManyRequests
+import logging
 
 from ..robot import Robot
 from ..robot import InstructionJSONParser

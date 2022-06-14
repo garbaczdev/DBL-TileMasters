@@ -51,7 +51,7 @@ class TileManager(LogComponent):
 
                 color = config.TILE_COLOR_DICT.get(tile_event.tile)
 
-                self.add_log(f"tile-at-arm", f"{color} tile at the arm")
+                # self.add_log(f"tile-at-arm", f"{color} tile at the arm")
 
                 # Delete the tile event.
                 self._tile_events.pop(0)

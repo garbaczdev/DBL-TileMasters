@@ -32,6 +32,10 @@
           justify-content: start;
 }
 
+.subpage a {
+  text-decoration: none;
+}
+
 .subpage .subpage-illustration {
   width: 400px;
   height: 200px;
@@ -51,12 +55,12 @@
   text-align: center;
 }
 
-.std-shadow, .std-card, .std-item-list .std-item {
+.std-shadow, .std-card, .std-big-card, .std-item-list .std-item {
   -webkit-box-shadow: 0px 0px 25px -6px var(--main-color);
           box-shadow: 0px 0px 25px -6px var(--main-color);
 }
 
-.std-card {
+.std-card, .std-big-card {
   border-radius: 20px;
 }
 
@@ -138,6 +142,10 @@ button.std-btn {
   height: 30px;
 }
 
+.std-item-list .std-item .std-item-contents .std-item-icon path {
+  fill: var(--outline-color);
+}
+
 .std-item-list .std-item .std-item-contents .std-item-description {
   color: var(--support-color);
   padding-right: 40px;
@@ -174,9 +182,11 @@ button.std-btn {
   font-weight: bold;
 }
 
-.std-dropdown-label {
+.std-label {
   color: var(--outline-color);
   margin-bottom: 5px;
+  font-weight: bold;
+  font-size: 18px;
 }
 
 .std-dropdown {
@@ -184,9 +194,124 @@ button.std-btn {
   font-size: 18px;
 }
 
+.std-big-card {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
+  -ms-grid-rows: 1fr;
+      grid-template-rows: 1fr;
+  place-items: center;
+  width: 80vw;
+  min-width: 280px;
+  min-height: 70vh;
+  padding: 20px;
+  margin: 20px;
+}
+
+.std-big-card.illustration-left .std-big-card-illustration {
+  -ms-grid-column: 1;
+  grid-column: 1;
+}
+
+.std-big-card.illustration-right .std-big-card-illustration {
+  -ms-grid-column: 2;
+  grid-column: 2;
+}
+
+.std-big-card .std-big-card-illustration {
+  -ms-grid-row: 1;
+  grid-row: 1;
+  width: 400px;
+  height: 400px;
+}
+
+.std-big-card .std-big-card-illustration path {
+  fill: var(--outline-color);
+}
+
+.std-big-card .std-big-card-illustration rect {
+  fill: var(--outline-color);
+}
+
+.std-big-card .std-big-card-illustration circle {
+  fill: var(--outline-color);
+}
+
+.std-big-card .std-big-card-contents {
+  -ms-grid-row: 1;
+  grid-row: 1;
+  width: 100%;
+  padding-bottom: 150px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  position: relative;
+}
+
+.std-big-card .std-big-card-contents .std-big-card-title {
+  color: var(--outline-color);
+}
+
+.std-big-card .std-big-card-contents .std-big-card-description {
+  color: var(--support-color);
+  font-size: 20px;
+  padding-right: 20px;
+  padding-left: 20px;
+}
+
+.std-big-card .std-big-card-contents .std-big-card-send-btn {
+  width: 150px;
+  height: 70px;
+}
+
+.std-text-input {
+  background-color: var(--background-color);
+  color: var(--outline-color);
+  border: 2px solid var(--outline-color);
+  border-radius: 5px;
+  font-size: 18px;
+}
+
+.std-text-input.number-input {
+  width: 100px;
+}
+
+.popup-content {
+  padding: 10px !important;
+  background: var(--background-color) !important;
+  border: 2px solid var(--outline-color) !important;
+  border-radius: 15px;
+  color: var(--support-color);
+}
+
 @media (max-width: 1100px), (max-device-width: 1100px) {
   .subpage {
     padding-bottom: 200px;
+  }
+  .std-big-card {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    min-height: initial;
+  }
+  .std-big-card .std-big-card-title {
+    text-align: center;
+  }
+  .std-big-card .std-big-card-illustration {
+    width: 200px;
+    height: 200px;
   }
 }
 
@@ -203,7 +328,7 @@ button.std-btn {
   min-height: 80vh;
 }
 
-.home-page .std-card {
+.home-page .std-card, .home-page .std-big-card {
   position: relative;
   height: 450px;
   min-width: 260px;
@@ -226,15 +351,15 @@ button.std-btn {
           align-items: center;
 }
 
-.home-page .std-card h2 {
+.home-page .std-card h2, .home-page .std-big-card h2 {
   color: var(--outline-color);
 }
 
-.home-page .std-card p {
+.home-page .std-card p, .home-page .std-big-card p {
   font-size: 20px;
 }
 
-.home-page .std-card .illustration {
+.home-page .std-card .illustration, .home-page .std-big-card .illustration {
   width: 220px;
   height: 200px;
 }

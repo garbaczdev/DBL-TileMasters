@@ -20,6 +20,11 @@ const counterElements = [
         attribute: "u",
         attributeName: "Undefined",
         iconName: "UndefinedTile"
+    },
+    {
+        attribute: "p",
+        attributeName: "Pushed Tiles",
+        iconName: "PushedTile"
     }
 ]
 
@@ -29,7 +34,8 @@ function TileCounter({darkTheme, dataFetcher}) {
     const [count, setCount] = React.useState({
         "b": 0,
         "w": 0,
-        "u": 0
+        "u": 0,
+        "p": 0
     });
 
     if (!listenerRegistered){

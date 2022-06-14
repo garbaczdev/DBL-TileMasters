@@ -83,6 +83,7 @@ export const icons = {
     BlackTile: FaCircle,
     WhiteTile: FaRegCircle,
     UndefinedTile: FaRegQuestionCircle,
+    PushedTile: GiRobotGrab,
 
     ShowMore: AiOutlineEllipsis,
     Hide: BiHide,
@@ -96,6 +97,7 @@ export const icons = {
     RequirementsInstruction: AiOutlineControl,
     PatternInstruction: AiOutlineBuild,
     BitmaskInstruction: AiOutlineBarcode
+
 }
 
 export function getIcon(iconName, darkTheme=true){
