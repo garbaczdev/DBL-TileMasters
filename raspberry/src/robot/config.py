@@ -22,6 +22,7 @@ class Config:
     LOG_ID_SPACE = 10
     LOG_TIME_SPACE = 12
     LOG_COMPONENT_NAME_SPACE = 25
+    GET_LOGS_DEFAULT_AMOUNT = 50
     
     # Arm config
     ARM_GPIO_PIN = 17

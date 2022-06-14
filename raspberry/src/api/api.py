@@ -9,20 +9,24 @@ from ..robot import InstructionJSONParser
 
 
 class API:
-    def __init__(self, robot: Robot, main_dir, debug: bool = True) -> None:
+    def __init__(self, robot: Robot, main_dir, host: str = "0.0.0.0", debug: bool = True) -> None:
         self.robot = robot
+
         self.logs = robot.logs
         self.instruction_manager = robot.instruction_manager
         self.arm = self.robot.arm
 
 
         # Flask app
+        self.host = host
         self.debug = debug
+
         self.app = Flask(main_dir, static_folder='build')
+        
         self._register_routes()
 
     def run(self) -> None:
-        self.app.run(host="0.0.0.0")
+        self.app.run(host=self.host)
 
     def _register_routes(self) -> None:
 
@@ -76,13 +80,20 @@ class API:
             raise BadRequest(f"{mode} is an unknown mode.")
 
         @self.app.route("/api/info-pagination/<int:last_log_id>", methods=["GET"])
-        def get_paginated_info(last_log_id: int):
+        def get_paginated_info_with_logs(last_log_id: int):
             return jsonify({
                 "logs": self.logs.to_jsonify_format(last_log_id),
                 "mode": self.robot.get_mode(),
                 "count": self.logs.tile_count
             })
 
+        @self.app.route("/api/info-pagination/", methods=["GET"])
+        def get_paginated_info():
+            return jsonify({
+                "logs": [],
+                "mode": self.robot.get_mode(),
+                "count": self.logs.tile_count
+            })
         
         @self.app.route('/api/push', methods=["POST"])
         def push():

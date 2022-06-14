@@ -99,20 +99,20 @@ class Logs:
         self.tile_count["p"] += 1
 
     def to_jsonify_format(self, last_log_id: int = 0) -> list:
-        if last_log_id >= 0:
-            logs = self.get_logs_since(last_log_id)
-        else:
-            logs = self._logs
+        logs = self.get_logs_since(last_log_id)
             
         return [log.to_dict() for log in logs]
 
-    def get_logs_since(self, last_log_id: int) -> list:
+    def get_logs_since(self, last_log_id: int = 0) -> list:
         """
         Gets logs since the log with the given id.
         """
         if not self._logs:
             return self._logs
         
+        if last_log_id == 0:
+            return self._logs[-config.GET_LOGS_DEFAULT_AMOUNT:]
+
         last_local_log_id = self._logs[-1].id
 
         diff = last_log_id - last_local_log_id
