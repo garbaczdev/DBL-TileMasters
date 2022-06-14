@@ -22,9 +22,9 @@ const instructionAttributes = [
 ]
 
 
-const DeleteInstructionIcon = getIcon("Unknown");
+const DeleteInstructionIcon = getIcon("Delete");
 
-function Instruction({instructionJson, index, deleteCallback}){
+function Instruction({instructionJson, index, instructionList}){
 
     let Icon = null;
     let name = null;
@@ -75,10 +75,10 @@ function Instruction({instructionJson, index, deleteCallback}){
         <StdItem 
             mainContent={
                 <>
-                <Icon className="std-item-icon" size={30}/>
-                <span className="outline-color">{instructionJson.repetitions}</span>
+                <Icon className="std-item-icon std-icon" size={30}/>
+                <span className="outline-color bold">{instructionJson.repetitions}</span>
                 <span className="std-item-description">{name}</span>
-                <DeleteInstructionIcon className="delete-instruction-icon" size={30} onClick={() => deleteCallback(index)}/>
+                <DeleteInstructionIcon className="delete-instruction-icon std-icon" size={30} onClick={() => instructionList.delete(index)}/>
                 </>
             }
             infoContent={
@@ -314,7 +314,7 @@ class InstructionList extends React.Component{
                 <ul className='std-item-list'>
                     {
                         this.state.instructionsJson.map((instructionJson, index) => 
-                            <Instruction key={index} instructionJson={instructionJson} index={index} deleteCallback={this.deleteCallback}/>
+                            <Instruction key={index} instructionJson={instructionJson} index={index} instructionList={this}/>
                         )
                     }
                 </ul>
@@ -341,12 +341,14 @@ class InstructionList extends React.Component{
         this.setState({...this.state, popupOpen: false})
     }
 
-    deleteCallback(index){
-        const instructions = this.state.instructionsJson;
-        const newInstructions =  instructions.slice(0, index);
-        // ???
-        // newInstructions.push(...instruction.slice(index + 1, instructions.length));
-        // this.setState({...this.state, instructionsJson: newInstructions});
+    delete(index){
+
+        const stateInstructions = this.state.instructionsJson;
+        
+        const instructions = stateInstructions.slice(0, index);
+        instructions.push(...stateInstructions.slice(index+1, stateInstructions.length))
+
+        this.setState({...this.state, instructionsJson: instructions});
     }
 
     addInstruction(instruction){
