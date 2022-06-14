@@ -22,6 +22,8 @@ const instructionAttributes = [
 ]
 
 
+const DeleteInstructionIcon = getIcon("Unknown");
+
 function Instruction({instructionJson, index, deleteCallback}){
 
     let Icon = null;
@@ -76,6 +78,7 @@ function Instruction({instructionJson, index, deleteCallback}){
                 <Icon className="std-item-icon" size={30}/>
                 <span className="outline-color">{instructionJson.repetitions}</span>
                 <span className="std-item-description">{name}</span>
+                <DeleteInstructionIcon className="delete-instruction-icon" size={30} onClick={() => deleteCallback(index)}/>
                 </>
             }
             infoContent={
@@ -99,11 +102,11 @@ class ProgramInstructionsPopup extends React.Component{
 
         this.state = {
             instructionType: "requirements",
-            instructionOptions: {
-                white: 0,
-                black: 0
-            },
-            repeat: 1
+            white: 1,
+            black: 1,
+            bitmask: "1",
+            pattern: "1",
+            repetitions: 1
         }
     }
 
@@ -124,18 +127,125 @@ class ProgramInstructionsPopup extends React.Component{
                     <option value="bitmask">Bitmask</option>
                 </select> 
 
+                {
+                    this.state.instructionType === "requirements"
+                    ?
+                    // Requirements
+                    <>
+                        <label className='std-label'>Number of required black tiles</label>
+                        <input className="std-text-input number-input" title="Number of black tiles" value={this.state.black} 
+                            onChange={e => {
+                                    this.setState({...this.state, black: e.target.value}); 
+                                }
+                            }
+                            onBlur={e => {
+
+                                const newValue = e.target.value;
+                                const black = parseInt(newValue);
+
+                                if (isNaN(newValue) || (black === 0 && this.state.white === 0) || black < 0) {
+                                    this.setState({...this.state, black: 1});
+                                    return;
+                                }
+
+                                this.setState({...this.state, black: black});
+                                }
+
+                            }
+                        />
+                        <label className='std-label'>Number of required white tiles</label>
+                        <input className="std-text-input number-input" title="Number of white tiles" value={this.state.white} 
+                            onChange={e => {
+                                    this.setState({...this.state, white: e.target.value}); 
+                                }
+                            }
+                            onBlur={e => {
+
+                                const newValue = e.target.value;
+                                const white = parseInt(newValue);
+
+                                if (isNaN(newValue) || (white === 0 && this.state.black === 0) || white < 0) {
+                                    this.setState({...this.state, white: 1});
+                                    return;
+                                }
+
+                                this.setState({...this.state, white: white});
+                                }
+
+                            }
+                        />
+                    </>
+                    
+                    :
+                    this.state.instructionType === "pattern"
+                    ?
+                    <>
+                        <label className='std-label'>Pattern to be displayed:</label>
+                        <textarea className="std-text-input" value={this.state.pattern}
+                            onChange={(e) => this.setState({...this.state, pattern: e.target.value})}
+                            onBlur={e => {
+
+                                const newValue = e.target.value;
+
+                                if (!this.isPattern(newValue)) this.setState({...this.state, pattern: "1"});
+                                }
+
+                            }
+                        />
+                    </>
+                    :
+                    <>
+                        <label className='std-label'>Bitmask:</label>
+                        <textarea className="std-text-input" value={this.state.bitmask}
+                            onChange={(e) => this.setState({...this.state, bitmask: e.target.value})}
+                            onBlur={e => {
+
+                                const newValue = e.target.value;
+
+                                if (!this.isPattern(newValue)) this.setState({...this.state, bitmask: "1"});
+                                }
+
+                            }
+                        />
+                    </>
+                }
+
 
                 <label className='std-label'>Number of repetitions:</label>
                 <input className="std-text-input number-input" title="Number of repetitions" value={this.state.repetitions} 
-                    onChange={e => this.setState({...this.state, repetitions: e.target.value})}
+                    onChange={e => {
+
+                        this.setState({...this.state, repetitions: e.target.value});
+                        
+                    }
+                    }
+                    onBlur={e => {
+
+                        const newValue = e.target.value;
+                        if (isNaN(newValue)) {
+                            this.setState({...this.state, repetitions: 1});
+                            return;
+                        }
+
+                        const repetitions = parseInt(newValue);
+
+                        if (repetitions < -1) {
+                            this.setState({...this.state, repetitions: -1});
+                            return;
+                        };
+
+                        this.setState({...this.state, repetitions: repetitions});
+                        }
+
+                    }
                 />
 
                 <div className='btn-div'>
 
-                    <button className='std-btn' onClick={() => this.props.parent.closePopup()}>Close</button>
+                    <button className='std-btn' onClick={() => this.close()}>Close</button>
 
                     {
-                        this.canBeAdded() && <button className='std-btn' onClick={() => this.props.parent.closePopup()}>Add Instruction</button>
+                        <button className='std-btn' onClick={() => this.addInstruction()}>Add Instruction</button>
                     }
 
                 </div>
@@ -143,8 +253,44 @@ class ProgramInstructionsPopup extends React.Component{
         );
     }
 
-    canBeAdded(){
+    close(){
+        this.props.parent.closePopup();
+    }
+
+    isPattern(text){
+        if (text.length === 0) return false;
+        for (const chr of text) if (chr !== "0" && chr !== "1") return false;
         return true;
+    }
+
+    getInstruction(){
+        let additionalInfo = {};
+        if (this.state.instructionType === "requirements") additionalInfo = {
+            black: this.state.black,
+            white: this.state.white
+        }
+        else if (this.state.instructionType === "pattern") additionalInfo = {
+            pattern: this.state.pattern,
+        }
+        else if (this.state.instructionType === "bitmask") additionalInfo = {
+            bitmask: this.state.bitmask,
+        }
+
+        return {
+            ...additionalInfo,
+            type: this.state.instructionType,
+            repetitions: this.state.repetitions
+        }
+    }
+
+    addInstruction(){
+
+        const instruction = this.getInstruction();
+
+        this.props.parent.addInstruction(instruction);
+
+
+        // this.close();
     }
 
 }
@@ -156,27 +302,18 @@ class InstructionList extends React.Component{
         super(props);
 
         this.state = {
-            instructionsJson: [{
-                "type": "requirements",
-                "black": 1,
-                "white": 0,
-                "repetitions": -1
-            },
-            {
-                "type": "bitmask",
-                "bitmask": "1",
-                "repetitions": -1
-            }],
+            instructionsJson: [],
             popupOpen: false
         }
     }
 
     render(){
+
         return (
             <>
                 <ul className='std-item-list'>
                     {
-                        this.state.instructionsJson.map((instructionJson, index, instructionsJson) => 
+                        this.state.instructionsJson.map((instructionJson, index) => 
                             <Instruction key={index} instructionJson={instructionJson} index={index} deleteCallback={this.deleteCallback}/>
                         )
                     }
@@ -205,7 +342,16 @@ class InstructionList extends React.Component{
     }
 
     deleteCallback(index){
+        const instructions = this.state.instructionsJson;
+        const newInstructions =  instructions.slice(0, index);
+        // ???
+        // newInstructions.push(...instruction.slice(index + 1, instructions.length));
+        // this.setState({...this.state, instructionsJson: newInstructions});
+    }
 
+    addInstruction(instruction){
+        const newInstructions = [...this.state.instructionsJson, instruction];
+        this.setState({...this.state, popupOpen: false, instructionsJson: newInstructions});
     }
 
     sendInstructions(){
