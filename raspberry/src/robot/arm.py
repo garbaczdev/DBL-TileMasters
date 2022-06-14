@@ -48,6 +48,7 @@ class Arm(LogComponent):
             if tile is not None:
                 tile_color = config.TILE_COLOR_DICT.get(tile)
                 self.add_log("pushed", f"Pushed {tile_color} Tile")
+                self.logs.report_push_tile()
                 
             else:
                 self.add_log("pushed", "Push called")

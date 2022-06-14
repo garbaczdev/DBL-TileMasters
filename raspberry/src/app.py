@@ -10,10 +10,12 @@ class App:
     def __init__(self, testing = False) -> None:
         if testing:
             self.robot = Robot([])
+            host = "127.0.0.1"
         else:
             self.robot = Robot()
-            
-        self.api = API(self.robot, __name__)
+            host = "0.0.0.0"
+
+        self.api = API(self.robot, __name__, host=host)
 
         self.robot.update_instructions([
             RequirementsInstruction(0, 1, -1)

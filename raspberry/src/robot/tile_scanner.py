@@ -117,6 +117,7 @@ class TileScanner(LogComponent):
             self.readings.pop(0)
 
             if not self.finished_reading(self.readings):
+                # print(self.readings)
                 self.add_log("error", f"Something is blocking the scanner!")
                 self.readings = []
                 return config.NO_TILE
@@ -129,9 +130,11 @@ class TileScanner(LogComponent):
             for tile_color, method in self.tile_color_methods.items():
                 
                 if method(self.readings):
+                    # print(self.readings)
                     self.readings = []
                     return tile_color
 
+            # print(self.readings)
             self.readings = []
             return config.UNDEFINED_TILE
 

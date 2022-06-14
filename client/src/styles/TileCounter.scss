@@ -19,12 +19,15 @@
         
         .tile-counter-element{
 
-            width: 80px;
+            width: 75px;
+            height: 140px;
             
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            // justify-content: center;
             align-items: center;
+
+            text-align: center;
 
             margin: 15px;
             

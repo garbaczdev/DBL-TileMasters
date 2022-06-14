@@ -1,0 +1,18 @@
+.program-instructions-popup-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    min-width: 300px;
+
+    .std-label{
+        margin-top: 20px;
+    }
+
+}
+
+.delete-instruction-icon{
+    position: absolute;
+    right: 30px;
+    // right: 400;
+}

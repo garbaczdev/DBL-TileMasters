@@ -47,6 +47,16 @@
     }
 }
 
+.bold{
+    font-weight: bold;
+}
+
+.std-icon{
+    path{
+        fill: var(--outline-color);
+    }
+}
+
 .std-shadow{
     box-shadow: 0px 0px 25px -6px  var(--main-color);
 }
@@ -143,7 +153,7 @@ button.std-btn{
 
             .std-item-show-icon{
                 position: absolute;
-                right: 10px;
+                right: 0px;
             }
         }
 
@@ -283,6 +293,17 @@ button.std-btn{
     border: 2px solid var(--outline-color) !important;
     border-radius: 15px;
     color: var(--support-color);
+}
+
+.btn-div{
+
+    display: flex;
+
+    .std-btn{
+        width: 120px;
+        height: 80px;
+        margin: 10px;
+    }
 }
 
 

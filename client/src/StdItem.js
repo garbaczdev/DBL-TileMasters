@@ -41,7 +41,7 @@ function StdItem({mainContent, infoContent}){
         <li className="std-item">
             <div className="std-item-contents">
                 {mainContent}
-                <Icon className="std-item-show-icon" size={30} onClick={() => changeHidden(hidden, setHidden, setInfoTransparent)}/>
+                <Icon className="std-item-show-icon std-icon" size={30} onClick={() => changeHidden(hidden, setHidden, setInfoTransparent)}/>
             </div>
             <div className={`std-item-info ${hidden ? "hidden" : ""} ${infoTransparent ? "transparent" : ""}`}>
                 {
