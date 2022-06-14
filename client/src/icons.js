@@ -23,6 +23,8 @@ import {ReactComponent as ManualModeDark} from './assets/illustrations/manual-mo
 
 // Robot Utils Illustrations
 import {ReactComponent as MorseCode} from './assets/illustrations/morse-code.svg';
+import {ReactComponent as PatternLight} from './assets/illustrations/pattern-light.svg';
+import {ReactComponent as PatternDark} from './assets/illustrations/pattern-dark.svg';
 import {ReactComponent as BinaryLight} from './assets/illustrations/binary-light.svg';
 import {ReactComponent as BinaryDark} from './assets/illustrations/binary-dark.svg';
 import {ReactComponent as Sorting} from './assets/illustrations/sorting.svg';
@@ -91,6 +93,8 @@ export const icons = {
     Unknown: BsQuestion,
 
     Sorting: Sorting,
+    PatternLight: PatternLight,
+    PatternDark: PatternDark,
     BinaryLight: BinaryLight,
     BinaryDark: BinaryDark,
     MorseCode: MorseCode,

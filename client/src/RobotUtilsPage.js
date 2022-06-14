@@ -370,9 +370,9 @@ const utilsCards = [
     },
     {
         title: 'Output the given pattern',
-        description: 'This instruction will output the given pattern with the tiles with 0 being a black tile and 1 being a white tile.',
+        description: 'This instruction will output the given pattern using the tiles with 0 being a black tile and 1 being a white tile.',
         component: PatternCard,
-        Illustration: (darkTheme) => icons.Sorting
+        Illustration: (darkTheme) => darkTheme ? icons.PatternDark : icons.PatternLight
     },
     {
         title: 'Output number in binary',
