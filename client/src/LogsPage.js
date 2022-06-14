@@ -103,6 +103,8 @@ class LogsPage extends React.Component{
             lastLogId: 0,
         }
 
+        this._isMounted = true;
+
         this.maxLogsLength = 100;
 
         this.props.dataFetcher.addLogsListener(this);
@@ -129,6 +131,18 @@ class LogsPage extends React.Component{
                 </ul>
             </div>
         );
+    }
+
+    componentDidMount() { 
+        this._isMounted = true;
+    }
+    
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
+
+    isMounted(){
+        return this._isMounted;
     }
 
     lastLogId(){

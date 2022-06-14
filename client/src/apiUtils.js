@@ -11,11 +11,13 @@ export const sleep = (milliseconds) => {
     return new Promise(resolve => setTimeout(resolve, milliseconds))
 }
 
-async function fetchPaginatedData(lastLogId = 0){
+async function fetchPaginatedData(lastLogId = 0, fetchLogs=true){
     // THIS SHOULD BE CHANGED ON DEPLOYMENT.
 
 
-    const response = await fetch(`/api/info-pagination/${lastLogId}`,{
+    const url = fetchLogs ? `/api/info-pagination/${lastLogId}`: "/api/info-pagination/";
+
+    const response = await fetch(url, {
         method: "GET"
     })
 
@@ -35,7 +37,7 @@ async function PaginatedDataFetcherLoop(fetcher){
     while(true){
 
         try{
-            const response = await fetchPaginatedData(fetcher.lastLogId());
+            const response = await fetchPaginatedData(fetcher.lastLogId(), fetcher.shouldFetchLogs());
 
             missedRequests = 0;
             if (lostConnection){
@@ -150,6 +152,10 @@ export class PaginatedDataFetcher{
             PaginatedDataFetcherLoop(this);
             this.loopRunning = true;
         }
+    }
+
+    shouldFetchLogs(){
+        return this.logsListener !== null && this.logsListener.isMounted();
     }
 
     updateCallback(response, setCallbackTimeout=false){
