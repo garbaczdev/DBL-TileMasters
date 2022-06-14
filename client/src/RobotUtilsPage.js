@@ -72,6 +72,10 @@ class SortingCard extends React.Component{
     }
 }
 
+
+
+
+
 class BinaryCard extends React.Component{
 
     constructor(props){
@@ -166,6 +170,93 @@ class BinaryCard extends React.Component{
         }
     }
 
+}
+
+
+class PatternCard extends React.Component{
+
+    constructor(props){
+        super(props);
+
+        this.state = {
+            text: "",
+            popupOpen: false
+        }
+        this.popupMessage = "The given text is not a pattern";
+    }
+
+    render(){
+        return (
+            <>
+                <label className='std-label'>Enter text to be outputted with the tiles</label>
+                <textarea className="std-text-input morse-code-input" value={this.state.text}
+                    onChange={(e) => this.setState({...this.state, text: e.target.value})}
+                />
+                <label className='std-label'>Expected output:</label>
+                <span className="predicted-output">{this.getExpectedOutput()}</span>
+
+                <button className='std-btn std-big-card-send-btn stick-down' onClick={() => this.sendInstructions()}>
+                    Send Instructions
+                </button>
+                <Popup 
+                    open={this.state.popupOpen}
+                    onClose={() => this.setState({...this.state, popupOpen: false})}
+                    position="right center"
+                    closeOnDocumentClick
+                >
+                    {this.popupMessage}
+                </Popup>
+            </>
+        );
+    }
+
+    areInformationsValid(){
+        const text = this.state.text;
+
+        for (const chr of text) if (chr !== "0"  && chr !== "1") return false;
+        
+        return true;
+    }
+
+    sendInstructions(){
+        if (!this.areInformationsValid()){
+            this.setState({...this.state, popupOpen: true});
+            return;
+        }
+
+        const sequence = this.getSequence();
+        const instruction = this.generateInstructions(sequence);
+        apiSendInstructions([instruction]);
+    }
+
+    getSequence(){
+        
+        return this.state.text;
+    }
+
+    getExpectedOutput(){
+        if (!this.areInformationsValid()) {
+            return "Given text is not valid.";
+        };
+        const sequence = this.getSequence();
+        
+        return sequence.split("").map((bit, index) => {
+
+            const iconName = bit === '1' ? "WhiteTile": "BlackTile";
+            const Icon = getIcon(iconName, this.props.darkTheme);
+
+            return <Icon key={index} />
+
+        })
+    }
+
+    generateInstructions(sequence){
+        return {
+            "type": "pattern",
+            "pattern": sequence,
+            "repetitions": 1
+        }
+    }
 }
 
 
@@ -275,6 +366,12 @@ const utilsCards = [
         title: 'Sort the tiles',
         description: 'This instruction will sort the incoming tiles.',
         component: SortingCard,
+        Illustration: (darkTheme) => icons.Sorting
+    },
+    {
+        title: 'Output the given pattern',
+        description: 'This instruction will output the given pattern with the tiles with 0 being a black tile and 1 being a white tile.',
+        component: PatternCard,
         Illustration: (darkTheme) => icons.Sorting
     },
     {
