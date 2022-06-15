@@ -4,7 +4,7 @@
 import {NotificationManager} from 'react-notifications';
 
 
-const localDevelopment = true;
+const localDevelopment = false;
 
 
 export const sleep = (milliseconds) => {
