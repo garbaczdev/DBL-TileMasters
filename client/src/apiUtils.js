@@ -29,7 +29,7 @@ async function fetchPaginatedData(lastLogId = 0, fetchLogs=true){
 
 async function PaginatedDataFetcherLoop(fetcher){
 
-    const missedRequestsThreshold = 10;
+    const missedRequestsThreshold = 6;
 
     let missedRequests = 0;
     let lostConnection = false;

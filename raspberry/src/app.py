@@ -10,7 +10,7 @@ class App:
     def __init__(self, testing = False) -> None:
         if testing:
             self.robot = Robot([])
-            host = "127.0.0.1"
+            host = "0.0.0.0"
         else:
             self.robot = Robot()
             host = "0.0.0.0"
