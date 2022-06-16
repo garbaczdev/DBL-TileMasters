@@ -65,7 +65,8 @@ class TileScanner(LogComponent):
 
         self.tile_color_methods = {
             config.WHITE_TILE: self.is_tile_white,
-            config.BLACK_TILE: self.is_tile_black
+            config.BLACK_TILE: self.is_tile_black,
+            config.UNDEFINED_TILE: self.is_tile_undefined
         }
 
         if use_pins:
@@ -136,14 +137,13 @@ class TileScanner(LogComponent):
 
             # print(self.readings)
             self.readings = []
-            return config.UNDEFINED_TILE
 
         return config.NO_TILE
 
     @classmethod
     def is_tile_black(cls, readings: list):
         black_readings = [reading for reading in readings if cls.is_reading_black(reading)]
-        return len(black_readings) >= 2
+        return len(black_readings) >= 4
 
     @staticmethod
     def is_tile_white(readings: list):
@@ -151,12 +151,18 @@ class TileScanner(LogComponent):
         return any(lux > 650 for rgb, lux in readings)
 
     @classmethod
+    def is_tile_undefined(cls, readings: list):
+        # print(readings)
+        not_background = [reading for reading in readings if not cls.is_reading_background(reading)]
+        return len(not_background) > 5
+
+    @classmethod
     def finished_reading(cls, readings: list) -> None:
         return len(readings) >= config.MIN_SCANNER_READINGS and cls.is_reading_background(readings[-1])
 
     @classmethod
     def is_reading_background(cls, reading: tuple) -> bool:
-        return cls.is_reading_correct(reading, [255, 0, 0], 17.5)
+        return cls.is_reading_correct(reading, [255, 0, 0], 17.5) or cls.is_reading_correct(reading, [45, 45, 0], 146)
 
     @classmethod
     def is_reading_black(cls, reading: tuple) -> None:
