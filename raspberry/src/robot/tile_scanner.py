@@ -148,22 +148,26 @@ class TileScanner(LogComponent):
     @staticmethod
     def is_tile_white(readings: list):
         # print(readings)
-        return any(lux > 750 for rgb, lux in readings)
+        return any(lux > 650 for rgb, lux in readings)
 
     @classmethod
     def finished_reading(cls, readings: list) -> None:
         return len(readings) >= config.MIN_SCANNER_READINGS and cls.is_reading_background(readings[-1])
 
-    @staticmethod
-    def is_reading_background(reading: tuple) -> bool:
-        rgb, lux = reading
-        return all(utils.is_in_range(channel, 16, 2) for channel in rgb) and utils.is_in_range(lux, 90, 5)
-    
-    @staticmethod
-    def is_reading_black(reading: tuple) -> None:
-        rgb, lux = reading
+    @classmethod
+    def is_reading_background(cls, reading: tuple) -> bool:
+        return cls.is_reading_correct(reading, [255, 0, 0], 17.5)
 
-        return all(utils.is_in_range(channel, 8, 2) for channel in rgb) and utils.is_in_range(lux, 90, 5)
+    @classmethod
+    def is_reading_black(cls, reading: tuple) -> None:
+        return cls.is_reading_correct(reading, [45, 45, 45], 44.7)
+        rgb, lux = reading
+        return all([utils.is_in_range(rgb[0], 45, 2), utils.is_in_range(rgb[1], 45, 2), utils.is_in_range(rgb[0], 0, 2)]) and utils.is_in_range(lux, 146, 5)
+
+    @staticmethod
+    def is_reading_correct(reading: tuple, expected_rgb: tuple, expected_lux: float):
+        rgb, lux = reading
+        return all(utils.is_in_range(channel, expected_channel, 3) for channel, expected_channel in zip(rgb, expected_rgb)) and utils.is_in_range(lux, expected_lux, 5)
 
     def _log_tile(self, tile: int) -> None:
         """
