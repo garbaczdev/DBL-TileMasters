@@ -152,7 +152,7 @@ class TileScanner(LogComponent):
 
     @classmethod
     def finished_reading(cls, readings: list) -> None:
-        return len(readings) >= 5 and cls.is_reading_background(readings[-1])
+        return len(readings) >= config.MIN_SCANNER_READINGS and cls.is_reading_background(readings[-1])
 
     @staticmethod
     def is_reading_background(reading: tuple) -> bool:

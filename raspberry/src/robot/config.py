@@ -54,7 +54,10 @@ class Config:
 
     # This indicates in what time the tile will appear
     # in front of the arm after scanning it.
-    SCANNER_TILE_EVENT_TIMEOUT = 1.2
+    SCANNER_TILE_EVENT_TIMEOUT = 1.3
+
+    # Minimum amount of readings for a scanner to consider the reading finished
+    MIN_SCANNER_READINGS = 10
 
     # Time that e2e test should wait before starting in s.
     E2E_TESTING_START_TIMEOUT = 0.5
