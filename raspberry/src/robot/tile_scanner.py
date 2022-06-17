@@ -111,31 +111,28 @@ class TileScanner(LogComponent):
         lux = self.sensor.lux
 
         self.readings.append((rgb, lux))
-        if all(self.is_reading_background(reading) for reading in self.readings):
+        if all(self.is_reading_background(reading) for reading in self.readings) and len(self.readings) > 1:
             self.readings.pop()
 
         if len(self.readings) > self.READINGS_THRESHOLD:
             self.readings.pop(0)
 
             if not self.finished_reading(self.readings):
-                # print(self.readings)
                 self.add_log("error", f"Something is blocking the scanner!")
                 self.readings = []
                 return config.NO_TILE
 
 
-        # print(self.readings)
+        # print(rgb, lux)
 
         if self.finished_reading(self.readings):
 
             for tile_color, method in self.tile_color_methods.items():
                 
                 if method(self.readings):
-                    # print(self.readings)
                     self.readings = []
                     return tile_color
 
-            # print(self.readings)
             self.readings = []
 
         return config.NO_TILE
@@ -143,16 +140,14 @@ class TileScanner(LogComponent):
     @classmethod
     def is_tile_black(cls, readings: list):
         black_readings = [reading for reading in readings if cls.is_reading_black(reading)]
-        return len(black_readings) >= 4
+        return len(black_readings) >= 2
 
     @staticmethod
     def is_tile_white(readings: list):
-        # print(readings)
         return any(lux > 650 for rgb, lux in readings)
 
     @classmethod
     def is_tile_undefined(cls, readings: list):
-        # print(readings)
         not_background = [reading for reading in readings if not cls.is_reading_background(reading)]
         return len(not_background) > 5
 
