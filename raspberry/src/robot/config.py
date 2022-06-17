@@ -61,4 +61,18 @@ class Config:
 
     # Time that e2e test should wait before starting in s.
     E2E_TESTING_START_TIMEOUT = 0.5
+
+
+    PERFECT_BACKGROUND_READINGS = [[[255,0,0], 17.5]]
+    PERFECT_BLACK_READINGS = [
+        [[45, 45, 0], 146.5], 
+        [[45, 45, 0], 44.5], 
+        [[45, 45, 0], 17.5],
+        [[45, 45, 45], 146.5], 
+        [[45, 45, 45], 44.5], 
+        [[255, 255, 0], 146.5], 
+        [[255, 255, 0], 17.5], 
+        [[0, 0, 0], 0], 
+        [[0, 0, 0], 17.5], 
+    ]
     

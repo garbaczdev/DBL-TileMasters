@@ -162,17 +162,20 @@ class TileScanner(LogComponent):
 
     @classmethod
     def is_reading_background(cls, reading: tuple) -> bool:
-        return cls.is_reading_correct(reading, [255, 0, 0], 17.5) or cls.is_reading_correct(reading, [45, 45, 0], 146)
+        return cls.is_reading_tile(reading, config.PERFECT_BACKGROUND_READINGS)
 
     @classmethod
     def is_reading_black(cls, reading: tuple) -> None:
-        return cls.is_reading_correct(reading, [45, 45, 45], 44.7)
-        rgb, lux = reading
-        return all([utils.is_in_range(rgb[0], 45, 2), utils.is_in_range(rgb[1], 45, 2), utils.is_in_range(rgb[0], 0, 2)]) and utils.is_in_range(lux, 146, 5)
+        return cls.is_reading_tile(reading, config.PERFECT_BLACK_READINGS)
+
+    @classmethod
+    def is_reading_tile(cls, reading: tuple, perfect_readings: list) -> bool:
+        return any(cls.is_reading_correct(reading, perfect_reading) for perfect_reading in perfect_readings)
 
     @staticmethod
-    def is_reading_correct(reading: tuple, expected_rgb: tuple, expected_lux: float):
+    def is_reading_correct(reading: tuple, expected_reading: tuple):
         rgb, lux = reading
+        expected_rgb, expected_lux = expected_reading
         return all(utils.is_in_range(channel, expected_channel, 3) for channel, expected_channel in zip(rgb, expected_rgb)) and utils.is_in_range(lux, expected_lux, 5)
 
     def _log_tile(self, tile: int) -> None:
