@@ -145,7 +145,7 @@ class TileScanner(LogComponent):
 
     @staticmethod
     def is_tile_white(readings: list):
-        return any(lux > 650 for rgb, lux in readings)
+        return any(lux > 550 for rgb, lux in readings)
 
     @classmethod
     def is_tile_undefined(cls, readings: list):
