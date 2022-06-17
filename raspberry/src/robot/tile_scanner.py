@@ -140,7 +140,8 @@ class TileScanner(LogComponent):
     @classmethod
     def is_tile_black(cls, readings: list):
         black_readings = [reading for reading in readings if cls.is_reading_black(reading)]
-        return len(black_readings) >= 2
+        not_background = [reading for reading in readings if not cls.is_reading_background(reading)]
+        return len(black_readings) >= 3 and len(black_readings) > len(not_background)*0.6
 
     @staticmethod
     def is_tile_white(readings: list):
